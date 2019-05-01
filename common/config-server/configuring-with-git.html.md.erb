@@ -52,6 +52,10 @@ Parameters used to configure configuration sources are part of a JSON object cal
 		<td><code>skipSslValidation</code></td>
     <td>For a <code>https://</code> URI, whether to skip validation of the SSL certificate on the repository's server. Valid values: <code>true</code>, <code>false</code></td>
 	</tr>
+	<tr>
+		<td><code>cloneOnStart</code></td>
+    <td>Whether the Config Server should clone the default repository when it starts up (by default, the Config Server will only clone the repository when configuration is first requested from the repository). Valid values: <code>true</code>, <code>false</code></td>
+	</tr>
 </table>
 
 You can set `label` to a branch name, a tag name, or a specific Git commit hash. To set `label` to point to the `develop` branch of a repository, you might configure settings as in the following:
