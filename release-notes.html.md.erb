@@ -18,9 +18,9 @@ owner: Spring Cloud Services
 
 Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-spring-cloud-services)
 
-## <a id="3-0-0-build.394"></a>3.0.0-build.394
+## <a id="3-0-0-build.538"></a>3.0.0-build.538
 
-**Release Date: 1st March 2019**
+**Release Date: 3rd May 2019**
 
 Enhancements included in this release:
 
@@ -28,7 +28,9 @@ Enhancements included in this release:
 * The Config Server now mirrors Git repositories local to the PCF foundation. This reduces communication required with external Git servers and improves data governance options for configuration values served by the Config Server from Git repositories, as well as increasing availability of the Config Server.
 * The Config Server now includes support for a CredHub backend, which can be used for secret management. The new backend removes the need to store secrets in encrypted form within Git for use by the Config Server and improves the security of secret management for Config Server client applications. (The Config Server continues to include support for a HashiCorp Vault backend.)
 
-Known issues in this release:
+Important items to note:
 
-* Deletion of Config Server service instances can fail intermittently.
-* Deletion of Spring Cloud Services `3.0.0-build.394` tile fails if there are any existing service instances.
+* Spring Cloud Services 3.0.0 does not include Service Registry or Circuit Breaker Dashboard services. To use these services, Spring Cloud Services 2.0.x tile can be installed alongside 3.0.0.
+* Service Registry is targeted to be add back into Spring Cloud Services in an upcoming version.
+* Circuit Breaker Dashboard will not be returning since the underlying Netflix OSS Hystrix dashboard has ended its general support.
+* Spring Cloud Services product team will continue to support version 2.0.x until its end of general support date.
