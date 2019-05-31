@@ -28,13 +28,20 @@ Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://netw
 
 **Release Date: 30th May 2019**
 
-**IMPORTANT** - Known Issue in this release:
+**IMPORTANT: Known Issue**
 
-Running the `cf services` or `cf marketplace` commands results in an error response. The response is: `json: cannot unmarshal string into Go struct field ServiceExtra.Shareable of type bool`. This affects the display of all service instances in a space when using `cf` CLI.
+Running the `cf services` or `cf marketplace` commands results in the following error response:
 
-Recommended Actions:
+```
+json: cannot unmarshal string into Go struct field ServiceExtra.Shareable of
+type bool
+```
 
-Given the display impact causing users not to be able to view current state of their service instances in a space, we recommend that this version is not installed. If already installed, please upgrade the upcoming 3.0.2 patch release immediately following its release.
+This affects the display of all service instances in a space when using the cf CLI.
+
+**Recommended Actions**
+
+Given the impact of users being unable to view the current state of their service instances in a space, Pivotal recommends that you do not install or upgrade to version 3.0.1. If you have already installed it, please upgrade to version 3.0.2, which resolves this issue.
 
 Enhancements included in this release:
 
