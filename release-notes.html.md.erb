@@ -18,9 +18,23 @@ owner: Spring Cloud Services
 
 Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-spring-cloud-services)
 
+## <a id="3-0-2"></a>3.0.2
+
+**Release Date: 31st May 2019**
+
+* Fixed issue with `cf` CLI display of service instances and marketplace services.
+
 ## <a id="3-0-1"></a>3.0.1
 
 **Release Date: 30th May 2019**
+
+**IMPORTANT** - Known Issue in this release:
+
+Running the `cf services` or `cf marketplace` commands results in an error response. The response is: `json: cannot unmarshal string into Go struct field ServiceExtra.Shareable of type bool`. This affects the display of all service instances in a space when using `cf` CLI.
+
+Recommended Actions:
+
+Given the display impact causing users not to be able to view current state of their service instances in a space, we recommend that this version is not installed. If already installed, please upgrade the upcoming 3.0.2 patch release immediately following its release.
 
 Enhancements included in this release:
 
