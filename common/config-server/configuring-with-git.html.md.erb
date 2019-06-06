@@ -56,6 +56,10 @@ Parameters used to configure configuration sources are part of a JSON object cal
 		<td><code>cloneOnStart</code></td>
     <td>Whether the Config Server should clone the default repository when it starts up (by default, the Config Server will only clone the repository when configuration is first requested from the repository). Valid values: <code>true</code>, <code>false</code></td>
 	</tr>
+	<tr>
+		<td><code>update-git-repos</code></td>
+    <td>Used only with <code>cf update-service</code>; causes the <a href="./mirror-service.html">mirror service</a> to update a Config Server's Git repository mirrors. Valid values: <code>true</code></td>
+	</tr>
 </table>
 
 You can set `label` to a branch name, a tag name, or a specific Git commit hash. To set `label` to point to the `develop` branch of a repository, you might configure settings as in the following:
@@ -77,6 +81,12 @@ spring:
   cloud:
     config:
       label: v1.2
+```
+
+To refresh a Config Server's Git repository mirrors and retrieve new configuration property values, run the `cf update-service` command, passing the `update-git-repos` flag with value `true`:
+
+```
+cf update-service my-config-server -c '{"update-git-repos": true }'
 ```
 
 ## <a id="ssh-repository-access"></a>SSH Repository Access
