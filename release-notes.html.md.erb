@@ -26,6 +26,10 @@ For each client app, you must:
 
 ## <a id="known-issues"></a>Known Issues
 
+### Disable Secure Service Instance Credentials configuration before upgrading to PCF 2.4+
+
+PCF `2.4` has released with a new CredHub API and is NOT supported by Spring Cloud Services. Please uncheck `Secure service instance credentials` in the `Spring Cloud Services` section in the [tile configuration](./tile-configuration.html#secure-service-instance-credentials-with-credhub) and apply changes before upgrading to PCF `2.4+`.
+
 ### Config Server from Spring Cloud Services 1.5.x using encryption key must be updated
 
 A Config Server service instance created in Spring Cloud Services 1.5.x using a key for encryption does not work when upgraded to Spring Cloud Services 2.0.x. Before upgrading the Spring Cloud Services product to version 2.0.x, you must update any such Config Server service instance, giving the encryption key with all newlines escaped. See [Spring Cloud Services 1.5.x Config Server using encryption key cannot be upgraded to 2.0.x](./product-troubleshooting.html#1-5-config-server-using-encryption) in the [Troubleshooting Spring Cloud&reg; Services for Pivotal Cloud Foundry](./product-troubleshooting.html) topic.
@@ -99,6 +103,16 @@ $ cf scs-config cook-config-server
 ```
 
 * **Ignore dashboard error until tile is upgraded to a future patch release with fix** - It is an option to ignore the error on the Config Server service instance dashboard until the fix is deployed. We are working on the fix already and hope to have it out within weeks.
+
+## <a id="2-0-10"></a>2.0.10
+
+**Release Date: 20th June 2019**
+
+This release is based on the Ubuntu Xenial 97.x stemcell line.
+
+Enhancements included in this release:
+
+* Upgraded CF CLI version to resolve CVE vulnerability. Please see [CF CLI v6.45.0 release notes](https://github.com/cloudfoundry/cli/releases/tag/v6.45.0) for details.
 
 ## <a id="2-0-9"></a>2.0.9
 
