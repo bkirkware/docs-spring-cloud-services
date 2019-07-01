@@ -1,0 +1,100 @@
+---
+title: Spring Boot Actuator Endpoints
+owner: Spring Cloud Services
+---
+
+<strong><%= modified_date %></strong>
+
+The Spring Cloud Services service broker and the Spring Cloud Config Server backing app for a Config Server service instance use [Spring Boot Actuator](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready). Actuator adds a number of endpoints to these apps, including the endpoints that are summarized below.
+
+<table>
+	<col style="width:15%">
+	<col style="width:85%">
+	<thead>
+		<td><strong>ID</strong></td>
+		<td><strong>Function</strong></td>
+	</thead>
+	<tr>
+		<td><code>health</code></td>
+		<td>Displays information about the health and status of the app</td>
+	</tr>
+	<tr>
+		<td><code>info</code></td>
+		<td>Displays selected information about the app</td>
+	</tr>
+</table>
+
+See the <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints">Endpoints</a> section of the Actuator documentation for the full list of endpoints.
+
+## <a id="service-broker-endpoints"></a>Service Broker Endpoints
+
+The Spring Cloud Services service broker enables the Spring Boot Actuator `health` and `info` endpoints. See below for information about how to access these endpoints.
+
+### <a id="locating-service-broker-url"></a>Locating the Service Broker URL
+
+You can locate the service broker's URL using the Cloud Foundry Command Line Interface (cf CLI) by running the `cf service-brokers` command and looking for the `scs-service-broker` broker's URL.
+
+<pre class="terminal">
+$ cf service-brokers
+Getting service brokers as user...
+
+name                 url
+p-dataflow           https://p-dataflow.apps.example.com
+p-rabbitmq           https://pivotal-rabbitmq-broker.sys.example.com
+scs-service-broker   https://scs-service-broker.sys.example.com
+</pre>
+
+### <a id="broker-accessing-endpoints"></a>Accessing Endpoints
+
+You can access an Actuator endpoint on the service broker by appending the path `/actuator/ENDPOINT` to the broker's URL, where `ENDPOINT` is the ID of the endpoint. To view the output of the `health` endpoint, append `/actuator/health` to the service broker's URL. The following example uses cURL to make a request of the endpoint:
+
+<pre class="terminal">
+$ curl https://scs-service-broker.sys.example.com/actuator/health
+</pre>
+
+Given an unauthenticated request, the `health` endpoint displays only summary health information. With the cf CLI, you can use the `cf oauth-token` command to obtain an OAuth 2.0 token for use in making an authenticated request to this endpoint:
+
+<pre class="terminal">
+$ curl -H "Authorization: $(cf oauth-token)" https://scs-service-broker.sys.example.com/actuator/health
+</pre>
+
+## <a id="service-instance-endpoints"></a>Service Instance Endpoints
+
+A Config Server service instance's backing Spring Cloud Config Server app enables the Spring Boot Actuator `health` endpoint. See below for information about how to access it.
+
+### <a id="locating-service-instance-url"></a>Locating the Service Instance URL
+
+To obtain the URL of the service instance's backing app, run the `cf service` command, giving the name of the service instance:
+
+<pre class="terminal">
+$ cf service my-config-server
+Showing info of service my-config-server in org myorg / space dev as user...
+
+name:            my-config-server
+service:         p.config-server
+tags:
+plan:            standard
+description:     Config Server
+documentation:
+dashboard:       https://config-server-3007518e-302e-4e28-be3a-f516e7b2a4fe.apps.example.com/dashboard
+</pre>
+
+Copy the URL given for `dashboard`, removing the `/dashboard` path. This is the URL of the service instance's backing app. In the example above, this would be:
+
+```
+https://config-server-3007518e-302e-4e28-be3a-f516e7b2a4fe.apps.example.com
+```
+
+### <a id="instance-accessing-endpoints"></a>Accessing Endpoints
+
+You can access an Actuator endpoint on the service instance's backing app by appending the path `/actuator/ENDPOINT` to the URL of the service instance's backing app, where `ENDPOINT` is the ID of the endpoint. To view the output of the `health` endpoint, append `/actuator/health` to the backing app's URL. The following example uses cURL to make a request of the endpoint:
+
+<pre class="terminal">
+$ curl https://config-server-a5782192-8036-4f57-8312-4756a2604240.apps.example.com/actuator/health
+</pre>
+
+Given an unauthenticated request, the `health` endpoint displays only summary health information. You can use the `cf oauth-token` command to obtain an OAuth 2.0 token for use in making an authenticated request to this endpoint:
+
+<pre class="terminal">
+$ curl -H "Authorization: $(cf oauth-token)" https://config-server-a5782192-8036-4f57-8312-4756a2604240.apps.example.com/actuator/health
+</pre>

@@ -1,0 +1,100 @@
+---
+title: Service Instances
+owner: Spring Cloud Services
+---
+
+<strong><%= modified_date %></strong>
+
+See below for information about Spring Cloud&reg; Services' deployment model and other information which may be useful in operating its services or client apps.
+
+<p class='note'><strong>Note</strong>: Ops Manager administrators can use Role-Based Access Control (RBAC) to manage which operators can make deployment changes, view credentials, and manage user roles in Ops Manager. Therefore, your role permissions might not allow you to perform every procedure in this operator guide. For more information about roles in Ops Manager, see <a href="https://docs.pivotal.io/pivotalcf/2-0/opsguide/config-rbac.html#about">Understand Roles in Ops Manager</a>.</p>
+
+## <a id="service-instance-management"></a>Service Instance Management
+
+A service instance is assigned a GUID at provision time. The service instance is backed by a Spring Boot app deployed in the "p-spring-cloud-services" org to a space named after the service instance GUID:
+
+**Config Server**
+
+* `p-spring-cloud-services` org / `[GUID]` space / config-server: A [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/spring-cloud-config.html) server app.
+
+### <a id="access-service-instance-backing-applications-in-apps-manager"></a>Access Service Instance Backing Applications in Apps Manager
+
+To view a backing app for a service instance in Pivotal Cloud Foundry&reg; Apps Manager, get the service instance's GUID and look for the corresponding space in the "p-spring-cloud-services" org.
+
+Run the `cf service` command with the `--guid` flag. Copy the service instance GUID.
+
+<pre class="terminal">
+$ cf service --guid my-config-server
+c0795bce-127b-40b4-9ab4-75c31205a02a
+</pre>
+
+Log into Apps Manager as an admin user and select the "p-spring-cloud-services" org.
+
+<%= image_tag("/spring-cloud-services/images/operator-information/instance-apps-apps-manager-org.png") %>
+
+The service instance's backing app is deployed in the space named after the service instance GUID.
+
+<%= image_tag("/spring-cloud-services/images/operator-information/instance-apps-apps-manager-space.png") %>
+
+### <a id="access-service-instance-backing-applications-using-cf-cli"></a>Access Service Instance Backing Applications Using the cf CLI
+
+To view a backing app for a service instance using the Cloud Foundry Command Line Interface (cf CLI), get the service instance's GUID and look for the corresponding space in the "p-spring-cloud-services" org.
+
+Run the `cf service` command with the `--guid` flag. Copy the service instance GUID.
+
+<pre class="terminal">
+$ cf service --guid my-config-server
+c0795bce-127b-40b4-9ab4-75c31205a02a
+</pre>
+
+Target the `p-spring-cloud-services` org and the space, which is named after the GUID of the service instance:
+
+<pre class="terminal">
+$ cf target -o p-spring-cloud-services -s c0795bce-127b-40b4-9ab4-75c31205a02a
+api endpoint:   https://api.sys.example.com
+api version:    2.131.0
+user:           admin
+org:            p-spring-cloud-services
+space:          c0795bce-127b-40b4-9ab4-75c31205a02a
+</pre>
+
+The app is in the dedicated space named after the service instance GUID:
+
+<pre class="terminal">
+$ cf apps
+Getting apps in org p-spring-cloud-services / space c0795bce-127b-40b4-9ab4-75c31205a02a as admin...
+OK
+
+name            requested state   instances   memory   disk   urls
+config-server   started           1/1         1G       1G     config-server-c0795bce-127b-40b4-9ab4-75c31205a02a.apps.example.com
+</pre>
+
+## <a id="application-health-and-status"></a>Application Health and Status
+
+For more visibility into how Spring Cloud Services service instances backing apps are behaving, or for troubleshooting purposes, you may wish to access those apps directly. See below for information about accessing their output.
+
+### <a id="backing-application-logs"></a>Read Backing Application Logs
+
+To access logs for service instance backing apps, target the "p-spring-cloud-services" org and its "instances" space:
+Access the service instance backing app as described in the [Access Service Instance Backing Applications Using the cf CLI](#access-service-instance-backing-applications-using-cf-cli) section.
+
+Then you can use `cf logs` to tail logs for the backing app:
+
+<pre class="terminal">
+$ cf logs config-server
+Retrieving logs for app config-server in org p-spring-cloud-services / space 24a322c8-c875-4aeb-955f-b8b9b497c838 as admin...
+</pre>
+
+If the backing app is not running properly, it will write detailed health information to its log on each GET request sent to its `health` Actuator endpoint. If the backing app is healthy, it will not log any health details.
+
+### <a id="access-actuator-endpoints"></a>Access Actuator Endpoints
+
+Service instance backing apps use [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready). For information about accessing the Actuator endpoints that are enabled on service instance backing apps, see the [Service Instance Endpoints](./actuator-endpoints.html#service-instance-endpoints) section of [Spring Boot Actuator Endpoints](./actuator-endpoints.html).
+
+## <a id="capacity-requirements"></a>Capacity Requirements
+
+Below are usage requirements of the apps backing a single service instance (SI) of each Spring Cloud Services service type.
+
+| Service Type              | Memory Limit / SI   | Disk Limit / SI  |
+|---------------------------|---------------------|------------------|
+| Config Server             | 1 GB                | 1 GB             |

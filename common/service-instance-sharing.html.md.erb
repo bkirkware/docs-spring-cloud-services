@@ -1,0 +1,44 @@
+---
+title: Service Instance Sharing
+owner: Spring Cloud Services
+---
+
+Spring Cloud Services supports Cloud Foundry service instance sharing. See the below sections for steps to share and unshare a Spring Cloud Services service instance across orgs and spaces.
+
+<% if vars.product_name == 'PCF' %>
+  <p class='note'><strong>Note</strong>: Service instance sharing requires Pivotal Cloud Foundry (PCF) version 2.1 or later.</p>
+<% end %>
+
+## <a id="sharing"></a>Sharing a Service Instance
+
+To share an existing Spring Cloud Services service instance, run the `cf share-service` command. Provide the service instance name, the space with which to share the service instance, and the org with which to share the service instance (if the space is not in the currently-targeted org).
+
+To share a Config Server service instance named `my-config-server` with the `john` space in the current org, run:
+
+<pre class="terminal">
+$ cf share-service my-config-server -s john
+</pre>
+
+To share a Config Server service instance named `my-config-server` with the `charles` space in the `development` org, run:
+
+<pre class="terminal">
+$ cf share-service my-config-server -o development -s charles
+</pre>
+
+## <a id="unsharing"></a>Unsharing a Service Instance
+
+To unshare a Spring Cloud Services service instance from a space with which it has been shared, run the `cf unshare-service` command. Provide the service instance name, the space with which the service instance should no longer be shared, and the org of that space (if different from the current org).
+
+To stop sharing a Config Server service instance named `my-config-server` with the `john` space in the current org, run:
+
+<pre class="terminal">
+$ cf unshare-service my-config-server -s john
+</pre>
+
+To stop sharing a Config Server service instance named `my-config-server` with the `charles` space in the `development` org, run:
+
+<pre class="terminal">
+$ cf unshare-service my-config-server -o development -s charles
+</pre>
+
+For more information about service instance sharing, see [Sharing Service Instances](https://docs.cloudfoundry.org/devguide/services/sharing-instances.html) in the [Cloud Foundry documentation](https://docs.cloudfoundry.org).

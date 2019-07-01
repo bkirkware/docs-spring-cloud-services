@@ -5,13 +5,13 @@ owner: Spring Cloud Services
 
 ## Overview
 
-The Spring Cloud Services plugin for the Cloud Foundry Command Line Interface tool (cf CLI) adds commands for interacting with Spring Cloud Services service instances. It provides easy access to functionality relating to the Config Server and Service Registry; for example, it can be used to send values to a Config Server service instance for encryption or to list all applications registered with a Service Registry service instance.
+The Spring Cloud Services plugin for the Cloud Foundry Command Line Interface tool (cf CLI) adds commands for interacting with Spring Cloud Services service instances. It provides easy access to functionality relating to the Config Server; for example, it can be used to get the configuration used for a service instance or to stop and start a service instance's backing application.
 
 The Spring Cloud Services cf CLI plugin is open-source software released under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) license. From the plugin's [homepage on GitHub](https://github.com/pivotal-cf/spring-cloud-services-cli-plugin), you can raise issues or submit contributions for consideration by the plugin's authors.
 
 ## Installation
 
-To install the plugin, add the `CF-Community` repository to the cf CLI's list of plugin repositories:
+Add the `CF-Community` repository to the cf CLI's list of plugin repositories:
 
 <pre class="terminal">
 $ cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
@@ -21,12 +21,12 @@ OK
 https://plugins.cloudfoundry.org/list added as 'CF-Community'
 </pre>
 
-Then install the `Spring Cloud Services` plugin (`SCSPlugin`) using the `cf install-plugin` command:
+Then install the plugin (called `spring-cloud-services`) using the `cf install-plugin` command:
 
 <pre class="terminal">
-$ cf install-plugin -r CF-Community "Spring Cloud Services"
+$ cf install-plugin -r CF-Community "spring-cloud-services"
 ...
-Plugin SCSPlugin v1.0.0 successfully installed.
+Plugin spring-cloud-services 1.0.2 successfully installed.
 </pre>
  
 ## Documentation
