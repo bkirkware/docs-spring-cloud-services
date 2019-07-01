@@ -3,34 +3,34 @@ title: Installing Spring Cloud&reg; Services for Pivotal Cloud Foundry
 owner: Spring Cloud Services
 ---
 
+<style>
+    .note.warning {
+        background-color: #fdd;
+        border-color: #fbb
+    }
+
+    .note.warning:before {
+        color: #f99;
+     }
+</style>
+
 <strong><%= modified_date %></strong>
 
-Make sure that you have or have completed all products and requirements listed in the <a href="/spring-cloud-services/prerequisites.html">Prerequisites</a> topic. Then follow the below steps to install Spring Cloud Services.
+Ensure that you have or have completed all items listed in <a href="common/index.html#requirements">Requirements</a>. Then follow the below steps to install Spring Cloud Services.
 
-## Installation Steps
+## <a id="installation-steps"></a>Installation Steps
 
 1. Download Spring Cloud Services from [Pivotal Network](https://network.pivotal.io/).
 
 1. In the Installation Dashboard of [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) Operations Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services `.pivotal` file.
 
-    <%= image_tag("./images/installation/pre-upload.png") %>
+1. In the left sidebar, under **Spring Cloud Services**, click the <strong>&#43;</strong> button next to the version number.
 
-1. Hover over **Spring Cloud Services** in the **Available Products** list and click the **Add &#187;** button.
+1. When the **Spring Cloud Services** tile appears in the **Installation Dashboard**, click it. In the **Settings** tab, click **Assign AZs and Networks**.
 
-    <%= image_tag("./images/installation/pre-add.png") %>
+    <%= image_tag("./images/installation/azs-and-networks.png") %>
 
-1. When the **Spring Cloud Services** tile appears in the **Installation Dashboard**, click it. In the **Settings** tab, click **Spring Cloud Services** to configure settings for Spring Cloud Services.
-
-    <%= image_tag("./images/installation/settings.png") %>
-
-    The **Service instance limit** setting sets the maximum number of service instances that the Spring Cloud Services service broker will allow to be provisioned (the default value is 100). This setting's value is also used to determine the memory quota for the org in which service instances are deployed; that org's quota will be equal to 1.5G times the configured service instance limit. The **App push timeout** setting is the number of minutes the broker allows for a service instance backing application to start. The **Buildpack** setting is the name of the Java buildpack that the Spring Cloud Services service broker will use to provision service instances (if this setting is left empty, the broker will use the default Java buildpack to provision service instances). The **Do not validate that SSL certificates are properly configured** checkbox, if checked, disables the validation that Spring Cloud Services performs by default on the Pivotal Cloud Foundry&reg; Elastic Runtime SSL certificate.
-
-    <%= image_tag("./images/installation/service-settings.png") %>
-
-    The **Persistence store service** and **Persistence store service plan** settings set the service and service plan for the service broker's MySQL database. This must be a service that provides a MySQL-compatible database. The **Message bus service** and **Message bus service plan** settings set the service and service plan for the broker's message bus.
-<br /><br />These settings should be configured only during the Spring Cloud Services tile installation process. If you have already completed the tile installation process, do not alter these settings.
-
-    <p class="note warning"><strong>WARNING: </strong> Configuring the service broker's dependent services after installing the tile can cause corruption or loss of the broker's service instance data.</p>
+    Select the availability zones for the tile to use. In the **Network** section, select the network used by Pivotal Application Service (or Elastic Runtime). When finished, click **Save**.
 
 <%# removing for now
 1. If the **Stemcell** tab is highlighted in orange, click it. Download the correct stemcell from [Pivotal Network](https://network.pivotal.io) and click **Import Stemcell** to import it.
@@ -38,24 +38,21 @@ Make sure that you have or have completed all products and requirements listed i
     installation/stemcell.png
 %>
 
-1. If you wish to use CredHub to secure service instance credentials, enable the **Secure service instance credentials** checkbox.
+1. Return to the Installation Dashboard.
 
-    <p class="note"><strong>Important: </strong> To use CredHub with Spring Cloud Services, you must be using Pivotal Application Service (PAS) 2.0 or later, have <a href="https://docs.pivotal.io/pivotalcf/opsguide/secure-si-creds.html">configured the PAS CredHub</a>, and have at least one job instance configured in the PAS tile's Resource Config settings tab.</p>
+1. Click **Review Pending Changes**. For more information about this Ops Manager page, see [Reviewing Pending Product Changes](https://docs.pivotal.io/pivotalcf/customizing/review-pending-changes.html).
 
-    <%= image_tag("./images/installation/secure-si-credentials.png") %>
+1. Click **Apply Changes** to install the tile.
 
-1. Return to the Installation Dashboard and start the installation process by clicking **Apply changes** on the right sidebar.
+## <a id="running-alongside-previous-versions"></a>Running Alongside Previous Versions
 
-    <%= image_tag("./images/installation/post-add.png") %>
+Spring Cloud Services (SCS) 3.0.x can be installed alongside earlier versions of Spring Cloud Services, including 2.0.x. SCS 3.0.x includes only the Config Server service, which is named `p.config-server` instead of `p-config-server` as in 2.0.x and earlier versions. This service can run alongside the services included in 2.0.x and earlier versions. Because SCS 3.0.x includes only the Config Server service, you may wish to [disable the older `p-config-server` service](https://docs.pivotal.io/pivotalcf/services/access-control.html#disable-access) and allow only the new `p.config-server` Config Server service to be created.
 
-1. The installation process may take 20 to 30 minutes.
+Older Config Server service instances cannot be upgraded to the new `p.config-server` service. Instead, you must recreate `p-config-server` service instances. Most parameters used to create a `p-config-server` service instance with the Cloud Foundry Command Line Interface (cf CLI), using the `cf create-service` command with the `-c` flag, can also be used to create a `p.config-server` service instance. The following parameters are exceptions which can be used with the `p-config-server` service but cannot be used with the `p.config-server` service:
 
-    <%= image_tag("./images/installation/applying-changes.png") %>
+* `encrypt.key`
+* `git.repos`
+* `composite.git` (see [Composite Backends](./common/config-server/composite-backends.html) for information about how to configure the composite backend in the SCS 3.0.x Config Server)
+* `composite.vault` (see [Composite Backends](./common/config-server/composite-backends.html) for information about how to configure the composite backend in the SCS 3.0.x Config Server)
 
-1. When the installation process is complete, you will see the dialog shown below. Click **Return to Installation Dashboard**.
-
-    <%= image_tag("./images/installation/changes-applied.png") %>
-
-1. Congratulations! You have successfully installed Spring Cloud Services.
-
-    <%= image_tag("./images/installation/post-install.png") %>
+SCS 3.0.x service instances are backwards-compatible with version 2.0.1.RELEASE of the SCS client dependencies.
