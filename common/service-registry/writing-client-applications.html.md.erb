@@ -1,0 +1,275 @@
+---
+title: Writing Client Applications
+owner: Spring Cloud Services
+---
+
+<strong><%= modified_date %></strong>
+
+_Refer to the sample apps in the <a href="https://github.com/spring-cloud-services-samples/greeting/tree/master">"greeting" repository</a> to follow along with the code in this topic._
+
+To use a Spring app with a Service Registry service instance, you must add the dependencies listed in <a href="../client-dependencies.html">Client Dependencies</a> to your app's build file. Be sure to include the dependencies for <a href="../client-dependencies.html#service-registry">Service Registry</a> as well.
+
+<% if vars.product_name == 'PCF' %>
+ <%= partial vars.scs_sr_self_signed_ssl %>
+<% end %>
+
+## <a id="register-a-service"></a>Register a Service
+
+To register with a Service Registry service instance, your app must <a href="https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter-messages/src/main/java/messages/MessagesApplication.java#L24-L27">include the `@EnableDiscoveryClient` annotation on a configuration class</a>.
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+@RestController
+public class MessagesApplication {
+    //...
+```
+
+The app's Eureka instance name (the name by which it will be registered in Eureka) will be derived from the value of the ```spring.application.name``` property on the app. If you do not provide a value for this property, the app's Eureka instance name will be derived from its Cloud Foundry application name, as set in `manifest.yml`:
+
+```yml
+---
+applications:
+  - name: greeter-messages
+    instances: 1
+    memory: 1G
+  ...
+```
+
+Set the `spring.application.name` property in <a href="https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter-messages/src/main/resources/application.yml#L1-L3">`application.yml`</a>:
+
+```yml
+spring:
+  application:
+    name: greeter-messages
+```
+
+<p class='note'><strong>Note</strong>: If the application name contains characters which are invalid in a hostname, the app will be registered with the Service Registry service instance using the application name with each invalid character replaced by a hyphen (<code>-</code>) character (for example, given an application name of "greeter_messages", the Eureka application name used to register the app with the Service Registry service instance will be <code>greeter-messages</code>). See <a href="./connectors.html#eureka-application-name-configuration">Eureka Application Name Configuration</a>.</p>
+
+### <a id="register-using-c2c"></a>Register Using Container-to-Container Networking
+
+To use Cloud Foundry's container networking (see [Understanding Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/concepts/understand-cf-networking.html) in the [Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/) documentation) with the app, your `application.yml` must specify a `spring.cloud.services.registrationMethod` of `direct`.
+
+```yml
+spring:
+  application:
+    name: greeter-messages
+  cloud:
+    services:
+      registrationMethod: direct
+```
+
+Before a client app can use the Service Registry to reach this directly-registered app, you must add a network policy that allows traffic from the client app to this app. See the [Consume Using Container-to-Container Networking](#consume-using-c2c) section for more information.
+
+## <a id="consume-a-service"></a>Consume a Service
+
+Follow the below instructions to consume a service that is registered with a Service Registry service instance.
+
+### <a id="discover-and-consume-a-service-using-resttemplate"></a>Discover and Consume a Service Using RestTemplate
+
+A consuming app must <a href="https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter/src/main/java/greeter/GreeterApplication.java#L26-L34">include the ```@EnableDiscoveryClient``` annotation on a configuration class</a>.
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class GreeterApplication {
+
+  @Bean
+  @LoadBalanced
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
+  }
+  //...
+```
+
+To call a registered service, a consuming app can use a URI with a hostname matching the name with which the service is registered in the Service Registry. This way, the consuming app does not need to know the service app's actual URL; the Registry will take care of finding and routing to the service.
+
+<p class='note'><strong>Note</strong>: If the name of the registered app contains characters which are invalid in a hostname, that app will be registered with the Service Registry service instance using the application name with each invalid character replaced by a hyphen (<code>-</code>) character. For example, given an application name of "greeter_messages", the Eureka application name used to register the app with the Service Registry service instance will be <code>greeter-messages</code>. See <a href="./connectors.html#eureka-application-name-configuration">Eureka Application Name Configuration</a>.</p>
+
+By default, Service Registry requires HTTPS for access to registered services. If your client app is consuming a service app which has been registered with the Service Registry instance using route registration (see the <a href="#register-a-service">Register a Service</a> section above), you can use a schemeless URI (as `//greeter-messages`) to access the service. Spring Cloud Netflix Ribbon will default to using an HTTPS route if one is available and to an HTTP route otherwise.
+
+The Messages app is registered with the Service Registry as ```greeter-messages```, so the Greeter app [uses the base URI `/greeter-messages` to communicate with Messages](https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter/src/main/java/greeter/GreeterService.java#L24-L31).
+
+```java
+@Service
+public class GreeterService {
+
+  private static final String URI_TEMPLATE = UriComponentsBuilder.fromUriString("//greeter-messages/greeting")
+      .queryParam("salutation", "{salutation}")
+      .queryParam("name", "{name}")
+      .build()
+      .toUriString();
+```
+
+The Greeter app uses a [`Greeting` class](https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter/src/main/java/greeter/Greeting.java) to contain the response from Messages:
+
+```java
+public class Greeting {
+
+  private String message;
+
+  @JsonCreator
+  public Greeting(@JsonProperty("message") String message) {
+    this.message = message;
+  }
+
+  public String getMessage() {
+    return this.message;
+  }
+
+}
+```
+
+The `greet()` method of the `GreeterService` uses a `RestTemplate` to return a `Greeting`.
+
+```java
+  public Greeting greet(String salutation, String name) {
+    //...
+    return rest.getForObject(URI_TEMPLATE, Greeting.class, salutation, name);
+  }
+```
+
+Finally, the `GreeterController` maps its [`hello()` method](https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter/src/main/java/greeter/GreeterController.java#L33-L37) to `/hello`, and passes received request parameters to the `GreeterService` to get a greeting message to return to the user.
+
+```java
+  @RequestMapping(value = "/hello", method = RequestMethod.GET)
+  public String hello(@RequestParam(value = "salutation", defaultValue = "Hello") String salutation, @RequestParam(value = "name", defaultValue = "Bob") String name) {
+    Greeting greeting = greeter.greet(salutation, name);
+    return greeting.getMessage();
+  }
+```
+
+### <a id="discover-and-consume-a-service-using-feign"></a>Discover and Consume a Service Using Feign
+
+If you wish to use [Feign](https://github.com/OpenFeign/feign) to consume a service that is registered with a Service Registry instance, your app must declare `spring-cloud-starter-openfeign` as a dependency.
+
+Using Maven:
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+Using Gradle:
+
+```groovy
+compile("org.springframework.cloud:spring-cloud-starter-openfeign")
+```
+
+Your consuming app must <a href="https://github.com/spring-cloud-services-samples/greeting/blob/master/feign-greeter/src/main/java/greeter/GreeterApplication.java#L28-L35">include the `@EnableDiscoveryClient` annotation on a configuration class</a>. In order to have Feign client interfaces automatically configured, it must also use the `@EnableFeignClients` annotation. 
+
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients
+@RestController
+public class GreeterApplication {
+
+    @Autowired
+    MessagesClient messagesClient;
+    //...
+```
+
+The Greeter app uses a [`Greeting` class](https://github.com/spring-cloud-services-samples/greeting/blob/master/feign-greeter/src/main/java/greeter/Greeting.java) to contain the response from Messages:
+
+```java
+public class Greeting {
+
+  private String message;
+
+  @JsonCreator
+  public Greeting(@JsonProperty("message") String message) {
+    this.message = message;
+  }
+
+  public String getMessage() {
+    return this.message;
+  }
+}
+```
+
+The `GreeterApplication` class has a method `hello()` which is mapped to `/hello` and [uses a Feign client to access the Messages app](https://github.com/spring-cloud-services-samples/greeting/blob/master/feign-greeter/src/main/java/greeter/GreeterApplication.java#L37-L41).
+
+```java
+    @RequestMapping(value = "/hello", method = GET)
+    public String hello(@RequestParam(value="salutation", defaultValue="Hello") String salutation, @RequestParam(value="name", defaultValue="Bob") String name) {
+      Greeting greeting =  messagesClient.greeting(name, salutation);
+      return greeting.getMessage();
+    }
+```
+
+In the Greeter app, the [`MessagesClient` interface](https://github.com/spring-cloud-services-samples/greeting/blob/master/feign-greeter/src/main/java/greeter/MessagesClient.java#L9-L13) is a Feign client for the Messages app:
+
+```java
+@FeignClient("greeter-messages")
+interface MessagesClient {
+  @RequestMapping(value = "/greeting", method = GET)
+  Greeting greeting(@RequestParam("name") String name, @RequestParam("salutation") String salutation);
+}
+```
+
+The Messages app is registered with the Service Registry instance as `greeter-messages`, so the `@FeignClient` annotation on the `MessagesClient` interface uses that Eureka application name. The interface declares one method, `greeting()`, which accesses the Messages app's `/greeting` endpoint and sends along optional `name` and `salutation` parameters if they are provided.
+
+<p class='note'><strong>Note</strong>: If the name of the registered app contains characters which are invalid in a hostname, that app will be registered with the Service Registry service instance using the application name with each invalid character replaced by a hyphen (<code>-</code>) character. For example, given an application name of "message_generation", the Eureka application name used to register the app with the Service Registry service instance will be <code>greeter-messages</code>. See <a href="./connectors.html#eureka-application-name-configuration">Eureka Application Name Configuration</a>.</p>
+
+### <a id="consume-using-c2c"></a>Consume Using Container-to-Container Networking
+
+To use Cloud Foundry's container networking (see [Understanding Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/concepts/understand-cf-networking.html) in the [Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/) documentation) to reach an app registered with the Service Registry, you must add a network policy. You can do this using the Cloud Foundry Command Line Interface (cf CLI).
+
+<p class='note'><strong>Note</strong>: Container networking support is included in the cf CLI version 6.30.0 and later.</p>
+
+Run the `cf network-policies` command to list current network policies:
+
+<pre class="terminal">
+$ cf network-policies
+Listing network policies in org myorg / space dev as user...
+
+source   destination   protocol   ports
+</pre>
+
+Use the `cf add-network-policy` command to grant access from the Greeter app to the Messages app:
+
+<pre class="terminal">
+$ cf add-network-policy greeter --destination-app greeter-messages --protocol tcp --port 8080
+Adding network policy to app greeter in org myorg / space dev as user...
+OK
+</pre>
+
+Use `cf network-policies` again to view the new access policy:
+
+<pre class="terminal">
+$ cf network-policies
+Listing network policies in org myorg / space dev as user...
+
+source    destination          protocol   ports
+greeter   greeter-messages   tcp        8080
+</pre>
+
+The Greeter app can now use container networking to access the Messages app via the Service Registry. For more information about configuring container networking, see [Administering Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/cf-networking.html) in the [Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/) documentation.
+
+## <a id="disable-http-basic-auth"></a>Disable HTTP Basic Authentication
+
+The Spring Cloud Services Starter for Service Registry has a dependency on <a href="https://projects.spring.io/spring-security/">Spring Security</a>. Unless your app has other security configuration, this will cause all app endpoints to be protected by HTTP Basic authentication.
+
+If you do not yet want to address application security, you may turn off Basic authentication using [a class that extends Spring Security's `WebSecurityConfigurerAdapter` and is annotated with the Spring `@Configuration` annotation](https://github.com/spring-cloud-services-samples/greeting/blob/master/greeter/src/main/java/greeter/SecurityConfiguration.java). The sample apps disable all default security for the `development` profile only, using the `@Profile` annotation:
+
+```java
+@Configuration
+@Profile("development")
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        .authorizeRequests().anyRequest().permitAll()
+        .and()
+        .httpBasic().disable()
+        .csrf().disable();
+  }
+
+}
+```
+
+For more information, see ["Security" in the Spring Boot Reference Guide](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-security).

@@ -1,0 +1,43 @@
+## <a id="self-signed-ssl-certificate"></a>Add Self-Signed SSL Certificate to JVM Truststore
+
+Spring Cloud&reg; Services uses HTTPS for all client-to-service communication. If your [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) foundation is using a self-signed SSL certificate, the certificate will need to be added to the JVM truststore before your app can be registered with a Service Registry service instance or consume a service that is registered with a Service Registry service instance.
+
+Spring Cloud Services can add the certificate for you automatically. For this to work, you must set the `TRUST_CERTS` environment variable on your app to the API endpoint of your Pivotal Application Service (PAS) or Elastic Runtime instance:
+
+<pre class="terminal">
+$ cf set-env message-generation TRUST_CERTS api.cf.example.com
+Setting env variable 'TRUST_CERTS' to 'api.cf.example.com' for app message-generation in org myorg / space development as user...
+OK
+TIP: Use 'cf restage message-generation' to ensure your env variable changes take effect
+$ cf restage message-generation
+</pre>
+
+<p class='note'><strong>Note</strong>: The <code>CF_TARGET</code> environment variable was formerly recommended for configuring Spring Cloud Services to add a certificate to the truststore. <code>CF_TARGET</code> is still supported for this purpose, but <code>TRUST_CERTS</code> is more flexible and is now recommended instead.</p>
+
+As the output from the ```cf set-env``` command suggests, restage the app after setting the environment variable.
+
+## <a id="peers-with-self-signed-certificates"></a>Service Registry Peers with Self-Signed Certificates
+
+If binding your app to a Service Registry service instance that has one or more peers in another PCF foundation which uses self-signed certificates, you must set the `TRUST_CERTS` environment variable on your app to a hostname on the other PCF foundation in order for your app to communicate with apps bound to those Service Registry peers:
+
+<pre class="terminal">
+$ cf set-env message-generation TRUST_CERTS api.cf.example.org
+Setting env variable 'TRUST_CERTS' to 'api.cf.example.org' for app message-generation in org myorg / space development as user...
+OK
+TIP: Use 'cf restage message-generation' to ensure your env variable changes take effect
+</pre>
+
+The `TRUST_CERTS` environment variable can contain multiple hostnames, in case (for example) the Service Registry has peers in multiple alternate PCF foundations with self-signed certificates. Hostnames are comma-separated:
+
+<pre class="terminal">
+$ cf set-env message-generation TRUST_CERTS api.cf.example.org,api.example.net
+Setting env variable 'TRUST_CERTS' to 'api.cf.example.org,api.example.net' for app message-generation in org myorg / space development as user...
+OK
+TIP: Use 'cf restage message-generation' to ensure your env variable changes take effect
+</pre>
+
+As the output from the ```cf set-env``` command suggests, restage the app after setting the environment variable.
+
+<pre class="terminal">
+$ cf restage message-generation
+</pre>
