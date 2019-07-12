@@ -30,7 +30,7 @@ For each client app, you must:
 
 ### Deleting v2.0.x Deletes Org Shared by 3.0.x
 
-Spring Cloud Services 2.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. Spring Cloud Services v3.0.x, which is a separate tile, also uses this org. In Spring Cloud Services v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile.
+Spring Cloud Services 2.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. Spring Cloud Services v3.0.x, which is a separate tile, also uses this org. In Spring Cloud Services v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile. Deletion of the `p-spring-cloud-services` org can result in loss of v3.0.x service instance backing apps, potentially affecting client apps bound to the 3.0.x service instances.
 
 **If you have already installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
 
