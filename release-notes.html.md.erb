@@ -16,7 +16,9 @@ owner: Spring Cloud Services
      }
 </style>
 
-Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-spring-cloud-services)
+Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-spring-cloud-services) (SCS)
+
+<p class="note warning"><strong>WARNING:</strong> Spring Cloud Services (SCS) 2.0.x and 3.0.x are separate tiles, and both use the <code>p-spring-cloud-services</code> org to deploy service instance backing apps. Deleting SCS v2.0.10 or earlier will delete this org, including any v3.0.x backing apps. See <a href="#known-issues">Known Issues</a>.</p>
 
 ## <a id="2-0-0-migrating-from-1-5-x"></a>Migrating from 1.5.x
 
@@ -25,6 +27,12 @@ For each client app, you must:
 * Update the build file to use the new versions of the Spring Cloud Services client dependencies (see [Client Dependencies](./common/client-dependencies.html))
 
 ## <a id="known-issues"></a>Known Issues
+
+### Deleting v2.0.x Deletes Org Shared by 3.0.x
+
+Spring Cloud Services 2.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. Spring Cloud Services v3.0.x, which is a separate tile, also uses this org. In Spring Cloud Services v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile.
+
+**If you have already installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
 
 ### Disable Secure Service Instance Credentials configuration before upgrading to PCF 2.4+
 
