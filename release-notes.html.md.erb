@@ -18,6 +18,16 @@ owner: Spring Cloud Services
 
 Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://network.pivotal.io/products/p-spring-cloud-services)
 
+<p class="note warning"><strong>WARNING:</strong> Spring Cloud Services (SCS) 3.0.x and 2.0.x are separate tiles, and both use the <code>p-spring-cloud-services</code> org to deploy service instance backing apps. Deleting SCS v2.0.10 or earlier will delete this org, including any v3.0.x backing apps. See <a href="#known-issues">Known Issues</a>.</p>
+
+## <a id="known-issues"></a>Known Issues
+
+### Spring Cloud Services 3.0.x Shares Org Used by 2.0.x
+
+Spring Cloud Services (SCS) 3.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. SCS v2.0.x, which is a separate tile, also uses this org. In SCS v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile. Deletion of the `p-spring-cloud-services` org can result in loss of v3.0.x service instance backing apps, potentially affecting client apps bound to the service instances.
+
+**If you have installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
+
 ## <a id="3-0-2"></a>3.0.2
 
 **Release Date: 31st May 2019**
