@@ -1,0 +1,60 @@
+---
+title: Backing Up and Restoring Spring Cloud Services
+owner: Spring Cloud Services
+---
+
+<strong><%= modified_date %></strong>
+
+Spring Cloud Services is compatible with the [BOSH Backup and Restore](https://docs.cloudfoundry.org/bbr/) (BBR) framework. You can use BBR to back up your installation of Spring Cloud Services and to restore it from a backup. See below for information about backing up and restoring Spring Cloud Services using BBR.
+
+<p class='note'><strong>Note</strong>: BBR is the only supported method for backing up or restoring Spring Cloud Services. The following information assumes that you have installed and are using the BBR binary.</p>
+
+## <a id="data-included-in-a-backup"></a>Data Included in a Backup
+
+The backup file contains all of the state of the Spring Cloud Services BOSH VM. This includes the following data:
+
+* The `scs-service-broker` database used by the Config Server service broker to store service instance information.
+* The `mirror-service` database used by the Config Server's mirror service to store mappings between service instances and Git repository mirrors.
+* All Git repository mirrors used by Config Server service instances.
+
+Backing apps for Spring Cloud Services service instances are included in a backup of Pivotal Cloud Foundry (PCF). For more information, see [Backing Up and Restoring Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/customizing/backup-restore/) in the [PCF documentation](https://docs.pivotal.io/pivotalcf/).
+
+## <a id="Requirements"></a>Requirements
+
+You will need:
+
+* The BOSH command line credentials (`[client_id]` and `[client_secret]` below). These are available from the **Credentials** tab of the BOSH Director tile in the Ops Manager Installation Dashboard, in the **Bosh Commandline Credentials** row.
+	<%= image_tag("./images/operator-information/bosh-cli-credentials.png") %>
+* The BOSH Director's IP address (`[bosh_director_ip]` below). This is available from the **Status** tab of the BOSH Director tile in the Installation Dashboard, in the **IPs** column of the **BOSH Director** row.
+	<%= image_tag("./images/operator-information/bosh-director-ip.png") %>
+* The BOSH Director's CA certificate (`[bosh_ca_cert]` below). This is available on the Ops Manager VM at `/var/tempest/workspaces/default/root_ca_certificate`, or via the Ops Manager API (see the Ops Manager documentation about how to [Retrieve the Ops Manager Root CA](https://docs.pivotal.io/pivotalcf/security/pcf-infrastructure/managing-certificates.html#root-certs)).
+* (If restoring) A BBR backup artifact from which to restore your Spring Cloud Services installation (the path to this artifact is `[path_to_artifact]` below).
+
+## <a id="backing-up"></a>Backing Up Spring Cloud Services
+
+To back up your Spring Cloud Services installation, run the `bbr deployment backup` command as shown below:
+
+<pre class="terminal">
+$ BOSH_CLIENT=[client_id] \
+BOSH_CLIENT_SECRET=[client_secret] \
+bbr deployment \
+  --target [bosh_director_ip] \
+  --deployment cf-spring-cloud-deployment \
+  --ca-cert [bosh_ca_cert] \
+  backup
+</pre>
+
+## <a id="restoring-from-a-backup"></a>Restoring Spring Cloud Services from a Backup
+
+To restore your Spring Cloud Services installation from an existing backup, run the `bbr deployment restore` command as shown below:
+
+<pre class="terminal">
+$ BOSH_CLIENT=[client_id] \
+BOSH_CLIENT_SECRET=[client_secret] \
+bbr deployment \
+  --target [bosh_director_ip]> \
+  --deployment cf-spring-cloud-deployment \
+  --ca-cert [bosh_ca_cert] \
+  restore \
+  --artifact-path [path_to_artifact]
+</pre>
