@@ -51,7 +51,7 @@ The parameters used to configure a peer for the Service Registry are listed belo
 To create or update a Service Registry service instance to replicate a registry with a peer service instance, allowing for validation of the peer's SSL certificate, run one of the following commands:
 
 <pre class="terminal">
-$ cf create-service p-service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
+$ cf create-service p.service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
 
 $ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
 </pre>
@@ -59,7 +59,7 @@ $ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e2
 To create or update a Service Registry service instance to replicate a registry with a peer service instance, skipping validation of the peer's SSL certificate, run one of the following commands:
 
 <pre class="terminal">
-$ cf create-service p-service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
+$ cf create-service p.service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
 
 $ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
 </pre>
@@ -91,7 +91,7 @@ To configure two-way peer replication for two Service Registry service instances
 1. Create a Service Registry service instance A, without peers.
 
     ```
-    $ cf create-service p-service-registry standard service-registry
+    $ cf create-service p.service-registry standard service-registry
     ```
 
 1. Visit A's dashboard and copy its server URL.
@@ -101,7 +101,7 @@ To configure two-way peer replication for two Service Registry service instances
 1. In the other PCF foundation, org, or space, create a Service Registry service instance B, with A as a peer.
 
     ```
-    $ cf create-service p-service-registry standard service-registry-2 -c '{ "peers": [ { "uri": "https://eureka-dda7d2ac-8f9f-4d06-b8e3-9ce5b82b930e.example.com" } ] }'
+    $ cf create-service p.service-registry standard service-registry-2 -c '{ "peers": [ { "uri": "https://eureka-dda7d2ac-8f9f-4d06-b8e3-9ce5b82b930e.example.com" } ] }'
     ```
 
 1. Visit B's dashboard and copy its server URL. You will see a warning message on B's dashboard, because B currently has A as a peer and A currently has no peers.
