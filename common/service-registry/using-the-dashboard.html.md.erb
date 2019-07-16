@@ -9,6 +9,22 @@ To find the dashboard, navigate in <%= vars.scs_platform_name %> Apps Manager to
 
 <%= image_tag(vars.scs_sr_using_dashboard_manage_link) %>
 
+If you are using version 6.8.0 or later of the Cloud Foundry Command Line Interface tool (cf CLI), you can also use `cf service SERVICE_NAME`, where `SERVICE_NAME` is the name of the Service Registry service instance:
+
+<pre class="terminal">
+$ cf service greeter-service-registry
+Showing info of service greeter-service-registry in org myorg / space development as admin...
+
+name:            greeter-service-registry
+service:         p.service-registry
+bound apps:      greeter-messages-cs, greeter, greeter-cs
+tags:
+[...]
+dashboard:       https://spring-cloud-broker.apps.example.com/dashboard/p.service-registry/ec0e615c-2a8c-40a9-9293-41b4a0db2a33
+</pre>
+
+Visit the URL given for "Dashboard".
+
 ## <a id="dashboard-information"></a>Dashboard Information
 
 The dashboard shows the URL of the Service Registry service instance, the count of backing apps for the service instance (the High Availability or HA count), and the URLs of any peer service instances, as well as the apps currently registered with the service instance or with any peer service instances.
