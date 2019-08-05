@@ -18,6 +18,8 @@ owner: Spring Cloud Services
 
 Ensure that you have or have completed all items listed in <a href="common/index.html#requirements">Requirements</a>. Then follow the below steps to install Spring Cloud Services.
 
+<p class='note'><strong>Note</strong>: If you are using a private Certificate Authority to generate SSL certificates, see <a href="#using-a-private-ca">Using a Private Certificate Authority</a> below.</p>
+
 ## <a id="installation-steps"></a>Installation Steps
 
 1. Download Spring Cloud Services from [Pivotal Network](https://network.pivotal.io/).
@@ -56,3 +58,25 @@ Older Config Server service instances cannot be upgraded to the new `p.config-se
 * `composite.vault` (see [Composite Backends](./common/config-server/composite-backends.html) for information about how to configure the composite backend in the SCS 3.0.x Config Server)
 
 SCS 3.0.x service instances are backwards-compatible with version 2.0.1.RELEASE of the SCS client dependencies.
+
+## <a id="using-a-private-ca"></a>Using a Private Certificate Authority
+
+If you are using a private Certificate Authority (CA) to generate SSL certificates, you must import the private CA's certificate into the Java keystore of the BOSH VM used for the Config Server's service broker and mirror service. Follow the below steps to do this.
+
+1. Add the private CA's certificate to the BOSH trusted certificates.
+
+	a. In the Installation Dashboard of PCF Ops Manager, navigate to the BOSH Director tile's settings.
+
+	b. Click **Security**.
+
+	c. In **Trusted Certificates**, enter the CA's certificate.
+
+	d. Click **Save**.
+1. Ensure that the truststore on each VM has the private CA's certificate.
+
+	a. Still in the BOSH Director tile's settings, click **Director Config**.
+
+	b. Enable the **Recreate all VMs** checkbox.
+1. Return to the Ops Manager Installation Dashboard and apply your changes to BOSH, PAS, and the Spring Cloud Services tile.
+
+After you apply your changes, any new SSL certificate that is rotated into the platform should be successfully validated when used in SSL connections to platform services.
