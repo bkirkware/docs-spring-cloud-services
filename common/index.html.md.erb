@@ -49,4 +49,6 @@ Service instances created using the `trial` plan are deleted seven days after cr
 Spring Cloud Services for PCF has the following requirements:
 
 * [Java Cloud Foundry buildpack](https://github.com/cloudfoundry/java-buildpack) version 4.5 or later (if the default Java buildpack is not at version 4.5 or later, you must specify an alternate buildpack that is at version 4.5 or later when installing Spring Cloud Services; see [Set Buildpack for Service Instances](../tile-configuration.html#set-buildpack-for-service-instances))
+* Pivotal Application Service (PAS) runtime CredHub (if runtime CredHub is not enabled, the installation of Spring Cloud Services will fail; for information about enabling runtime CredHub, see [Securing Services Instance Credentials with Runtime CredHub
+](https://docs.pivotal.io/pivotalcf/opsguide/secure-si-creds.html))
 <% end %>
