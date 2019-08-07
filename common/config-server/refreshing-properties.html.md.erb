@@ -1,0 +1,43 @@
+---
+title: Refreshing Configuration Properties
+owner: Spring Cloud Services
+---
+
+<strong><%= modified_date %></strong>
+
+When you make a change to a configuration property stored in a Git repository, you may need to update both the mirror used by the Config Server and the client application's local configuration. See below for information about refreshing configuration properties served by a Config Server service instance.
+
+## <a id="config-server-architecture"></a>Config Server Architecture
+
+<!-- Something about the architecture of the Config Server goes here. (Should we take that info from the top two intro paragraphs at the start of the page and use it here instead? Maybe the page intro should be higher-level and we can save the details for here.) -->
+The Config Server serves properties from multiple sources, including one or more Git repositories. For Git repositories, the Config Server makes use of an internal "mirror service" to create a mirror of each Git repository used. These mirrors are local to the PCF foundation, and the Config Server serves properties to client applications from these mirrors, rather than from the external Git repositories themselves.
+
+<%= image_tag("./images/config-server-refresh.png") %>
+
+## <a id="refresh-mirrors"></a>Refreshing Git Mirrors
+
+You can manually refresh a Config Server service instance's Git mirrors using either Pivotal Cloud Foundry (PCF) Apps Manager or the Cloud Foundry Command Line Interface (cf CLI).
+
+### <a id="refresh-mirrors-using-apps-manager"></a>Using Apps Manager
+
+To refresh a Config Server service instance's Git mirrors using Apps Manager, visit the service instance's dashboard (see [Using the Dashboard](./using-the-dashboard.html)).
+
+<%= image_tag("./images/synchronize-mirrors-button.png") %>
+
+Below the **Configuration** section, click **Synchronize Mirrors**. When the mirror has been updated, the dashboard will display the message "Mirror refresh complete."
+
+### <a id="refresh-mirror-using-the-cf-cli"></a>Using the cf CLI
+
+To refresh a Config Server service instance's Git mirrors using the cf CLI, you can use the `cf update-service` command. This command is given a `-c` flag with a JSON object containing parameters used to configure the service instance. The `update-git-repos` parameter forces the Config Server mirror service to pull all upstream Git repositories used by a Config Server service instance.
+
+To update all mirrors used by a Config Server service instance, run `cf update-service SERVICE_NAME -c '{ "update-git-repos": true }'`, as in the following example:
+
+<pre class="terminal">
+$ cf update-service my-config-server -c '{"update-git-repos": true }'
+</pre>
+
+When the mirror has been updated, the `cf service SERVICE_NAME` command will give a `status` of `update succeeded`.
+
+## <a id="refreshing-a-client-app"></a>Refreshing a Client App
+
+In a Spring client app, you can use `RefreshScope` to allow for refreshing of Spring beans which use configuration served by the Config Server. For more information, see the [Refresh Client Application Configuration](./writing-client-applications.html#refresh-client-application-configuration) section of [Writing Client Applications](./writing-client-applications.html).

@@ -9,14 +9,4 @@ The Config Server service does not clone or pull updates from external Git repos
 
 <%= image_tag("config-server-fig1.png") %>
 
-See below for more information about updating Config Server Git repository mirrors.
-
-## <a id="refreshing-mirrors"></a>Refreshing Mirrors
-
-You can update settings on a Config Server service instance using the Cloud Foundry Command Line Interface tool (cf CLI). The `cf update-service` command can be given a `-c` flag with a JSON object containing parameters used to configure the service instance. This includes the `update-git-repos` parameter, which you can use to force the mirror service to pull all upstream Git repositories used by a Config Server service instance.
-
-To force the mirror service to update all mirrors used by a Config Server serivice instance, run `cf update-service SERVICE_NAME -c '{ "update-git-repos": true }'`, as in the following example:
-
-<pre class="terminal">
-$ cf update-service my-config-server -c '{"update-git-repos": true }'
-</pre>
+For information about refreshing the Git mirrors used by a Config Server service instance, see [Refreshing Git Mirrors](./refreshing-properties.html#refresh-mirrors) in the Developer Guide.
