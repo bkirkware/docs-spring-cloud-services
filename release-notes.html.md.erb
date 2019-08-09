@@ -34,6 +34,8 @@ Spring Cloud Services 2.0.x uses the `p-spring-cloud-services` org for deploymen
 
 **If you have already installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
 
+IMPORTANT: Resolved by upgrading to SCS version 2.0.11 and SCS version 3.0.4 tiles before uninstalling 2.0.x tile to ensure continued service.
+
 ### Disable Secure Service Instance Credentials configuration before upgrading to PCF 2.4+
 
 PCF `2.4` has released with a new CredHub API and is NOT supported by Spring Cloud Services. Please uncheck `Secure service instance credentials` in the `Spring Cloud Services` section in the [tile configuration](./tile-configuration.html#secure-service-instance-credentials-with-credhub) and apply changes before upgrading to PCF `2.4+`.
@@ -111,6 +113,16 @@ $ cf scs-config cook-config-server
 ```
 
 * **Ignore dashboard error until tile is upgraded to a future patch release with fix** - It is an option to ignore the error on the Config Server service instance dashboard until the fix is deployed. We are working on the fix already and hope to have it out within weeks.
+
+## <a id="2-0-11"></a>2.0.11
+
+**Release Date: 9th August 2019**
+
+This release is based on the Ubuntu Xenial 97.x stemcell line.
+
+Enhancements included in this release:
+
+* Fixed issue that caused issues for SCS 3.0.x tile services after uninstalling SCS 2.0.x tile. (IMPORTANT: Please upgrade SCS 3.0.x to version 3.0.4 before uninstalling SCS 2.0.11+ tile.)
 
 ## <a id="2-0-10"></a>2.0.10
 
