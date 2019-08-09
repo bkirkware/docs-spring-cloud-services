@@ -28,6 +28,16 @@ Spring Cloud Services (SCS) 3.0.x uses the `p-spring-cloud-services` org for dep
 
 **If you have installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
 
+IMPORTANT: This is resolved by upgrading to SCS 2.0.11 tile and SCS 3.0.4 tile versions before deleting the SCS 2.0.x tile.
+
+## <a id="3-0-4"></a>3.0.4
+
+**Release Date: 9th August 2019**
+
+* Fixed issue where uninstall of SCS versions prior to 3.0.0 could cause service broker to no longer work. (IMPORTANT: Upgrade to SCS 2.0.11 to ensure there is no impact to SCS 3.0.x service instances along with upgrading to SCS 3.0.4 to ensure continued service.)
+* Added section on Config Server dashboard to show currently mirrored Git hash for each repository configured.
+* Resolved issue when uninstalling the tile where it would sometimes fail on first attempt.
+
 ## <a id="3-0-3"></a>3.0.3
 
 **Release Date: 29th July 2019**
