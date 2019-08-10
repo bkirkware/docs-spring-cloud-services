@@ -234,3 +234,99 @@ To configure a Config Server service instance that uses an authenticated HTTPS p
 ```
 cf create-service p.config-server standard config-server -c '{"git": {"uri": "https://github.com/spring-cloud-services-samples/cook-config", "proxy": { "https": { "host": "secure.example.com", "port": "443", "username": "jim", "password": "wright62", "nonProxyHosts": "example.com" } } } }'
 ```
+
+## <a id="storing-configuration-properties"></a>Storing Configuration Properties
+
+When using a Git configuration source, you can store properties in YAML or Java .properties files. Configuration properties can be applicable to all apps that use the Config Server, specific to an app, or specific to a Spring application profile.
+
+### <a id="global-configuration"></a>Global Configuration
+
+You can store configuration properties so that they are served to all apps which use the Config Server. In the configuration repository, a file named `application.yml` or `application.properties` contains configuration which will be served to all apps that access the Config Server.
+
+#### Using YAML
+
+An example of a global `application.yml` file:
+
+```yml
+message: Hi there!
+```
+
+#### Using a Properties File
+
+An example of a global `application.properties` file:
+
+```properties
+message=Hi there!
+```
+
+### <a id="application-specific-configuration"></a>Application-Specific Configuration
+
+You can store configuration properties so that they are served only to a specific app. In the configuration repository, a file named `[APP-NAME].yml` or `[APP-NAME].properties`, where `[APP-NAME]` is the name of an app, contains configuration which will be served only to the `APP-NAME` app.
+
+#### Using YAML
+
+An example of an app-specific `cook.yml` file:
+
+```yml
+server:
+  port: 80
+
+cook:
+  special: Fried Salamander
+```
+
+#### Using a Properties File
+
+An example of an app-specific `cook.properties` file:
+
+```properties
+server.port=80
+
+cook.special=Fried Salamander
+```
+
+### <a id="profile-specific-configuration"></a>Profile-Specific Configuration
+
+You can store configuration properties so that they are served only to apps which have activated a specific Spring application profile. In the configuration repository, a file named `[APP-NAME]-[PROFILE-NAME].yml` or `[APP-NAME]-[PROFILE-NAME].properties`, where `[APP-NAME]` is the name of an app and `[PROFILE-NAME]` is the name of an application profile, contains configuration which will be served only to the `APP-NAME` app running with the `[PROFILE-NAME]` profile activated. Within a YAML file named `[APP-NAME].yml`, a document that begins by setting the `spring.profiles` property contains configuration which will be served only to the `APP-NAME` app running with the profile specified by the `spring.profiles` property.
+
+#### Using YAML
+
+An example of a profile-specific `cook-dev.yml` file:
+
+```yml
+server:
+  port: 8080
+
+cook:
+  special: Birdfeather Tea
+```
+
+An example of a profile-specific YAML document within a `cook.yml` file:
+
+```yml
+---
+spring:
+  profiles: dev
+
+server:
+  port: 8080
+
+cook:
+  special: Birdfeather Tea
+```
+
+#### Using a Properties File
+
+An example of a profile-specific `cook-dev.properties` file:
+
+```properties
+server.port=8080
+
+cook.special=Birdfeather Tea
+```
+
+### <a id="plain-text-configuration"></a>Plain Text Configuration
+
+You can store configuration in files of other file types. The Spring Cloud Services Config Client library includes a `PlainTextConfigClient` that can be used to retrieve the contents of a plain text file as a Spring `Resource`.
+
+For more information about using the Config Server to serve plain text files to a client app, see the [Use Plain Text Configuration Files](./writing-client-applications.html#use-plain-text-configuration-files) section of [Writing Client Applications](./writing-client-applications.html).

@@ -154,3 +154,37 @@ To configure a Config Server service instance that uses an authenticated HTTPS p
 ```
 cf create-service p.config-server standard config-server -c '{"vault": { "host": "127.0.0.1", "port": 8200, "proxy": { "https": { "host": "secure.example.com", "port": "443", "username": "jim", "password": "wright62", "nonProxyHosts": "example.org" } } } }'
 ```
+
+## <a id="storing-configuration-properties"></a>Storing Configuration Properties
+
+When using a HashiCorp Vault configuration source, you can write secrets to the Vault server using the `vault` Command Line Interface (CLI) tool. Configuration properties can be applicable to all apps that use the Config Server, specific to an app, or specific to a Spring application profile.
+
+### <a id="global-configuration"></a>Global Configuration
+
+You can store configuration properties so that they are served to all apps which use the Config Server. A secret written to the `secret/application` path will be served to all apps that access the Config Server.
+
+An example of setting a global configuration property:
+
+<pre class="terminal">
+$ vault write secret/application message=Greetings
+</pre>
+
+### <a id="application-specific-configuration"></a>Application-Specific Configuration
+
+You can store configuration properties so that they are served only to a specific app. A secret written to the `secret/[APP-NAME]` path contains configuration which will be served only to the `APP-NAME` app.
+
+An example of setting an app-specific configuration property:
+
+<pre class="terminal">
+$ vault write secret/cook message=Hi
+</pre>
+
+### <a id="profile-specific-configuration"></a>Profile-Specific Configuration
+
+You can store configuration properties so that they are served only to apps which have activated a specific Spring application profile. A secret written to the `secret/[APP-NAME],[PROFILE-NAME]` path, where `[APP-NAME]` is the name of an app and `[PROFILE-NAME]` is the name of an application profile, contains configuration which will be served only to the `APP-NAME` app running with the `[PROFILE-NAME]` profile activated.
+
+An example of setting a profile-specific configuration property:
+
+<pre class="terminal">
+$ vault write secret/cook,dev message=Ho
+</pre>
