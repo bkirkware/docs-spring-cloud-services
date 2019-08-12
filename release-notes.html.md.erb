@@ -26,17 +26,15 @@ Release notes for [Spring Cloud Services for Pivotal Cloud Foundry](https://netw
 
 Spring Cloud Services (SCS) 3.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. SCS v2.0.x, which is a separate tile, also uses this org. In SCS v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile. Deletion of the `p-spring-cloud-services` org can result in loss of v3.0.x service instance backing apps, potentially affecting client apps bound to the service instances.
 
-**If you have installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
-
-IMPORTANT: This is resolved by upgrading to SCS 2.0.11 tile and SCS 3.0.4 tile versions before deleting the SCS 2.0.x tile.
+**If you have installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.** If you do wish to delete the 2.0.x tile, upgrade to SCS 3.0.4 or later and SCS 2.0.11 or later, then delete the 2.0.x tile.
 
 ## <a id="3-0-4"></a>3.0.4
 
 **Release Date: 9th August 2019**
 
-* Fixed issue where uninstall of SCS versions prior to 3.0.0 could cause service broker to no longer work. (IMPORTANT: Upgrade to SCS 2.0.11 to ensure there is no impact to SCS 3.0.x service instances along with upgrading to SCS 3.0.4 to ensure continued service.)
-* Added section on Config Server dashboard to show currently mirrored Git hash for each repository configured.
-* Resolved issue when uninstalling the tile where it would sometimes fail on first attempt.
+* Fixed issue that caused uninstalling an SCS version prior to 3.0.0 could cause the service broker to no longer work. **To ensure that uninstalling SCS 2.0.x causes no impact to SCS 3.0.x service instances, upgrade SCS 2.0.x to v2.0.11 and upgrade SCS 3.0.x to 3.0.4 before deleting SCS 2.0.x.**
+* Added a section on the Config Server dashboard to show the currently-mirrored Git hash of each Git repository configured for the Config Server service instance.
+* Resolved issue that could cause uninstallation of SCS 3.0.x to fail on first attempt.
 
 ## <a id="3-0-3"></a>3.0.3
 
