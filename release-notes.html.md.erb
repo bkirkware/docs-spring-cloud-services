@@ -32,9 +32,7 @@ For each client app, you must:
 
 Spring Cloud Services 2.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. Spring Cloud Services v3.0.x, which is a separate tile, also uses this org. In Spring Cloud Services v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile. Deletion of the `p-spring-cloud-services` org can result in loss of v3.0.x service instance backing apps, potentially affecting client apps bound to the 3.0.x service instances.
 
-**If you have already installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.**
-
-IMPORTANT: Resolved by upgrading to SCS version 2.0.11 and SCS version 3.0.4 tiles before uninstalling 2.0.x tile to ensure continued service.
+**If you have already installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.** If you do wish to delete SCS 2.0.x, upgrade to SCS 2.0.11 and SCS 3.0.4 before uninstalling 2.0.x. This ensures continued service for SCS 3.0.x service instances.
 
 ### Disable Secure Service Instance Credentials configuration before upgrading to PCF 2.4+
 
@@ -122,7 +120,7 @@ This release is based on the Ubuntu Xenial 97.x stemcell line.
 
 Enhancements included in this release:
 
-* Fixed issue that caused issues for SCS 3.0.x tile services after uninstalling SCS 2.0.x tile. (IMPORTANT: Please upgrade SCS 3.0.x to version 3.0.4 before uninstalling SCS 2.0.11+ tile.)
+* Fixed issue that caused problems for SCS 3.0.x service instances after uninstallation of SCS 2.0.x. **Upgrade SCS 3.0.x to 3.0.4 before uninstalling SCS 2.0.11+ tile.**
 
 ## <a id="2-0-10"></a>2.0.10
 
