@@ -133,3 +133,56 @@ status:    update succeeded
 <p class='note'><strong>Important</strong>: The <code>cf service</code> and <code>cf services</code> commands may report an <code>update succeeded</code> status even if the Config Server cannot initialize using the provided settings. For example, given an invalid URI for a Git backend, the service instance may still be restarted and have an <code>update succeeded</code> status.</p>
 
 The service instance is now updated and ready to be used. For information about using an app to access configuration values served by a Config Server service instance, see <a href="./writing-client-applications.html">Writing Client Applications</a>.
+
+## <a id="upgrading"></a>Upgrading an Instance
+
+You can upgrade a Config Server service instance to the latest version using the Cloud Foundry Command Line Interface tool (cf CLI). The `cf update-service` command can be given a `-c` flag with a JSON object containing parameters used to configure the service instance.
+
+To update a Config Server service instance's settings, target the org and space of the service instance:
+
+<pre class="terminal">
+$ cf target -o myorg -s development
+</pre>
+
+Then run `cf update-service SERVICE_NAME -c '{ "upgrade": true }'`, where `SERVICE_NAME` is the name of the service instance:
+
+<pre class="terminal">
+$ cf update-service my-config-server -c '{"upgrade": true}'
+</pre>
+
+## <a id="migrating-2-0-or-1-5-service-instances"></a>Migrating Spring Cloud Services 2.0.x or 1.5.x Service Instances
+
+The Config Server (`p-config-server`) service offering of the Spring Cloud Services 2.0.x or 1.5.x tile cannot be upgraded to the Config Server (`p.config-server`) service offering of the Spring Cloud Services 3.0.x tile. After installing Spring Cloud Services 3.0.x alongside the older version of Spring Cloud Services, follow the below instructions to migrate an older Config Server service instance (SI).
+
+1. Rename the existing SI (for example, adding a suffix `-old` to the original name):
+  <pre class="terminal">
+  $ cf rename-service my-config-server my-config-server-old
+  </pre>
+
+1. Create a new Spring Cloud Services 3.0.x (`p.config-server`) SI, using the existing SI's original name and passing the existing SI's configuration using the `-c` flag:
+  <pre class="terminal">
+  $ cf create-service p.config-server standard my-config-server \
+    -c '{"git": { "uri": "..." } }'
+  </pre>
+
+1. For each app bound to the existing SI, bind the app to the new SI:
+  <pre class="terminal">
+  $ cf bind-service myapp my-config-server
+  </pre>
+
+1. For each app bound to the existing SI, unbind the app from the existing SI:
+  <pre class="terminal">
+  $ cf unbind-service myapp my-config-server-old
+  </pre>
+
+1. For each app bound to the existing SI, restage the app:
+  <pre class="terminal">
+  $ cf restage myapp
+  </pre>
+
+1. For each app bound to the existing SI, ensure that the app is receiving configuration from the new SI.
+
+1. Delete the existing SI:
+  <pre class="terminal">
+  $ cf delete-service my-config-server-old
+  </pre>
