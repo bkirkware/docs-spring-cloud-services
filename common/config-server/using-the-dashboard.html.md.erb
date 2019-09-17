@@ -24,6 +24,22 @@ dashboard:       https://config-server-a6b2a01b-9685-4f1b-a94b-5b5b45679d15.apps
 
 Visit the URL given for `dashboard`.
 
-The dashboard shows the current health of the Config Server along with the JSON object used to configure its settings.
+## <a id="dashboard-information"></a>Dashboard Information
 
-<%= image_tag(vars.scs_cs_using_dashboard_updated_dashboard) %>
+The dashboard shows the current health of the Config Server along with the JSON object used to configure its settings. It also includes a button that you can use to **Synchronize Mirrors** for the Config Server's Git repositories, and lists information about each configured Git repository.
+
+<%= image_tag('cs-dashboard.png') %>
+
+## <a id="using-git-repository-information"></a>Using the Git Repository Information
+
+If you have configured one or more Git repositories for the Config Server, information for each repository will be shown in a list under the heading **Git Repositories** at the end of the Config Server dashboard.
+
+<%= image_tag('dashboard-git-repositories.png') %>
+
+For each repository, the dashboard lists the **Source URI**, the configured **Label**, and the hash of the most recent Git **Commit** that the Config Server's repository mirror includes.
+
+You can use the Git commit hash to check for updates to configuration which are in the external Git repository and have not yet been included in the Config Server's mirror. For example, given the commit hash (shortened form) `9a33719` and label `master`, you can run the `git log` command on your local machine's working copy of the external repository to find commits made since that commit:
+
+<pre class="terminal">
+$ git log 9a33719..master
+</pre>
