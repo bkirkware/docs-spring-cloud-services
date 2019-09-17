@@ -1,11 +1,11 @@
 ---
-title: Config Server for Pivotal Cloud Foundry
+title: Config Server
 owner: Spring Cloud Services
 ---
 
 ## Overview
 
-Config Server for Pivotal Cloud Foundry (PCF) is an externalized application configuration service. It is based on the open-source Spring Cloud Config project, which provides a centralized server for delivering external configuration properties to an application and a central source for managing this configuration across deployment environments. Spring Cloud Config includes support for a number of backends, including Git, HashiCorp Vault, and CredHub.
+Config Server is an externalized application configuration service. It is based on the open-source Spring Cloud Config project, which provides a centralized server for delivering external configuration properties to an application and a central source for managing this configuration across deployment environments. Spring Cloud Config includes support for a number of backends, including Git, HashiCorp Vault, and CredHub.
 
 The Spring Cloud Services Config Server wraps the open-source Spring Cloud Config Server component, providing a managed service that is secured and maintained by Pivotal. Its architecture is designed to minimize calls from the Config Server to external Git servers for the Git backend and to give operators greater control over the data fetched and served by the Config Server. The Config Server can store secrets in CredHub and also supports HashiCorp Vault.
 
