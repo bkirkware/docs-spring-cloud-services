@@ -9,7 +9,7 @@ _Refer to the <a href="https://github.com/spring-cloud-services-samples/cook/tre
 
 To use a Spring Boot app as a client for a Config Server instance, you must add the dependencies listed in <a href="../client-dependencies.html">Client Dependencies</a> to your app's build file. Be sure to include the dependencies for <a href="../client-dependencies.html#config-server">Config Server</a> as well.
 
-<p class='note'><strong>Important</strong>: Because of a dependency on <a href="https://projects.spring.io/spring-security/">Spring Security</a>, the Spring Cloud&reg; Config Client starter will by default cause all app endpoints to be protected by HTTP Basic authentication. If you wish to disable this, please see <a href="#disable-http-basic-auth">Disable HTTP Basic Authentication</a> below.</p>
+<p class='note'><strong>Important</strong>: Because of a dependency on <a href="https://projects.spring.io/spring-security/">Spring Security</a>, the Spring Cloud Config Client starter will by default cause all app endpoints to be protected by HTTP Basic authentication. If you wish to disable this, please see <a href="#disable-http-basic-auth">Disable HTTP Basic Authentication</a> below.</p>
 
 <% if vars.product_name == 'PCF' %>
  <%= partial vars.scs_cs_self_signed_ssl %>
