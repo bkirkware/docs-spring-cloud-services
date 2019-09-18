@@ -78,9 +78,7 @@ A peer service instance URI is expected to meet the following criteria:
 
 A peer service instance is expected to meet the following criteria:
 
-* Have the same High Availability (HA) node count as its peer service instance. If you create or update a Service Registry service instance with a peer which has a different HA node count, you will see [an error message on the Service Registry dashboard](#peer-node-count-difference). See the [Configuration Parameters](./managing-service-instances.html#configuration-parameters) section of [Managing Service Instances](./managing-service-instances.html) for more information about setting the HA node count for a Service Registry service instance.
 * Have a peer list equivalent to its peer service instance's peer list. If you create or update a Service Registry service instance with a peer that does has not have an equivalent peer list, you will see [a warning message on the Service Registry dashboard](#peer-list-difference).
-* Be at the same Service Registry version as its peer service instance. If you create or update a Service Registry service instance with a peer which is at a different Service Registry version, you will see [a warning message on the Service Registry dashboard](#peer-version-difference).
 
 ## <a id="setting-up-peer-service-instances"></a>Setting Up Peer Service Instances
 
@@ -136,14 +134,6 @@ If you have configured a Service Registry service instance with a peer service i
 
 To enable the Service Registry service instance to replicate a registry with this peer service instance without a secure connection, you can update the configuration for this Service Registry service instance to disable SSL certificate validation for the peer. See the [Configuration Parameters](#configuration-parameters) section for more information about configuring peer replication without SSL certificate validation.
 
-### <a id="peer-node-count-difference"></a>Peer Service Instance Node Count Difference
-
-If you have configured a Service Registry service instance with a peer service instance and the two service instances have differing High Availability (HA) node counts, you may see the following error message on the dashboard:
-
-<%= image_tag(vars.scs_sr_replication_img_different_node_counts) %>
-
-You can update one of the service instances to add or remove nodes so that the two service instances have consistent node counts. See the [Configuration Parameters](./managing-service-instances.html#configuration-parameters) section of [Managing Service Instances](./managing-service-instances.html) for more information.
-
 ### <a id="peer-list-difference"></a>Peer Service Instance Peer List Difference
 
 If you have configured a Service Registry service instance with a peer service instance and the two service instances have differing lists of peer service instances, you may see the following message on the dashboard:
@@ -151,11 +141,3 @@ If you have configured a Service Registry service instance with a peer service i
 <%= image_tag(vars.scs_sr_replication_img_different_peer_list) %>
 
 Update the configuration for this Service Registry service instance or for the peer instance to give them consistent peer lists.
-
-### <a id="peer-version-difference"></a>Peer Service Instance Version Difference
-
-If you have configured a Service Registry service instance with a peer service instance that is at a different version (for example, that has not been upgraded after an upgrade of the Spring Cloud Services product), you may see the following message on the dashboard:
-
-<%= image_tag(vars.scs_sr_replication_img_version_difference) %>
-
-Upgrade the older of the service instances so that the peers are at consistent versions.
