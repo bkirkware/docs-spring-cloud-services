@@ -23,7 +23,7 @@ See below for the Spring Cloud Services releases that include each service versi
 | 20              | 2.0.x              |
 | 30              | 3.0.x              |
 
-<% if vars.product_name == 'PWS' %>
+<% if vars.platform_code == 'PWS' %>
 ### Service Plans
 
 Spring Cloud Services currently provides the following service plans:
@@ -40,7 +40,7 @@ Spring Cloud Services currently provides the following service plans:
 Service instances created using the `trial` plan are deleted seven days after creation. You can use this plan to create service instances for trial or demonstration purposes for short-term usage. Do not rely on the `trial` plan for service instances used in production.
 <% end %>
 
-<% if vars.product_name == 'PCF' %>
+<% if vars.platform_code == 'PCF' %>
  <%= partial vars.scs_details %>
 
 <a id="requirements"></a>
