@@ -20,19 +20,19 @@ A Service Registry peer can be expressed as shown in the following JSON:
 ```
 {
   "peers": [
-    { "uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net" }
+    { "uri": "https://service-registry-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net" }
   ]
 }
 ```
 
-Peer URIs must use the HTTPS URI scheme (as `https://`) and must follow the format `https://eureka-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID assigned to a Service Registry service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation where that Service Registry service instance is running.
+Peer URIs must use the HTTPS URI scheme (as `https://`) and must follow the format `https://service-registry-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID assigned to a Service Registry service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation where that Service Registry service instance is running.
 
 Spring Cloud Services will by default validate the SSL certificate on each peer. You can disable this validation for a given peer by setting the `skipSslValidation` parameter to `true` for that peer, as shown in the following JSON:
 
 ```
 {
   "peers": [
-    { "uri": "https://eureka-41562ac7-b6a6-4dc2-8a34-c1f94e82c83d.example.net",
+    { "uri": "https://service-registry-41562ac7-b6a6-4dc2-8a34-c1f94e82c83d.example.net",
       "skipSslValidation": true }
   ]
 }
@@ -42,25 +42,26 @@ Spring Cloud Services will by default validate the SSL certificate on each peer.
 
 The parameters used to configure a peer for the Service Registry are listed below.
 
-| Parameter                                  | Function                                                                                                                                              |
-|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <code>peers[i].uri</code>                  | The URI of the Service Registry peer                                                                                                                  |
-| <code>peers[i].skipSslValidation</code>    | Whether to skip SSL validation for the Service Registry peer. Valid values are <code>true</code> and <code>false</code> (default: <code>false</code>) |
+| Parameter | Function                                                                                                                                  |
+|-------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| <code>peers[i].uri</code> | The URI of the peer                                                                                    |
+| <code>peers[i].skipSslValidation</code> | Whether to skip SSL validation for the peer. Valid values: <code>true</code>, <code>false</code> (default: <code>false</code>) |
+| <code>peers[i].peer-timeout</code> | In milliseconds, the timeout used when connecting to the peer                                                    |
 
-To create or update a Service Registry service instance to replicate a registry with a peer service instance, allowing for validation of the peer's SSL certificate, run one of the following commands:
+To create or update a Service Registry service instance to replicate a registry with a peer service instance, allowing for validation of the peer's SSL certificate and setting a peer connection timeout of 2,000 milliseconds, run one of the following commands:
 
 <pre class="terminal">
-$ cf create-service p.service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
+$ cf create-service p.service-registry standard my-service-registry -c '{ "peers": [ {"uri": "https://service-registry-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "peer-timeout": 2000 } ] }'
 
-$ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
+$ cf update-service my-service-registry -c '{ "peers": [ {"uri": "https://service-registry-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "peer-timeout": 2000 } ] }'
 </pre>
 
 To create or update a Service Registry service instance to replicate a registry with a peer service instance, skipping validation of the peer's SSL certificate, run one of the following commands:
 
 <pre class="terminal">
-$ cf create-service p.service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
+$ cf create-service p.service-registry standard service-registry -c '{ "peers": [ {"uri": "https://service-registry-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
 
-$ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
+$ cf update-service service-registry -c '{ "peers": [ {"uri": "https://service-registry-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "skipSslValidation": true} ] }'
 </pre>
 
 For an example of configuring peer replication across two Service Registry service instances, see the [Setting Up Peer Service Instances](#setting-up-peer-service-instances) section.
@@ -72,7 +73,7 @@ For an example of configuring peer replication across two Service Registry servi
 A peer service instance URI is expected to meet the following criteria:
 
 * Use the HTTPS URI scheme (begin with `https://`). You cannot create or update a Service Registry service instance with a peer URI which does not use the HTTPS URI scheme.
-* Follow the pattern `https://eureka-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID belonging to the peer service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation on which that service instance is hosted. You cannot create or update a Service Registry service instance with a peer URI which does not follow this pattern.
+* Follow the pattern `https://service-registry-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID belonging to the peer service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation on which that service instance is hosted. You cannot create or update a Service Registry service instance with a peer URI which does not follow this pattern.
 * Correspond to an available Service Registry service instance. If you create or update a Service Registry service instance with a peer URI which does not correspond to another available service instance, you will see [an error message on the Service Registry dashboard](#peer-not-found).
 
 A peer service instance is expected to meet the following criteria:
@@ -98,7 +99,7 @@ To configure two-way peer replication for two Service Registry service instances
 1. In the other PCF foundation, org, or space, create a Service Registry service instance B, with A as a peer.
 
     ```
-    $ cf create-service p.service-registry standard service-registry-2 -c '{ "peers": [ { "uri": "https://eureka-dda7d2ac-8f9f-4d06-b8e3-9ce5b82b930e.example.com" } ] }'
+    $ cf create-service p.service-registry standard service-registry-2 -c '{ "peers": [ { "uri": "https://service-registry-dda7d2ac-8f9f-4d06-b8e3-9ce5b82b930e.example.com" } ] }'
     ```
 
 1. Visit B's dashboard and copy its server URL. You will see a warning message on B's dashboard, because B currently has A as a peer and A currently has no peers.
@@ -108,7 +109,7 @@ To configure two-way peer replication for two Service Registry service instances
 1. Update A, providing B as a peer.
 
     ```
-    $ cf update-service service-registry -c '{ "peers": [ { "uri": "https://eureka-5b251b82-672f-467b-8171-68e7948e6964.example.org" } ] }'
+    $ cf update-service service-registry -c '{ "peers": [ { "uri": "https://service-registry-5b251b82-672f-467b-8171-68e7948e6964.example.org" } ] }'
     ```
 
     A and B are now configured to replicate service registrations with each other.
