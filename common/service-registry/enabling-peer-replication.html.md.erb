@@ -74,10 +74,11 @@ A peer service instance URI is expected to meet the following criteria:
 
 * Use the HTTPS URI scheme (begin with `https://`). You cannot create or update a Service Registry service instance with a peer URI which does not use the HTTPS URI scheme.
 * Follow the pattern `https://service-registry-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID belonging to the peer service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation on which that service instance is hosted. You cannot create or update a Service Registry service instance with a peer URI which does not follow this pattern.
-* Correspond to an available Service Registry service instance. If you create or update a Service Registry service instance with a peer URI which does not correspond to another available service instance, you will see [an error message on the Service Registry dashboard](#peer-not-found).
+* Correspond to an available Spring Cloud Services 3.1.x Service Registry service instance. If you create or update a Service Registry service instance with a peer URI which does not correspond to another available service instance, you will see [an error message on the Service Registry dashboard](#peer-not-found).
 
 A peer service instance is expected to meet the following criteria:
 
+* Be from the same minor version of Spring Cloud Services (3.1.x). You cannot use a Spring Cloud Services 2.0.x Service Registry service instance as a peer for a Spring Cloud Services 3.1.x Service Registry service instance.
 * Have a peer list equivalent to its peer service instance's peer list. If you create or update a Service Registry service instance with a peer that does has not have an equivalent peer list, you will see [a warning message on the Service Registry dashboard](#peer-list-difference).
 
 ## <a id="setting-up-peer-service-instances"></a>Setting Up Peer Service Instances
