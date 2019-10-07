@@ -18,52 +18,19 @@ owner: Spring Cloud Services
 
 Release notes for [Pivotal Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services)
 
-## <a id="3-0-2"></a>3.0.2
+## <a id="3-1-0"></a>3.1.0
 
-**Release Date: 31st May 2019**
-
-* Fixed issue with `cf` CLI display of service instances and marketplace services.
-
-## <a id="3-0-1"></a>3.0.1
-
-**Release Date: 30th May 2019**
-
-**IMPORTANT: Known Issue**
-
-Running the `cf services` or `cf marketplace` commands results in the following error response:
-
-```
-json: cannot unmarshal string into Go struct field ServiceExtra.Shareable of
-type bool
-```
-
-This affects the display of all service instances in a space when using the cf CLI.
-
-**Recommended Actions**
-
-Given the impact of users being unable to view the current state of their service instances in a space, Pivotal recommends that you do not install or upgrade to version 3.0.1. If you have already installed it, please upgrade to version 3.0.2, which resolves this issue.
+**Release Date: 7th October 2019**
 
 Enhancements included in this release:
 
-* Fixed issue with Config Server service instances not updating correctly if created with no Git repositories configured.
-* Fixed Apps Manager name, description and icon for Config Server service in Marketplace.
-
-## <a id="3-0-0"></a>3.0.0
-
-**Release Date: 21st May 2019**
-
-Enhancements included in this release:
-
-* Spring Cloud Services 3.0.0 runs alongside previous versions (2.0.x and 1.5.x) and adds a new service, named `p.config-server`, to the PCF Marketplace. Operators and developers may decide to migrate existing `p-config-server` service instances over to the new service and then disable use of the old service once existing service instances are fully migrated.
-* The Spring Cloud Services broker has been upgraded to Spring Boot 2.1.4.RELEASE and Spring Cloud Greenwich.RC1.
-* The Config Server service now mirrors Git repositories local to the PCF foundation. This reduces communication required with external Git servers and improves data governance options for configuration values served by the Config Server from Git repositories, as well as increasing availability of the Config Server.
-* The Config Server service now includes support for a CredHub backend, which can be used for secrets management. The new backend removes the need to store secrets in encrypted form within Git for use by the Config Server and improves the security of secret management for Config Server client applications. (The Config Server continues to include support for a HashiCorp Vault backend.)
+* The Spring Cloud Services broker has been upgraded to Spring Boot 2.1.8.RELEASE and Spring Cloud Greenwich.SR3.
+* Service Registry service has been added back with a new name: `p.service-registry`.
+* The existing Service Registry configuration options have not changed although there is now a new option named `peer-timeout` that can be set in milliseconds. This can alleviate issues with peer replication timing out when there is higher latency in the network between peers.
+* There is now a process for doing backup and restore of Spring Cloud Services stateful resources.
 
 Important items to note:
 
-* Spring Cloud Services 3.0.0 does not include Service Registry or Circuit Breaker Dashboard services. To use these services, you can install Spring Cloud Services 2.0.x alongside 3.0.0.
+* Spring Cloud Services 3.1.0 does not include Circuit Breaker Dashboard services. To use these services, you can install Spring Cloud Services 2.0.x alongside 3.1.0.
 * The Circuit Breaker Dashboard service will not return, as the underlying Netflix OSS Hystrix Dashboard project has been deprecated.
 
-Known issue:
-
-* A Config Server service instance that is created without any Git repositories configured cannot be updated or deleted.
