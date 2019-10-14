@@ -5,11 +5,13 @@ owner: Spring Cloud Services
 
 <strong><%= modified_date %></strong>
 
-Spring Cloud Services 3.0.x can be installed alongside the following earlier versions of Spring Cloud Services:
+Spring Cloud Services 3.0--3.1 can be installed alongside the following earlier versions of Spring Cloud Services:
 
-* 2.0.x
-* 1.5.x
+* 2.0
+* 1.5
 
-Spring Cloud Services 3.0.x includes only the Config Server service. This service has a new name, `p.config-server` (instead of `p-config-server` as in earlier versions of Spring Cloud Services). This service can be offered alongside, but does not replace, earlier versions of Config Server. Pivotal recommends disabling the older `p-config-server` service after installing Spring Cloud Services 3.0.x (which includes the `p.config-server` service).
+Spring Cloud Services 3.1 includes a new Service Registry service, named `p.service-registry` instead of `p-service-registry` as in earlier versions. It also includes a new Config Server service, named `p.config-server` instead of `p-config-server` as in earlier versions.
 
-For more information about running Spring Cloud Services 3.0.x alongside earlier versions, see the [Running Alongside Previous Versions](./installation.html#running-alongside-previous-versions) section of [Installing Pivotal Spring Cloud Services](./installation.html).
+The `p.config-server` service can be offered alongside, but does not replace, earlier versions of Config Server. Pivotal recommends disabling the older `p-config-server` service after installing Spring Cloud Services 3.1 (which includes the `p.config-server` service).
+
+For more information about running Spring Cloud Services 3.1 alongside earlier versions, see the [Running Alongside Previous Versions](./installation.html#running-alongside-previous-versions) section of [Installing Pivotal Spring Cloud Services](./installation.html).
