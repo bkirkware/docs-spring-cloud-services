@@ -18,7 +18,7 @@ owner: Spring Cloud Services
 
 Release notes for [Pivotal Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services)
 
-<p class="note warning"><strong>WARNING:</strong> Spring Cloud Services (SCS) 3.0.x and 2.0.x are separate tiles, and both use the <code>p-spring-cloud-services</code> org to deploy service instance backing apps. Deleting SCS v2.0.10 or earlier will delete this org, including any v3.0.x backing apps. See <a href="#known-issues">Known Issues</a>.</p>
+<p class="note warning"><strong>WARNING:</strong> Spring Cloud Services (SCS) v3.0.x and v2.0.x are separate tiles, and both use the <code>p-spring-cloud-services</code> org to deploy service instance backing apps. Deleting SCS v2.0.10 or earlier will delete this org, including any v3.0.x backing apps. See <a href="#known-issues">Known Issues</a>. Pivotal recommends upgrading and migrating completely to SCS v3.1.x. For more information, see <a href="https://docs.pivotal.io/spring-cloud-services/3-1/common/index.html">Upgrading Pivotal Spring Cloud Services</a> </p>
 
 ## <a id="known-issues"></a>Known Issues
 
@@ -31,6 +31,12 @@ In environments that have installed other tiles, SCS 3.0.6 may not install prope
 Spring Cloud Services (SCS) 3.0.x uses the `p-spring-cloud-services` org for deployment of backing apps for service instances. SCS v2.0.x, which is a separate tile, also uses this org. In SCS v2.0.10 and earlier, the **Broker Deregistrar** pre-delete lifecycle errand deletes the `p-spring-cloud-services` org. Because of this, deleting the v2.0.x tile will also affect the v3.0.x tile. Deletion of the `p-spring-cloud-services` org can result in loss of v3.0.x service instance backing apps, potentially affecting client apps bound to the service instances.
 
 **If you have installed Spring Cloud Services v3.0.x alongside v2.0.10 or earlier, do NOT delete the v2.0.x tile.** If you do wish to delete the 2.0.x tile, upgrade to SCS 3.0.4 or later and SCS 2.0.11 or later, then delete the 2.0.x tile.
+
+### Circuit Breaker Dashboard Not Supported in v3.0.x
+
+* Spring Cloud Services v3.0.x does not include Service Registry or Circuit Breaker Dashboard services. To use these services, you can install Spring Cloud Services v2.0.x alongside v3.0.x.
+    <p class="warning"><strong>Warning</strong>: You cannot upgrade to Ops Manager v2.7 if you are running Spring Cloud Services v2.0.x.</p>
+* The Circuit Breaker Dashboard service will not return, as the underlying Netflix OSS Hystrix Dashboard project has been deprecated.
 
 ## <a id="3-0-7"></a>3.0.7
 
@@ -107,11 +113,6 @@ Enhancements included in this release:
 * The Spring Cloud Services broker has been upgraded to Spring Boot 2.1.4.RELEASE and Spring Cloud Greenwich.RC1.
 * The Config Server service now mirrors Git repositories local to the PCF foundation. This reduces communication required with external Git servers and improves data governance options for configuration values served by the Config Server from Git repositories, as well as increasing availability of the Config Server.
 * The Config Server service now includes support for a CredHub backend, which can be used for secrets management. The new backend removes the need to store secrets in encrypted form within Git for use by the Config Server and improves the security of secret management for Config Server client applications. (The Config Server continues to include support for a HashiCorp Vault backend.)
-
-Important items to note:
-
-* Spring Cloud Services 3.0.0 does not include Service Registry or Circuit Breaker Dashboard services. To use these services, you can install Spring Cloud Services 2.0.x alongside 3.0.0.
-* The Circuit Breaker Dashboard service will not return, as the underlying Netflix OSS Hystrix Dashboard project has been deprecated.
 
 Known issue:
 
