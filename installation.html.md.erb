@@ -46,9 +46,11 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
 ## <a id="running-alongside-previous-versions"></a>Running Alongside Previous Versions
 
-Spring Cloud Services (SCS) 3.0--3.1 can be installed alongside earlier versions of Spring Cloud Services, including 2.0. SCS 3.1 includes a new Config Server service, which is named `p.config-server` instead of `p-config-server` as in 2.0 and earlier versions, and a new Service Registry service, which is named `p.service-registry` instead of `p-service-registry` as in 2.0 and earlier versions.
+Spring Cloud Services (SCS) 3.0--3.1 can be installed alongside earlier versions of Spring Cloud Services, including 2.0. SCS v3.1 includes a new Config Server service, which is named `p.config-server` instead of `p-config-server` as in v2.0 and earlier versions, and a new Service Registry service, which is named `p.service-registry` instead of `p-service-registry` as in v2.0 and earlier versions.
 
-### Differences Between 3.0--3.1 Config Server and Earlier Config Server
+Even though you can run different SCS versions in parallel, Pivotal recommends that you migrate all your service instances to Spring Cloud Services v3.1.x to complete the upgrade. For more information, see [Upgrading Pivotal Spring Cloud Services](product-upgrades.html).
+
+### <a id="differences"></a> Differences Between v3.0--3.1 Config Server and Earlier Config Server
 
 The `p.config-server` service includes new features (including the CredHub backend) and can run alongside the services included in 2.0 and earlier versions. You may wish to [disable the older `p-config-server` service](https://docs.pivotal.io/pivotalcf/services/access-control.html#disable-access) and allow only the new `p.config-server` Config Server service to be created.
 
@@ -59,4 +61,4 @@ Older Config Server service instances cannot be upgraded to the new `p.config-se
 * `composite.git` (see [Composite Backends](./common/config-server/composite-backends.html) for information about how to configure the composite backend in the SCS 3.0--3.1 Config Server)
 * `composite.vault` (see [Composite Backends](./common/config-server/composite-backends.html) for information about how to configure the composite backend in the SCS 3.0--3.1 Config Server)
 
-SCS 3.1 service instances are backwards-compatible with version 2.0.1.RELEASE of the SCS client dependencies.
+SCS v3.1 service instances are backwards-compatible with version 2.0.1.RELEASE of the SCS client dependencies.
