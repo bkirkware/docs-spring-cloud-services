@@ -5,13 +5,35 @@ owner: Spring Cloud Services
 
 <strong><%= modified_date %></strong>
 
-Spring Cloud Services 3.0--3.1 can be installed alongside the following earlier versions of Spring Cloud Services:
+You can install Spring Cloud Services (SCS) v3.1.x alongside the following earlier versions of SCS:
 
-* 2.0
-* 1.5
+* v2.0.x
+* v1.5.x
 
-Spring Cloud Services 3.1 includes a new Service Registry service, named `p.service-registry` instead of `p-service-registry` as in earlier versions. It also includes a new Config Server service, named `p.config-server` instead of `p-config-server` as in earlier versions.
+However, Pivotal recommends that you migrate all your service instances to Spring Cloud Services v3.1.x.
+After migration, you can remove any earlier versions of Spring Cloud Services.
+
+## <a id="service-instance-changes"></a> Service Changes
+
+Spring Cloud Services v3.1 includes a new Service Registry service, named `p.service-registry` instead of `p-service-registry` as in earlier versions. It also includes a new Config Server service, named `p.config-server` instead of `p-config-server` as in earlier versions.
 
 The `p.config-server` service can be offered alongside, but does not replace, earlier versions of Config Server. Pivotal recommends disabling the older `p-config-server` service after installing Spring Cloud Services 3.1 (which includes the `p.config-server` service).
 
-For more information about running Spring Cloud Services 3.1 alongside earlier versions, see the [Running Alongside Previous Versions](./installation.html#running-alongside-previous-versions) section of [Installing Pivotal Spring Cloud Services](./installation.html).
+For more information about running Spring Cloud Services v3.1 alongside earlier versions, see the [Running Alongside Previous Versions](./installation.html#running-alongside-previous-versions) section of [Installing Pivotal Spring Cloud Services](./installation.html).
+
+## <a id="upgrade-to-3-1"></a> How to Upgrade to SCS v3.1.x
+
+<p class="note"><strong>Note:</strong> SCS v3.0.x and later do not include <code>p-circuit-breaker-dashboard</code>. To retain this functionality, you must keep SCS v2.0.x installed.</p>
+
+If you are running SCS v3.0.x or SCS v3.1.x alongside SCS v2.0.x, 
+you can complete the upgrade to SCS v3.1.x with the following procedure:
+
+1. Upgrade SCS v2.0.x to v2.0.11 or later.
+1. If you are running SCS v3.0.x, upgrade to SCS v3.1.0 or later.
+1. Migrate all apps to bind to `p.config-server` service instances instead of `p-config-server`. For instructions, see [Migrating Spring Cloud Services 2.0.x or 1.5.x Service Instances](/common/config-server/managing-service-instances.html#migrating-2-0-or-1-5-service-instances).
+1. Migrate all apps to bind to `p.service-registry` service instances instead of `p-service-registry`. For more information, see [Creating an Instance](/common/service-registry/managing-service-instances.html#creating).
+1. Restage all migrated apps.
+1. Verify that all apps are behaving as expected before moving on to the next step.
+1. Delete the SCS v2.0.x tile.
+
+
