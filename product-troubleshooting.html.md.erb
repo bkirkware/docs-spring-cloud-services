@@ -16,9 +16,9 @@ owner: Spring Cloud Services
 
 See below for information about problems related to your [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) platform configuration or Spring Cloud Services or other product installation.
 
-## <a id="1-5-config-server-using-encryption"></a>Spring Cloud Services 1.5.x Config Server using encryption key cannot be upgraded to 2.0.x
+## <a id="1-5-config-server-using-encryption"></a>Spring Cloud Services 1.5.x Config Server using encryption key cannot be upgraded to 2.1.x
 
-If you have a Config Server service instance created in Spring Cloud Services 1.5.x and configured to use an encryption key, you cannot upgrade the Config Server service instance to Spring Cloud Services 2.0.x without updating its configuration first to supply its encryption key with newlines escaped as `\n` (not removed). In Spring Cloud Services 1.5.x, the encryption key must have newlines removed, but in Spring Cloud Services 2.0.x, the newlines must be escaped instead. This is due to a difference in underlying Spring Boot versions in Spring Cloud Services 1.5.x and 2.0.x.
+If you have a Config Server service instance created in Spring Cloud Services 1.5.x and configured to use an encryption key, you cannot upgrade the Config Server service instance to Spring Cloud Services 2.1.x without updating its configuration first to supply its encryption key with newlines escaped as `\n` (not removed). In Spring Cloud Services 1.5.x, the encryption key must have newlines removed, but in Spring Cloud Services 2.1.x, the newlines must be escaped instead. This is due to a difference in underlying Spring Boot versions in Spring Cloud Services 1.5.x and 2.1.x.
 
 See [Encryption and Encrypted Values](./common/config-server/configuring-with-git.html#encryption-and-encrypted-values) in the Config Server documentation for more information about configuring a Config Server service instance to use an encryption key.
 
