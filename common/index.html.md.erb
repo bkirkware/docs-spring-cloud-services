@@ -48,6 +48,9 @@ Service instances created using the `trial` plan are deleted seven days after cr
 <% end %>
 
 <% if vars.product_name == 'PCF' %>
+
+<p class="note warning"><strong>WARNING: </strong> Spring Cloud Services v2.0.x is not compatible with Pivotal Platform v2.7. Before upgrading Pivotal Platform to v2.7 or later, install or upgrade to Spring Cloud Services v2.1.0 or later.</p>
+
  <%= partial vars.scs_details %>
 
 <a id="requirements"></a>
