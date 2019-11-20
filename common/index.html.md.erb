@@ -26,11 +26,4 @@ Service instances created using the `trial` plan are deleted seven days after cr
 
 <% if vars.product_name == 'PCF' %>
  <%= partial vars.scs_details %>
-
-<a id="requirements"></a>
-## Requirements
-
-Pivotal Spring Cloud Services has the following requirements:
-
-* [Java Cloud Foundry buildpack](https://github.com/cloudfoundry/java-buildpack) version 4.5 or later (if the default Java buildpack is not at version 4.5 or later, you must specify an alternate buildpack that is at version 4.5 or later when installing Spring Cloud Services; see [Set Buildpack for Service Instances](../tile-configuration.html#set-buildpack-for-service-instances))
 <% end %>
