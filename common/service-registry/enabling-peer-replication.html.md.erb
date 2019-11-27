@@ -47,13 +47,14 @@ The parameters used to configure a peer for the Service Registry are listed belo
 |--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <code>peers[i].uri</code>                  | The URI of the Service Registry peer                                                                                                                  |
 | <code>peers[i].skipSslValidation</code>    | Whether to skip SSL validation for the Service Registry peer. Valid values are <code>true</code> and <code>false</code> (default: <code>false</code>) |
+| <code>peers[i].peer-timeout</code> | In milliseconds, the timeout used when connecting to the peer                                                    |
 
-To create or update a Service Registry service instance to replicate a registry with a peer service instance, allowing for validation of the peer's SSL certificate, run one of the following commands:
+To create or update a Service Registry service instance to replicate a registry with a peer service instance, allowing for validation of the peer's SSL certificate and setting a peer connection timeout of 2,000 milliseconds, run one of the following commands:
 
 <pre class="terminal">
-$ cf create-service p-service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
+$ cf create-service p-service-registry standard service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "peer-timeout": 2000 } ] }'
 
-$ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net"} ] }'
+$ cf update-service service-registry -c '{ "peers": [ {"uri": "https://eureka-e280160b-d3e3-41ad-93a6-479f9b298ca6.example.net", "peer-timeout": 2000 } ] }'
 </pre>
 
 To create or update a Service Registry service instance to replicate a registry with a peer service instance, skipping validation of the peer's SSL certificate, run one of the following commands:
