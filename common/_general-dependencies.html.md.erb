@@ -4,20 +4,22 @@ To work with Spring Cloud Services (SCS) service instances, a Spring Boot client
 * `spring-cloud-dependencies`
 * `spring-boot-dependencies` (unless you use the `spring-boot-starter-parent` or Spring Boot Gradle plugin)
 
-See below for compatible versions of the SCS tile, the SCS client dependencies, and Spring Boot and Spring Cloud versions. These client dependencies are backward-compatible and forward-compatible with one minor Spring Cloud version.
+See below for compatible versions of the SCS client dependencies, Spring Boot, and Spring Cloud. These client dependencies are backward-compatible and forward-compatible with one minor Spring Cloud version.
 
 <p class='note important'><strong>Important</strong>: Versions 1.6.1--1.6.3 of the SCS client dependencies have an issue that can prevent a client app from connecting to a Spring Cloud Services service instance after losing an existing connection. Pivotal recommends use of version 1.6.4 or later instead.</p>
 
 <p class='note'><strong>Note</strong>: Version 2.0.x of the SCS client dependencies is not compatible with Spring Boot 2.1.x.</p>
 
-| SCS Tile | SCS Client Starters            | Spring Boot         | Spring Cloud |
-|----------|--------------------------------|---------------------|--------------|
-| 3.0.x    | 2.1.x                          | 2.1.x               | Greenwich.x  |
-| 2.0.x    | 2.1.x                          | 2.1.x               | Greenwich.x   |
-| 2.0.x    | 2.0.x                          | 2.0.x (_not_ 2.1.x) | Finchley.x   |
-| 2.0.x    | 1.6.x                          | 1.5.x               | Edgware.x    |
-| 1.5.x    | 2.0.x                          | 2.0.x               | Finchley.x   |
-| 1.5.x    | 1.6.x                          | 1.5.x               | Edgware.x    |
+| SCS Client Starters            | Spring Boot         | Spring Cloud |
+|--------------------------------|---------------------|--------------|
+| 3.1.x                          | 2.2.x               | Hoxton.x     |
+| 3.0.x                          | 2.1.x               | Greenwich.x  |
+| 2.1.x                          | 2.1.x               | Greenwich.x  |
+| 2.1.x                          | 2.1.x               | Greenwich.x  |
+| 2.0.x                          | 2.0.x (_not_ 2.1.x) | Finchley.x   |
+| 1.6.x                          | 1.5.x               | Edgware.x    |
+| 2.0.x                          | 2.0.x               | Finchley.x   |
+| 1.6.x                          | 1.5.x               | Edgware.x    |
 
 <p class='note'><strong>Important</strong>: Ensure that the ordering of the Maven BOM dependencies listed below is preserved in your app's build file. Dependency resolution is affected in both Maven and Gradle by the order in which dependencies are declared.</p>
 
