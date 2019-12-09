@@ -5,7 +5,7 @@ owner: Spring Cloud Services
 
 <strong><%= modified_date %></strong>
 
-The Spring Cloud Config Server backing app for a Config Server service instance uses [Spring Boot Actuator](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready). Actuator adds a number of endpoints to the app, including the endpoints that are summarized below.
+The Spring Cloud Config Server and Spring Cloud Netflix Eureka backing apps for Config Server and Service Registry service instances use [Spring Boot Actuator](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready). Actuator adds a number of endpoints to these apps, including the endpoints that are summarized below.
 
 <table>
 	<col style="width:15%">
@@ -26,7 +26,7 @@ The Spring Cloud Config Server backing app for a Config Server service instance 
 
 See the <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints">Endpoints</a> section of the Actuator documentation for the full list of endpoints.
 
-A Config Server service instance's backing Spring Cloud Config Server app enables the Spring Boot Actuator `health` and `info` endpoints. See below for information about how to access these endpoints.
+Config Server and Service Registry backing apps enable the Spring Boot Actuator `health` and `info` endpoints. See below for information about how to access these endpoints.
 
 ## <a id="locating-service-instance-url"></a>Locating the Service Instance URL
 
