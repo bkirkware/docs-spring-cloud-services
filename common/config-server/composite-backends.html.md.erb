@@ -42,7 +42,7 @@ Configuration properties from individual backends are given precedence based on 
 To configure a Config Server service instance to use a composite backend comprising two Git repositories and a Vault server, you might use the following:
 
 ```
-cf create-service p.config-server standard config-server -c '{ "composite": [ { "type": "git", "uri": "https://github.com/spring-cloud-services-samples/cook-config" }, { "type": "git", "uri": "https://github.com/spring-cloud-samples/config-repo" }, { "type": "vault", "host": "127.0.0.1", "port": 8200, "scheme": "https", "backend": "secret", "defaultKey": "application", "profileSeparator": "," } ] }'
+cf create-service p.config-server standard config-server -c '{ "composite": [ { "type": "git", "uri": "https://github.com/spring-cloud-services-samples/cook-config", "periodic": true }, { "type": "git", "uri": "https://github.com/spring-cloud-samples/config-repo" }, { "type": "vault", "host": "127.0.0.1", "port": 8200, "scheme": "https", "backend": "secret", "defaultKey": "application", "profileSeparator": "," } ] }'
 ```
 
 In this example, configuration properties found in the Vault server are added to the response only if they are not found in either of the Git repositories specified before the Vault server.

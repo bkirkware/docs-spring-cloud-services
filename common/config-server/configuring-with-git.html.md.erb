@@ -49,6 +49,10 @@ Parameters used to configure configuration sources are part of a JSON object cal
 		<td>Interval, in seconds, between refreshes of the Config Server's repository clone when a client requests configuration</td>
 	</tr>
 	<tr>
+		<td><code>periodic</code></td>
+		<td>Whether the Config Server should periodically update its mirror of the Git repository with any changes from the external repository. If set to <code>true</code>, the Config Server will update the mirror every 5 minutes. Valid values: <code>true</code>, <code>false</code></td>
+	</tr>
+	<tr>
 		<td><code>skipSslValidation</code></td>
     <td>For a <code>https://</code> URI, whether to skip validation of the SSL certificate on the repository's server. Valid values: <code>true</code>, <code>false</code></td>
 	</tr>
