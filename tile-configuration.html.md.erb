@@ -9,17 +9,17 @@ See below for information about Spring Cloud Services tile options, resource con
 
 <p class='note'><strong>Note</strong>: Ops Manager administrators can use Role-Based Access Control (RBAC) to manage which operators can make deployment changes, view credentials, and manage user roles in Ops Manager. Therefore, your role permissions might not allow you to perform every procedure in this operator guide. For more information about roles in Ops Manager, see <a href="https://docs.pivotal.io/pivotalcf/opsguide/config-rbac.html#about">Understand Roles in Ops Manager</a>.</p>
 
-## <a id="tile-configuration-options"></a>Tile Configuration Options
+## <a id="service-broker-settings"></a>Service Broker Settings
 
-The Spring Cloud Services (SCS) tile includes settings for various options. You can configure these by visiting the Installation Dashboard of Pivotal Cloud Foundry&reg; Operations Manager (Ops Manager), clicking the Spring Cloud Services tile, and then navigating to the **SCS Service Broker** pane.
+The Spring Cloud Services (SCS) tile includes a number of settings for the service broker. You can configure these by visiting the Installation Dashboard of Pivotal Platform Operations Manager (Ops Manager), clicking the Spring Cloud Services tile, and then navigating to the **SCS Service Broker** pane.
 
 ### <a id="configure-service-access"></a>Configure Service Access
 
-By default, the Config Server service is made available globally (i.e. to all orgs). You can configure the service availability in the Spring Cloud Services tile settings, under **Config Server access**.
+By default, the Config Server and Service Registry services are made available globally (i.e. to all orgs). You can configure service availability in the Spring Cloud Services tile settings, under **Config Server access** and **Service Registry access**.
 
 <%= image_tag("/spring-cloud-services/images/operator-information/configure-service-access.png") %>
 
-Select **Global** to make the Config Server service available to all orgs, or select **None** to make the Config Server service unavailable to all orgs.
+For each service, select **Global** to make the service available to all orgs, or select **None** to make the service unavailable to all orgs.
 
 ### <a id="set-buildpack-for-service-instances"></a>Set Buildpack for Service Instances
 
@@ -39,7 +39,7 @@ Enter the desired number of minutes. The broker will allow the specified number 
 
 ### <a id="set-custom-domain-for-service-instances"></a>Set Custom Domain for Service Instances
 
-By default, the Spring Cloud Services service broker assigns routes to service instances using the Pivotal Cloud Foundry (PCF) application domain. You can specify a custom domain for service instance routes in the Spring Cloud Services tile settings, under **Service instances domain**.
+By default, the Spring Cloud Services service broker assigns routes to service instances using the Pivotal Application Service (PAS) application domain. You can specify a custom domain for service instance routes in the Spring Cloud Services tile settings, under **Service instances domain**.
 
 <p class="note"><strong>Important: </strong> Your custom domain must be available to the <code>p-spring-cloud-services</code> org. If you are installing Spring Cloud Services, you must manually create this org before configuring the custom domain in the Spring Cloud Services tile settings.</p>
 
@@ -58,6 +58,14 @@ Spring Cloud Services includes one post-deploy errands and one pre-delete errand
 <p class='note'><strong>Important</strong>: To ensure that your PCF foundation receives important updates to the tile, Pivotal recommends that all Spring Cloud Services lifecycle errands be set to <strong>On</strong>.</p>
 
 The **register-brokers** errand registers the Spring Cloud Services Config Server service broker and the associated mirror service's broker with the Cloud Controller and makes the Config Server service's service plans available to all orgs. The **destroy-brokers** errand deletes all orgs and spaces specific to Spring Cloud Services and deregisters the Config Server and mirror service brokers from the Cloud Controller.
+
+## <a id="syslog-configuration"></a>System Logging Configuration
+
+To configure system logging for Spring Cloud Services, visit the Installation Dashboard, click the Spring Cloud Services tile, and then navigate to the **Syslog** pane.
+
+<%= image_tag("/spring-cloud-services/images/operator-information/configure-syslog.png") %>
+
+For information about system logging in Pivotal Application Service (PAS), see [Configuring Logging in PAS](https://docs.pivotal.io/platform/application-service/2-8/operating/logging-config-opsman.html) in the PAS documentation.
 
 ## <a id="mirror-service-resource-configuration"></a>Mirror Service Resource Configuration
 
