@@ -171,6 +171,24 @@ The Spring Cloud Services starter for Config Server includes:
 * The Spring Cloud Config Client library
 * The Spring Security OAuth2 library
 
+### <a id="using-starters-3-x-and-java-cfenv"></a>Using Spring Cloud Services Starters v3.x and java-cfenv
+
+The Spring Cloud Services starters v3.0 and later use the [java-cfenv](https://github.com/pivotal-cf/java-cfenv) library instead of [Spring Cloud Connectors](https://github.com/spring-cloud/spring-cloud-connectors) (which is used by the SCS client starters v2.2 and earlier). java-cfenv and Spring Cloud Connectors are incompatible libraries, so if you use the SCS starters v3.0 or later in your app, you must use java-cfenv (and not use Spring Cloud Connectors) throughout your app.
+
+Because the Cloud Foundry Java buildpack (the JBP) includes Spring Cloud Connectors by default, if you use the SCS starters v3.0 or later in your app, you must also disable the JBP's auto-reconfiguration feature. You can do this by setting a `JBP_CONFIG_SPRING_AUTO_RECONFIGURATION` environment variable on the app, as in the following Cloud Foundry Command Line Interface tool (cf CLI) command:
+
+<pre class="terminal">
+$ cf set-env <APP> JBP_CONFIG_SPRING_AUTO_RECONFIGURATION '{enabled: false}'
+</pre>
+
+Or you can set the environment variable in your app's `manifest.yml` file:
+
+```
+env:
+ SPRING_PROFILES_ACTIVE: cloud
+ JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+```
+
 ## <a id="client-dependency-versioning"></a>Client Dependency Versioning
 
 A release of the Spring Cloud Services client dependencies follows a release of the underlying open-source Spring Cloud components, which are based on particular releases of Spring Boot. For more information about the basis of Spring Cloud or Spring Cloud Services library releases, see below.
