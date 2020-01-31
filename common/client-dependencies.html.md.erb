@@ -45,7 +45,9 @@ See below for compatible versions of the SCS client dependencies, Spring Boot, a
 | 2.1.x (uses Spring Cloud Connectors)  | 2.1.x               | Greenwich.x  |
 | 2.0.x (uses Spring Cloud Connectors)  | 2.0.x (_not_ 2.1.x) | Finchley.x   |
 
-The SCS client starters v3.0 and later use the [java-cfenv](https://github.com/pivotal-cf/java-cfenv) library in place of [Spring Cloud Connectors](https://github.com/spring-cloud/spring-cloud-connectors) (which is used by the SCS client starters v2.2 and earlier). The java-cfenv library is not compatible with Spring Cloud Connectors, so if you use the SCS client starters v3.0 or later in your app, you must use java-cfenv (and not use Spring Cloud Connectors) throughout your entire app. For important information about using SCS client starters v3.0 or later, see [Using Spring Cloud Services Starters v3.x and java-cfenv](#using-starters-3-x-and-java-cfenv).
+The SCS client starters v3.0 and later use the [java-cfenv](https://github.com/pivotal-cf/java-cfenv) library in place of [Spring Cloud Connectors](https://github.com/spring-cloud/spring-cloud-connectors) (which is used by the SCS client starters v2.2 and earlier). The java-cfenv library is not compatible with Spring Cloud Connectors, so if you use the SCS client starters v3.0 or later in your app, you must use java-cfenv (and not use Spring Cloud Connectors) throughout your entire app.
+
+At this time, Pivotal recommends that you use the SCS client starters v2.2 or earlier. For important information about using SCS client starters v3.0 or later, see [Using Spring Cloud Services Starters v3.x and java-cfenv](#using-starters-3-x-and-java-cfenv).
 
 <p class='note'><strong>Important</strong>: Ensure that the ordering of the Maven BOM dependencies listed below is preserved in your app's build file. Dependency resolution is affected in both Maven and Gradle by the order in which dependencies are declared.</p>
 
@@ -55,7 +57,7 @@ If using Maven, include in `pom.xml`:
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.3.RELEASE</version>
+    <version>2.2.4.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -64,7 +66,7 @@ If using Maven, include in `pom.xml`:
         <dependency>
             <groupId>io.pivotal.spring.cloud</groupId>
             <artifactId>spring-cloud-services-dependencies</artifactId>
-            <version>2.2.0.RELEASE</version>
+            <version>2.2.1.RELEASE</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -87,7 +89,7 @@ If not using the `spring-boot-starter-parent`, include in the `<dependencyManage
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-dependencies</artifactId>
-            <version>2.2.3.RELEASE</version>
+            <version>2.2.4.RELEASE</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -109,7 +111,7 @@ buildscript {
     }
     dependencies {
         classpath("io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.4.RELEASE")
     }
 }
 
@@ -120,7 +122,7 @@ apply plugin: "io.spring.dependency-management"
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.RELEASE"
-        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.2.0.RELEASE"
+        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.2.1.RELEASE"
     }
 }
 
@@ -136,7 +138,7 @@ If not using the Spring Boot Gradle plugin, include in the `dependencyManagement
 ```groovy
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.3.RELEASE"
+        mavenBom "org.springframework.boot:spring-boot-dependencies:2.2.4.RELEASE"
     }
 }
 ```
