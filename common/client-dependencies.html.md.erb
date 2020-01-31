@@ -29,13 +29,142 @@ Each of the Spring Cloud Services services has a corresponding starter. Similarl
 
 ## <a id="including-dependencies"></a>Including Spring Cloud Services Dependencies
 
-<%= partial 'general-dependencies' %>
+To work with Spring Cloud Services (SCS) service instances, a Spring Boot client app can include the following BOMs:
+
+* `spring-cloud-services-dependencies`
+* `spring-cloud-dependencies`
+* `spring-boot-dependencies` (unless you use the `spring-boot-starter-parent` or Spring Boot Gradle plugin)
+
+The SCS client starters v3.0 and later use the [java-cfenv](https://github.com/pivotal-cf/java-cfenv) library in place of [Spring Cloud Connectors](https://github.com/spring-cloud/spring-cloud-connectors) (which is used by the SCS client starters v2.2 and earlier). The java-cfenv library is not compatible with Spring Cloud Connectors, so if you use the SCS client starters v3.0 or later in your app, you must use java-cfenv (and not use Spring Cloud Connectors) throughout your entire app.
+
+At this time, Pivotal recommends that you use the SCS client starters v2.2 or earlier. For important information about using SCS client starters v3.0 or later, see [Using Spring Cloud Services Starters v3.x and java-cfenv](#using-starters-3-x-and-java-cfenv).
+
+See below for compatible versions of the SCS client dependencies, Spring Boot, and Spring Cloud. The SCS client dependencies are backward-compatible and forward-compatible with one minor Spring Cloud version.
+
+| SCS Client Starters                          | Spring Boot         | Spring Cloud       |
+|----------------------------------------------|---------------------|--------------------|
+| <i>3.1.x (experimental; uses java-cfenv)</i> | <i>2.2.x</i>        | <i>Hoxton.x</i>    |
+| <i>3.0.x (experimental; uses java-cfenv)</i> | <i>2.1.x</i>        | <i>Greenwich.x</i> |
+| 2.2.x (uses Spring Cloud Connectors)         | 2.2.x               | Hoxton.x           |
+| 2.1.x (uses Spring Cloud Connectors)         | 2.1.x               | Greenwich.x        |
+| 2.0.x (uses Spring Cloud Connectors)         | 2.0.x (_not_ 2.1.x) | Finchley.x         |
+
+<p class='note'><strong>Important</strong>: Ensure that the ordering of the Maven BOM dependencies listed below is preserved in your app's build file. Dependency resolution is affected in both Maven and Gradle by the order in which dependencies are declared.</p>
+
+If using Maven, include in `pom.xml`:
+
+```xml
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.1.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.pivotal.spring.cloud</groupId>
+            <artifactId>spring-cloud-services-dependencies</artifactId>
+            <version>2.1.2.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Greenwich.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+```
+
+If not using the `spring-boot-starter-parent`, include in the `<dependencyManagement>` block of `pom.xml`:
+
+```
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>2.1.1.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <!-- ... -->
+
+    </dependencies>
+  </dependencyManagement>
+```
+
+If using Gradle, you will also need to use the <a href="https://github.com/spring-gradle-plugins/dependency-management-plugin">Gradle dependency management plugin</a>.
+
+Include in `build.gradle`:
+
+```groovy
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.7.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.1.RELEASE")
+    }
+}
+
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE"
+        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.1.2.RELEASE"
+    }
+}
+
+repositories {
+    maven {
+        url "https://repo.spring.io/plugins-release"
+    }
+}
+```
+
+If not using the Spring Boot Gradle plugin, include in the `dependencyManagement` block of `build.gradle`:
+
+```groovy
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"
+    }
+}
+```
 
 ### <a id="config-server"></a>Config Server
 
 Your app must declare `spring-cloud-services-starter-config-client` as a dependency.
 
-<%= partial 'config-server-dependency' %>
+If using Maven, include in `pom.xml`:
+
+```
+  <dependencies>
+    <dependency>
+      <groupId>io.pivotal.spring.cloud</groupId>
+      <artifactId>spring-cloud-services-starter-config-client</artifactId>
+    </dependency>
+  </dependencies>
+```
+
+If using Gradle, include in `build.gradle`:
+
+```
+dependencies {
+    compile("io.pivotal.spring.cloud:spring-cloud-services-starter-config-client")
+}
+```
 
 The Spring Cloud Services starter for Config Server includes:
 
@@ -46,7 +175,24 @@ The Spring Cloud Services starter for Config Server includes:
 
 Your app must declare `spring-cloud-services-starter-service-registry` as a dependency.
 
-<%= partial 'service-registry-dependency' %>
+If using Maven, include in `pom.xml`:
+
+```
+  <dependencies>
+    <dependency>
+      <groupId>io.pivotal.spring.cloud</groupId>
+      <artifactId>spring-cloud-services-starter-service-registry</artifactId>
+    </dependency>
+  </dependencies>
+```
+
+If using Gradle, include in `build.gradle`:
+
+```
+dependencies {
+    compile("io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry")
+}
+```
 
 The Spring Cloud Services starter for Service Registry includes:
 
@@ -58,13 +204,48 @@ The Spring Cloud Services starter for Service Registry includes:
 
 Your app must declare `spring-cloud-services-starter-circuit-breaker` as a dependency.
 
-<%= partial 'circuit-breaker-dashboard-dependency' %>
+If using Maven, include in `pom.xml`:
+
+```
+  <dependencies>
+    <dependency>
+      <groupId>io.pivotal.spring.cloud</groupId>
+      <artifactId>spring-cloud-services-starter-circuit-breaker</artifactId>
+    </dependency>
+  </dependencies>
+```
+
+If using Gradle, include in `build.gradle`:
+
+```
+dependencies {
+    compile("io.pivotal.spring.cloud:spring-cloud-services-starter-circuit-breaker")
+}
+```
 
 The Spring Cloud Services starter for Circuit Breaker Dashboard includes:
 
 * The Spring Cloud Netflix Hystrix starter
 * The Spring Cloud Netflix Hystrix Stream library
 * The Spring Cloud Netflix Hystrix RabbitMQ Stream binder
+
+### <a id="using-starters-3-x-and-java-cfenv"></a>Using Spring Cloud Services Starters v3.x and java-cfenv
+
+The Spring Cloud Services starters v3.0 and later use the [java-cfenv](https://github.com/pivotal-cf/java-cfenv) library instead of [Spring Cloud Connectors](https://github.com/spring-cloud/spring-cloud-connectors) (which is used by the SCS client starters v2.2 and earlier). java-cfenv and Spring Cloud Connectors are incompatible libraries, so if you use the SCS starters v3.0 or later in your app, you must use java-cfenv (and not use Spring Cloud Connectors) throughout your app.
+
+Because the Cloud Foundry Java buildpack (the JBP) includes Spring Cloud Connectors by default, if you use the SCS starters v3.0 or later in your app, you must also disable the JBP's auto-reconfiguration feature. You can do this by setting a `JBP_CONFIG_SPRING_AUTO_RECONFIGURATION` environment variable on the app, as in the following Cloud Foundry Command Line Interface tool (cf CLI) command:
+
+<pre class="terminal">
+$ cf set-env <APP> JBP_CONFIG_SPRING_AUTO_RECONFIGURATION '{enabled: false}'
+</pre>
+
+Or you can set the environment variable in your app's `manifest.yml` file:
+
+```
+env:
+ SPRING_PROFILES_ACTIVE: cloud
+ JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+```
 
 ## <a id="client-dependency-versioning"></a>Client Dependency Versioning
 
