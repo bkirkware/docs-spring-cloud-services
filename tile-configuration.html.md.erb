@@ -57,7 +57,7 @@ Spring Cloud Services includes one post-deploy errands and one pre-delete errand
 
 <p class='note'><strong>Important</strong>: To ensure that your PCF foundation receives important updates to the tile, Pivotal recommends that all Spring Cloud Services lifecycle errands be set to <strong>On</strong>.</p>
 
-The **register-brokers** errand registers the Spring Cloud Services Config Server service broker and the associated mirror service's broker with the Cloud Controller and makes the Config Server service's service plans available to all orgs. The **destroy-brokers** errand deletes all orgs and spaces specific to Spring Cloud Services and deregisters the Config Server and mirror service brokers from the Cloud Controller.
+The **register-brokers** errand registers the Spring Cloud Services service broker, and the broker for the Config Server's mirror service, with the Cloud Controller, and makes all Spring Cloud Services service plans available to all orgs. The **destroy-brokers** errand deletes all orgs and spaces specific to Spring Cloud Services and deregisters the Spring Cloud Services broker and mirror service broker from the Cloud Controller.
 
 ## <a id="syslog-configuration"></a>System Logging Configuration
 

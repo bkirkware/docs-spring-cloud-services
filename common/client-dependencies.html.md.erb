@@ -194,6 +194,12 @@ dependencies {
 }
 ```
 
+The Spring Cloud Services starter for Service Registry includes:
+
+* The Spring Cloud Netflix Eureka Client starter
+* The Jersey Client libraries
+* The Spring Security OAuth2 library
+
 ### <a id="using-starters-3-x-and-java-cfenv"></a>Using Spring Cloud Services Starters v3.x and java-cfenv
 
 The Spring Cloud Services starters v3.0 and later use the [java-cfenv](https://github.com/pivotal-cf/java-cfenv) library instead of [Spring Cloud Connectors](https://github.com/spring-cloud/spring-cloud-connectors) (which is used by the SCS client starters v2.2 and earlier). java-cfenv and Spring Cloud Connectors are incompatible libraries, so if you use the SCS starters v3.0 or later in your app, you must use java-cfenv (and not use Spring Cloud Connectors) throughout your app.
@@ -231,7 +237,7 @@ A given major release of Spring Cloud supports the current Spring Boot minor rel
 
 ### <a id="spring-cloud-services-client-releases"></a>Spring Cloud Services Client Releases
 
-The Spring Cloud Services connectors, as well as the starters dependencies that include the connectors, are versioned and released independently of the Spring Cloud Services tile. The connectors and starters are based on the open-source Spring Cloud client libraries for Config Server, and have a new release to follow each Spring Cloud release that affects these components.
+The Spring Cloud Services connectors, as well as the starters dependencies that include the connectors, are versioned and released independently of the Spring Cloud Services tile. The connectors and starters are based on the open-source Spring Cloud client libraries for Config Server and Spring Cloud Netflix Eureka, and have a new release to follow each Spring Cloud release that affects these components.
 
 A given minor release of the Spring Cloud Services starters uses a particular release of Spring Cloud.
 
@@ -245,6 +251,6 @@ A given minor release of the Spring Cloud Services starters uses a particular re
 
 ### <a id="spring-cloud-services-tile-releases"></a>Spring Cloud Services Tile Releases
 
-The Spring Cloud Services tile is versioned and released independently of the Spring Cloud Services connectors and starters. The tile contains the server-side components from Spring Cloud for Config Server, and typically has a new release following each Spring Cloud service release that affects these components.
+The Spring Cloud Services tile is versioned and released independently of the Spring Cloud Services connectors and starters. The tile contains the server-side components from Spring Cloud for Config Server and Spring Cloud Netflix Eureka, and typically has a new release following each Spring Cloud service release that affects these components.
 
 A given minor release of the tile includes server-side components from a particular release of Spring Cloud, typically the last stable release. The Spring Cloud Services 3.1.x tile is based on Spring Cloud Greenwich.

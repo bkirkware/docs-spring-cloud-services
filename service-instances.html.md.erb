@@ -17,6 +17,10 @@ A service instance is assigned a GUID at provision time. The service instance is
 
 * `p-spring-cloud-services` org / `[GUID]` space / config-server: A [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/spring-cloud-config.html) server app.
 
+**Service Registry**
+
+* `p-spring-cloud-services` org / `[GUID]` space / service-registry: A [Spring Cloud Netflix Eureka](https://cloud.spring.io/spring-cloud-netflix/reference/html/#spring-cloud-eureka-server) server app.
+
 ### <a id="access-service-instance-backing-applications-in-apps-manager"></a>Access Service Instance Backing Applications in Apps Manager
 
 To view a backing app for a service instance in Pivotal Cloud Foundry&reg; Apps Manager, get the service instance's GUID and look for the corresponding space in the "p-spring-cloud-services" org.
@@ -98,3 +102,4 @@ Below are usage requirements of the apps backing a single service instance (SI) 
 | Service Type              | Memory Limit / SI   | Disk Limit / SI  |
 |---------------------------|---------------------|------------------|
 | Config Server             | 1 GB                | 1 GB             |
+| Service Registry          | 1 GB                | 1 GB             |
