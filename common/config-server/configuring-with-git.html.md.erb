@@ -13,6 +13,8 @@ Spring Cloud Config provides a Git backend so that the Spring Cloud Config Serve
 
 See below for information about configuring a Config Server service instance to use Git for configuration sources.
 
+<p class='note'><strong>Note</strong>: The <code>encrypt.key</code> parameter is no longer supported. If you wish to manage secrets using the Config Server, see <a href="./managing-secrets-with-credhub.html">Managing Secrets with CredHub</a>.</p>
+
 ## <a id="general-configuration"></a>General Configuration
 
 Parameters used to configure configuration sources are part of a JSON object called `git`, as in `{"git": { "uri": "https://example.com/config" } }`. General parameters used to configure the Config Server's default configuration source are listed below.
