@@ -50,7 +50,9 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
 Spring Cloud Services (SCS) v3.0.x can be installed alongside earlier versions of Spring Cloud Services, including 2.0.x. SCS 3.0.x includes only the Config Server service, which is named `p.config-server` instead of `p-config-server` as in 2.0.x and earlier versions. This service can run alongside the services included in 2.0.x and earlier versions. Because SCS 3.0.x includes only the Config Server service, you may wish to [disable the older `p-config-server` service](https://docs.pivotal.io/pivotalcf/services/access-control.html#disable-access) and allow only the new `p.config-server` Config Server service to be created.
 
-Older Config Server service instances cannot be upgraded to the new `p.config-server` service. Instead, you must recreate `p-config-server` service instances. Most parameters used to create a `p-config-server` service instance with the Cloud Foundry Command Line Interface (cf CLI), using the `cf create-service` command with the `-c` flag, can also be used to create a `p.config-server` service instance. The following parameters are exceptions which can be used with the `p-config-server` service but cannot be used with the `p.config-server` service:
+Older Config Server service instances cannot be upgraded to the new `p.config-server` service. Instead, you must recreate `p-config-server` service instances.
+
+Most parameters used to create a `p-config-server` service instance with the Cloud Foundry Command Line Interface (cf CLI), using the `cf create-service` command with the `-c` flag, can also be used to create a `p.config-server` service instance. The following parameters are exceptions which can be used with the `p-config-server` service but cannot be used with the `p.config-server` service:
 
 * `encrypt.key`
 * `git.repos`
