@@ -7,6 +7,42 @@ owner: Spring Cloud Services
 
 See below for information about managing Config Server service instances using the Cloud Foundry Command Line Interface tool (cf CLI). You can also manage Config Server service instances using <%= vars.scs_platform_name %> Apps Manager.
 
+## <a id="available-parameters"></a>Available Parameters
+
+General parameters accepted for the Config Server, passed to the `cf create-service` and `cf update-service` commands using the `-c` flag, are listed below. For information about the parameters used to configure a Git backend, see [Configuring with Git](./configuring-with-git.html). For information about the parameters used to configure a HashiCorp Vault backend, see [Configuring with Vault](./configuring-with-vault.html).
+
+<table>
+	<col style="width:15%">
+	<col style="width:60%">
+	<col style="width:25%">
+	<thead>
+		<td><strong>Parameter</strong></td>
+		<td><strong>Function</strong></td>
+		<td><strong>Example</strong></td>
+	</thead>
+	<tr>
+		<td><code>count</code></td>
+		<td>The number of nodes to provision: 1 by default, more for running in high-availability mode</td>
+    <td><code>'{"count": 3}'</code></td>
+	</tr>
+	<tr>
+		<td><code>upgrade</code></td>
+		<td>Whether to upgrade the service instance to the latest version. Valid values: `true`, `false`</td>
+    <td><code>'{"upgrade": true}'</code></td>
+	</tr>
+</table>
+
+### <a id="differences-between-3-0-and-earlier"></a>Differences Between Spring Cloud Services v3.0--v3.1 and Earlier Config Server
+
+Spring Cloud Services (SCS) v3.0.x and later include a Config Server service offering called `p.config-server`. In SCS v2.1.x and earlier, this service was called `p-config-server`. These service offerings are distinct and you cannot upgrade a `p-config-server` service instance to a `p.config-server` service instance. Instead, you must recreate `p-config-server` service instances (see [Migrating Spring Cloud Services 2.0.x or 1.5.x Service Instances](#migrating-2-0-or-1-5-service-instances)).
+
+Most parameters used to create or update a `p-config-server` service instance, including parameters used to configure a [Git](./configuring-with-git.html) or [HashiCorp Vault](./configuring-with-vault.html) backend, can also be used to create or update a `p.config-server` service instance. The following parameters are exceptions which can be used with the `p-config-server` service (from SCS 2.1.x and earlier) but cannot be used with the `p.config-server` service (from SCS 3.0.x and later):
+
+* `encrypt.key`
+* `git.repos`
+* `composite.git` (see [Composite Backends](./composite-backends.html) for information about how to configure the composite backend in the SCS v3.x Config Server)
+* `composite.vault` (see [Composite Backends](./composite-backends.html) for information about how to configure the composite backend in the SCS v3.x Config Server)
+
 ## <a id="creating"></a>Creating an Instance
 
 Begin by targeting the correct org and space.
@@ -26,27 +62,7 @@ service plan   description       free or paid
 standard       A standard plan   free
 </pre>
 
-Create the service instance using `cf create-service`, using the `-c` flag to provide a JSON object that specifies the configuration parameters. For information about the parameters used to configure a Git backend, see [Configuring with Git](./configuring-with-git.html). For information about the parameters used to configure a HashiCorp Vault backend, see [Configuring with Vault](./configuring-with-vault.html).
-
-General parameters accepted for the Config Server are listed below.
-
-<table>
-	<col style="width:15%">
-	<col style="width:60%">
-	<col style="width:25%">
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Function</strong></td>
-		<td><strong>Example</strong></td>
-	</thead>
-	<tr>
-		<td><code>count</code></td>
-		<td>The number of nodes to provision: 1 by default, more for running in high-availability mode</td>
-    <td><code>'{"count": 3}'</code></td>
-	</tr>
-</table>
-
-To create an instance, specifying settings for a Git backend and that three nodes should be provisioned:
+Create the service instance using `cf create-service`, using the `-c` flag to provide a JSON object that specifies the configuration parameters. To create an instance, specifying settings for a Git backend and that three nodes should be provisioned:
 
 <pre class="terminal">
 $ cf create-service -c '{ "git": { "uri": "https://github.com/spring-cloud-samples/config-repo" }, "count": 3 }' p.config-server standard config-server
@@ -81,27 +97,7 @@ To update a Config Server service instance's settings, target the org and space 
 $ cf target -o myorg -s development
 </pre>
 
-Then run `cf update-service SERVICE_NAME -c '{ "PARAMETER": "VALUE" }'`, where `SERVICE_NAME` is the name of the service instance, `PARAMETER` is a supported parameter, and `VALUE` is the value for the parameter. For information about the parameters used to configure a Git backend, see [Configuring with Git](./configuring-with-git.html). For information about the parameters used to configure a HashiCorp Vault backend, see [Configuring with Vault](./configuring-with-vault.html).
-
-General parameters accepted for the Config Server are listed below.
-
-<table>
-	<col style="width:15%">
-	<col style="width:60%">
-	<col style="width:25%">
-	<thead>
-		<td><strong>Parameter</strong></td>
-		<td><strong>Function</strong></td>
-		<td><strong>Example</strong></td>
-	</thead>
-	<tr>
-		<td><code>count</code></td>
-		<td>The number of nodes to provision: 1 by default, more for running in high-availability mode</td>
-    <td><code>'{"count": 3}'</code></td>
-	</tr>
-</table>
-
-To update a service instance, configuring a Git backend, run:
+Then run `cf update-service SERVICE_NAME -c '{ "PARAMETER": "VALUE" }'`, where `SERVICE_NAME` is the name of the service instance, `PARAMETER` is a supported parameter, and `VALUE` is the value for the parameter. To update a service instance, configuring a Git backend, run:
 
 <pre class="terminal">
 $ cf update-service config-server -c '{"git": { "uri": "https://github.com/spring-cloud-samples/config-repo" } }'
