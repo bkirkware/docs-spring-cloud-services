@@ -18,6 +18,14 @@ owner: Spring Cloud Services
 
 Release notes for [Pivotal Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services)
 
+## <a id="known-issues"></a>Known Issues
+
+### Cannot Update Credentials for Git Repositories That Use HTTP(S) URLs
+
+In Spring Cloud Services v3.1.0--v3.1.5, you cannot update credentials for a Git repository that was originally added to a Config Server service instance using a HTTP or HTTPS URL. This means that if the repository's credentials are rotated, the Config Server's mirror service will be unable to update its mirror of the repository.
+
+To resolve this issue, you can update the Config Server to use SSH, rather than HTTP or HTTPS, to access the Git repository. See [SSH Repository Access](./common/config-server/configuring-with-git.html#ssh-repository-access).
+
 ## <a id="3-1-5"></a>3.1.5
 
 **Release Date: 22nd January 2020**
