@@ -5,12 +5,18 @@ Documentation for Spring Cloud Services Product
 
 Docs for a particular minor release are in version branches:
 
-* 1.0: [v1.0](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.0)
-* 1.1: [v1.1](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.1)
-* 1.2: [v1.2](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.2)
-* 1.3: [v1.3](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.3)
+* 3.1: [v3.1](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v3.1)
+* 3.0: [v3.0](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v3.0)
+* 2.1: [v2.1](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v2.1)
+* 2.0: [v2.0](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v2.0)
+* 1.5: [v1.5](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.5) (EOGS)
+* 1.4: [v1.4](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.4) (EOGS)
+* 1.3: [v1.3](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.3) (EOGS)
+* 1.2: [v1.2](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.2) (EOGS)
+* 1.1: [v1.1](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.1) (EOGS)
+* 1.0: [v1.0](https://github.com/pivotal-cf/docs-spring-cloud-services/tree/v1.0) (EOGS)
 
-In-progress docs for the current release are in master. The default / base branch is the branch for the current version of Spring Cloud Services.
+In-progress docs for the current release are in master.
 
 # Running Locally
 
