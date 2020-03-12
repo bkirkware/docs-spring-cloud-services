@@ -14,12 +14,12 @@ The Spring Cloud Services service broker's functionality is divided between the 
 * spring-cloud-broker: Implements the Service Broker API.
 * spring-cloud-broker-worker: Acts on provision, deprovision, bind, and unbind requests.
 
-The broker relies on two other Pivotal products, [MySQL for PCF](https://network.pivotal.io/products/pivotal-mysql) and [RabbitMQ&reg; for PCF](https://network.pivotal.io/products/pivotal-rabbitmq-service), for the following service instances.
+The broker relies on two other VMware products, [MySQL for VMware Tanzu](https://network.pivotal.io/products/pivotal-mysql) and [RabbitMQ&reg; for VMware Tanzu](https://network.pivotal.io/products/pivotal-rabbitmq-service), for the following service instances.
 
 * **spring-cloud-broker-db**: A MySQL database used by the spring-cloud-broker app.
 * **spring-cloud-broker-rmq**: A RabbitMQ queue used for communication between the spring-cloud-broker app and the spring-cloud-broker-worker app.
 
-<p class='note'><strong>Note</strong>: As of version 1.9, RabbitMQ for PCF can be configured to provide a dedicated cluster for use by Spring Cloud Services. See the <a href="https://docs.pivotal.io/rabbitmq-cf/replicator.html#scs-isolation">Running SCS on a Dedicated RabbitMQ Cluster</a> section in the <a href="https://docs.pivotal.io/rabbitmq-cf/">RabbitMQ for PCF documentation</a>.</p>
+<p class='note'><strong>Note</strong>: As of version 1.9, RabbitMQ for VMware Tanzu can be configured to provide a dedicated cluster for use by Spring Cloud Services. See the <a href="https://docs.pivotal.io/rabbitmq-cf/replicator.html#scs-isolation">Running SCS on a Dedicated RabbitMQ Cluster</a> section in the <a href="https://docs.pivotal.io/rabbitmq-cf/">RabbitMQ for VMware Tanzu documentation</a>.</p>
 
 ## <a id="broker-upgrades"></a>Broker Upgrades
 
@@ -29,7 +29,7 @@ The spring-cloud-broker and spring-cloud-broker-worker apps are deployed using a
 
 ## <a id="access-broker-applications-in-apps-manager"></a>Access Broker Applications in Apps Manager
 
-To view the broker apps in Pivotal Cloud Foundry&reg; Apps Manager, log into Apps Manager as an admin user and select the "system" org.
+To view the broker apps in Apps Manager, log into Apps Manager as an admin user and select the "system" org.
 
 <%= image_tag("/spring-cloud-services/images/operator-information/broker-apps-apps-manager-org.png") %>
 
@@ -129,7 +129,7 @@ The spring-cloud-broker and spring-cloud-broker-worker apps use OAuth 2 authenti
 
 2. From the **Route** tab, copy the value of the app's route.
 
-3. In a terminal where you have already authenticated to PCF using `cf auth` or `cf login`, send the request to the Actuator endpoint (for example, using cURL), appending `/actuator/` and the endpoint ID to the route URL; for example, for the `health` endpoint, this would be something like `https://spring-cloud-broker.apps.example.com/actuator/health`. The current OAuth 2 token can be obtained using the `cf oauth-token` command. In the example below, the response from `cf oauth-token` is used directly inside the header string.
+3. In a terminal where you have already authenticated to VMware Tanzu Application Service for VMs (TAS) using `cf auth` or `cf login`, send the request to the Actuator endpoint (for example, using cURL), appending `/actuator/` and the endpoint ID to the route URL; for example, for the `health` endpoint, this would be something like `https://spring-cloud-broker.apps.example.com/actuator/health`. The current OAuth 2 token can be obtained using the `cf oauth-token` command. In the example below, the response from `cf oauth-token` is used directly inside the header string.
 
     <pre class="terminal">
     $ curl -k https://spring-cloud-broker.apps.example.com/actuator/health -H "Authorization: $(cf oauth-token)"

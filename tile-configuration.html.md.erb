@@ -11,7 +11,7 @@ See below for information about configuring Spring Cloud Services tile options a
 
 ## <a id="tile-configuration-options"></a>Tile Configuration Options
 
-The Spring Cloud Services tile includes settings for various options. You can configure these by visiting the Installation Dashboard of Pivotal Cloud Foundry&reg; Operations Manager (Ops Manager), clicking the Spring Cloud Services tile, and then navigating to the **Spring Cloud Services** pane.
+The Spring Cloud Services tile includes settings for various options. You can configure these by visiting the Installation Dashboard of Ops Manager, clicking the Spring Cloud Services tile, and then navigating to the **Spring Cloud Services** pane.
 
 ### <a id="configure-service-instance-limit"></a>Configure Service Instance Limit
 
@@ -31,7 +31,7 @@ In the **App push timeout** field, enter the desired number of minutes. The brok
 
 ### <a id="set-custom-domain-for-service-instances"></a>Set Custom Domain for Service Instances
 
-By default, the Spring Cloud Services service broker assigns routes to service instances using the Pivotal Cloud Foundry (PCF) application domain. To use a custom domain for service instance routes, you can specify the domain in the Spring Cloud Services tile settings.
+By default, the Spring Cloud Services service broker assigns routes to service instances using the VMware Tanzu Application Service for VMs (TAS) application domain. To use a custom domain for service instance routes, you can specify the domain in the Spring Cloud Services tile settings.
 
 <p class="note"><strong>Important: </strong> Your custom domain must be available to the <code>p-spring-cloud-services</code> org. If you are installing Spring Cloud Services, you must manually create this org before configuring the custom domain in the Spring Cloud Services tile settings.</p>
 
@@ -49,17 +49,17 @@ In the **Buildpack** field, enter the name of the desired Java buildpack. The br
 
 ### <a id="skip-ssl-certificate-validation"></a>Skip SSL Certificate Validation
 
-By default, Spring Cloud Services checks the Pivotal Application Service (PAS) or Elastic Runtime SSL certificate for the domains listed in [Requirements](./common/index.html#requirements). You can disable this validation by selecting the **Do not validate that SSL certificates are properly configured** checkbox. This setting does not disable SSL certificate validation for app instances running on PCF.
+By default, Spring Cloud Services checks the TAS SSL certificate for the domains listed in [Requirements](./common/index.html#requirements). You can disable this validation by selecting the **Do not validate that SSL certificates are properly configured** checkbox. This setting does not disable SSL certificate validation for app instances running on TAS.
 
 <p class="note warning"><strong>WARNING: </strong> Disabling Spring Cloud Services' validation of the PAS SSL certificate is an extreme action that should not be taken unless absolutely necessary, and can cause unexpected behavior across your installation of Spring Cloud Services. Do not disable this validation unless you are completely certain that you must do so.</p>
 
 <%= image_tag("/spring-cloud-services/images/operator-information/disable-ssl-certificate-validation.png") %>
 
-With the checkbox selected, Spring Cloud Services will not validate the Pivotal Application Service certificate as part of its installation process.
+With the checkbox selected, Spring Cloud Services will not validate the TAS certificate as part of its installation process.
 
 ### <a id="configure-service-broker-dependent-services"></a>Configure Service Broker Dependent Services
 
-By default, the Spring Cloud Services service broker uses MySQL for PCF for a MySQL database and RabbitMQ for PCF for a message bus. You can configure alternate services in the Spring Cloud Services tile settings.
+By default, the Spring Cloud Services service broker uses MySQL for VMware Tanzu for a MySQL database and RabbitMQ for VMware Tanzu for a message bus. You can configure alternate services in the Spring Cloud Services tile settings.
 
 These settings should be configured only during the Spring Cloud Services tile installation process. If you have already completed the tile installation process, do not alter these settings.
 
@@ -73,11 +73,11 @@ In the **Persistence store service** and **Persistence store service plan** fiel
 
 ### <a id="secure-service-instance-credentials-with-credhub"></a>Secure Service Instance Credentials with CredHub
 
-<p class="note"><strong>Important: </strong> Securing Spring Cloud Services service instance credentials in CredHub for versions 2.1.x and previous does NOT work in PCF 2.4+. Please turn off this option in Spring Cloud Services tile configuration and apply changes before upgrading to PCF 2.4+.</p>
-
 Spring Cloud Services can store its service instances' credentials in the Runtime CredHub. You can enable this behavior by selecting the **Secure service instance credentials** checkbox.
 
-<p class="note"><strong>Important: </strong> To use CredHub with Spring Cloud Services, you must be using Pivotal Application Service (PAS) 2.0 or later, have <a href="https://docs.pivotal.io/pivotalcf/opsguide/secure-si-creds.html">configured the Runtime CredHub</a>, and have at least one CredHub job instance configured in the PAS tile's Resource Config settings tab.</p>
+<p class="note"><strong>Important: </strong> This feature is not available in TAS v2.4 or later. Before upgrading to vTAS 2.4 or later, turn off this option in the Spring Cloud Services tile configuration and apply your changes.</p>
+
+<p class="note"><strong>Important: </strong> To use CredHub with Spring Cloud Services, you must be using VMware Tanzu Application Service for VMs 2.0 or later, have <a href="https://docs.pivotal.io/pivotalcf/opsguide/secure-si-creds.html">configured the Runtime CredHub</a>, and have at least one CredHub job instance configured in the PAS tile's Resource Config settings tab.</p>
 
 <%= image_tag("/spring-cloud-services/images/operator-information/secure-si-credentials.png") %>
 
@@ -89,8 +89,8 @@ The Spring Cloud Services tile includes four lifecycle errands. You can view the
 
 <%= image_tag("/spring-cloud-services/images/operator-information/errands.png") %>
 
-Spring Cloud Services includes three post-deploy errands and one pre-delete errand. In PCF 2.1 and earlier, these errands can be individually set to run conditionally (**When Changed**), to always run (**On**), or to never run (**Off**). In PCF 2.2 and later, they can be set to always run (**On**) or to never run (**Off**).
+Spring Cloud Services includes three post-deploy errands and one pre-delete errand. These errands can be individually set to always run (**On**) or to never run (**Off**).
 
-<p class='note'><strong>Important</strong>: To ensure that your PCF foundation receives important updates to the tile, Pivotal recommends that all Spring Cloud Services lifecycle errands be set to <strong>On</strong>.</p>
+<p class='note'><strong>Important</strong>: To ensure that your TAS foundation receives important updates to the tile, VMware recommends that all Spring Cloud Services lifecycle errands be set to <strong>On</strong>.</p>
 
-In the post-deploy errands, **Broker Deployer** pushes the Spring Cloud Services service broker and worker apps to PCF. **Broker Registrar** registers the service broker with the Cloud Controller and makes its service plans available to all orgs. **Smoke Tests** runs several tests to ensure service availability and correct configuration. The pre-delete errand, **Broker Deregistrar**, deletes all orgs and spaces specific to Spring Cloud Services and deregisters the broker from the Cloud Controller.
+In the post-deploy errands, **Broker Deployer** pushes the Spring Cloud Services service broker and worker apps to TAS. **Broker Registrar** registers the service broker with the Cloud Controller and makes its service plans available to all orgs. **Smoke Tests** runs several tests to ensure service availability and correct configuration. The pre-delete errand, **Broker Deregistrar**, deletes all orgs and spaces specific to Spring Cloud Services and deregisters the broker from the Cloud Controller.

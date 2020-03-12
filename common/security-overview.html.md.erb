@@ -39,7 +39,7 @@ The following abbreviations, example values, and terms are used in this topic as
 
 * **Instance Record**: In Eureka, the core domain object; represents a CF Application that has registered with a Spring Cloud Services Service Registry service instance. An Instance Record is used to map a Virtual Hostname to a physical route (for example, hostname, IP address, and port). An Instance Record can have metadata associated with it.
 
-* **Operator**: A user of Pivotal Cloud Foundry&reg; Operations Manager.
+* **Operator**: A user of Ops Manager.
 
 * **SB**: The Spring Cloud Services Service Broker.
 
@@ -79,15 +79,15 @@ Before continuing, you should familiarize yourself with the following diagram, w
 
 ### <a id="installation-file"></a>The Installation File
 
-The installation file (sometimes referred to as "the Spring Cloud Services tile") is the ```.pivotal``` file that contains the Spring Cloud Services product. It is available from [Pivotal Network](https://network.pivotal.io/products/p-spring-cloud-services).
+The installation file (sometimes referred to as "the Spring Cloud Services tile") is the ```.pivotal``` file that contains the Spring Cloud Services product. It is available from [VMware Tanzu Network](https://network.pivotal.io/products/p-spring-cloud-services).
 
 The installation file is generated from source code repositories hosted on ```github.com```. The repositories are can only be accessed by authorized persons and cannot be accessed over a non-encrypted channel. No credentials are stored in any source repository used by Spring Cloud Services.
 
-[Concourse](https://concourse-ci.org) is used as the build pipeline to generate the installation file. The infrastructure that hosts Concourse can only be accessed from within the Pivotal network, using a username and password stored internally by Concourse. The build pipeline configuration contains credentials to the S3 bucket which hosts the installation file and intermediate artifacts, as well as the GitHub API key providing read/write access to the source code repositories. The resulting installation file built by the Concourse pipeline does not contain any credentials.
+[Concourse](https://concourse-ci.org) is used as the build pipeline to generate the installation file. The infrastructure that hosts Concourse can only be accessed from within the VMware network, using a username and password stored internally by Concourse. The build pipeline configuration contains credentials to the S3 bucket which hosts the installation file and intermediate artifacts, as well as the GitHub API key providing read/write access to the source code repositories. The resulting installation file built by the Concourse pipeline does not contain any credentials.
 
 The installation file is downloaded from [https://network.pivotal.io](https://network.pivotal.io), can only be accessed by authorized persons, and cannot be accessed over a non-encrypted channel.
 
-To install Spring Cloud Services, the installation file must be uploaded to Pivotal Cloud Foundry&reg; Operations Manager. Ops Manager can only be accessed over HTTPS by persons knowing the username and password for Ops Manager.
+To install Spring Cloud Services, the installation file must be uploaded to Ops Manager. Ops Manager can only be accessed over HTTPS by persons knowing the username and password for Ops Manager.
 
 ### <a id="spring-cloud-broker"></a>Spring Cloud Service Broker
 
@@ -115,7 +115,7 @@ The service instance ID used in the permission check is the first GUID that is p
 
 *GET /dashboard/instance/{serviceInstanceId}*
 
-This endpoint returns service instance details such as service name, plan ID, org, and space, as well as credentials that need to be propagated to apps bound to this service instance. Because the service instance permission check is performed, this endpoint is only accessible to Space Developers who can bind apps to this service instance. Once an app is bound to this service instance, a Space Developer can see the same credentials returned by this endpoint in the bound app's binding credentials (for example via Pivotal Cloud Foundry Applications Manager.)
+This endpoint returns service instance details such as service name, plan ID, org, and space, as well as credentials that need to be propagated to apps bound to this service instance. Because the service instance permission check is performed, this endpoint is only accessible to Space Developers who can bind apps to this service instance. Once an app is bound to this service instance, a Space Developer can see the same credentials returned by this endpoint in the bound app's binding credentials (for example via Apps Manager.)
 
 <a id="sb-entry-point-dashboard-parameters"></a>*GET /dashboard/instance/{serviceInstanceId}/parameters*
 
@@ -151,13 +151,13 @@ This Actuator SSO flow is used by other components that already use [Dashboard S
 
 #### External Dependencies
 
-**Pivotal MySQL**
+**MySQL for VMware Tanzu**
 
-The SB uses a Pivotal MySQL service instance to store information about SCS service instances. The most sensitive information stored here is credentials for the RabbitMQ for PCF instances used for the Circuit Breaker service instances, which could be used to disable the Hystrix dashboard as described in [app turbine-{guid} > External Dependencies > RabbitMQ for PCF](#app-turbine-rabbitmq). The only way to access the data in this MySQL service instance is through the SB's binding credentials or directly from the filesystem, and these would only be accessible to the Operator.
+The SB uses a MySQL for VMware Tanzu service instance to store information about SCS service instances. The most sensitive information stored here is credentials for the RabbitMQ for VMware Tanzu instances used for the Circuit Breaker service instances, which could be used to disable the Hystrix dashboard as described in [app turbine-{guid} > External Dependencies > RabbitMQ for VMware Tanzu](#app-turbine-rabbitmq). The only way to access the data in this MySQL service instance is through the SB's binding credentials or directly from the filesystem, and these would only be accessible to the Operator.
 
-<a id="sb-dependency-rabbitmq"></a>**RabbitMQ for PCF**
+<a id="sb-dependency-rabbitmq"></a>**RabbitMQ for VMware Tanzu**
 
-The SB uses a RabbitMQ for PCF service instance to communicate with the spring-cloud-broker-worker app (the Worker). The messages passed propagate the provision, deprovision, bind, and unbind requests received by the [SB API](https://docs.cloudfoundry.org/services/api.html) to the Worker, as well as getting and setting app environment variables for service instance backing apps in the "instances" space. The credentials for accessing the RabbitMQ for PCF service instance are provided through the SB's ```VCAP_SERVICES``` environment variable as a result of binding to the service instance. The credentials would only be visible to a Space Developer in the "p-spring-cloud-services" space, and only the Operator would have this access.
+The SB uses a RabbitMQ for VMware Tanzu service instance to communicate with the spring-cloud-broker-worker app (the Worker). The messages passed propagate the provision, deprovision, bind, and unbind requests received by the [SB API](https://docs.cloudfoundry.org/services/api.html) to the Worker, as well as getting and setting app environment variables for service instance backing apps in the "instances" space. The credentials for accessing the RabbitMQ for VMware Tanzu service instance are provided through the SB's ```VCAP_SERVICES``` environment variable as a result of binding to the service instance. The credentials would only be visible to a Space Developer in the "p-spring-cloud-services" space, and only the Operator would have this access.
 
 <a id="sb-dependency-cloud-controller"></a>**The Cloud Controller**
 
@@ -169,7 +169,7 @@ The SB communicates with UAA via HTTPS to enable Dashboard SSO. All requests to 
 
 <a id="sb-dependency-credhub"></a>**Runtime CredHub** (Optional)
 
-<p class='note'><strong>Note</strong>: CredHub support requires Pivotal Application Service (PAS) 2.0 or later.</p>
+<p class='note'><strong>Note</strong>: CredHub support requires VMware Tanzu Application Service for VMs 2.0 or later.</p>
 
 If the Operator has configured the Spring Cloud Services tile to [secure service instance credentials using CredHub](https://docs.pivotal.io/pivotalcf/2-0/opsguide/secure-si-creds.html), the SB uses the runtime CredHub to store the JSON payload generated for each service instance binding created. Because the binding GUID used in the credential name is generated at binding request time, an attacker would be unable to predict the credential name and thus unable to identify the particular credential in CredHub. Only the SB and either the bound app or the Cloud Controller have the permissions to view this credential in the runtime CredHub.
 
@@ -202,9 +202,9 @@ The Spring Cloud Service Broker Worker (the Worker) is responsible for managing 
 
 #### Entry Points
 
-**The RabbitMQ for PCF Message Listener**
+**The RabbitMQ for VMware Tanzu Message Listener**
 
-The Worker listens for messages posted to the RabbitMQ for PCF service instance. The SB posts these messages as described in [Spring Cloud Service Broker > External Dependencies > RabbitMQ for PCF](#sb-dependency-rabbitmq). Only the Operator, the SB, and the Worker can access this instance of RabbitMQ for PCF.
+The Worker listens for messages posted to the RabbitMQ for VMware Tanzu service instance. The SB posts these messages as described in [Spring Cloud Service Broker > External Dependencies > RabbitMQ for VMware Tanzu](#sb-dependency-rabbitmq). Only the Operator, the SB, and the Worker can access this instance of RabbitMQ for VMware Tanzu.
 
 **Actuator Endpoints**
 
@@ -212,9 +212,9 @@ The Worker listens for messages posted to the RabbitMQ for PCF service instance.
 
 #### External Dependencies
 
-**RabbitMQ for PCF**
+**RabbitMQ for VMware Tanzu**
 
-The Worker uses a RabbitMQ for PCF service instance to receive messages from the SB. The messages received originate from the provision, deprovision, bind, and unbind requests received by the [SB API](https://docs.cloudfoundry.org/services/api.html), as well as from the ```/dashboard/instance/{serviceInstanceId}/parameters``` endpoint. The credentials for accessing the RabbitMQ for PCF service instance are provided through the Worker's ```VCAP_SERVICES``` environment variable as a result of binding to the service instance. The credentials would only be visible to a Space Developer in the "p-spring-cloud-services" space, and only the Operator would have this access.
+The Worker uses a RabbitMQ for VMware Tanzu service instance to receive messages from the SB. The messages received originate from the provision, deprovision, bind, and unbind requests received by the [SB API](https://docs.cloudfoundry.org/services/api.html), as well as from the ```/dashboard/instance/{serviceInstanceId}/parameters``` endpoint. The credentials for accessing the RabbitMQ for VMware Tanzu service instance are provided through the Worker's ```VCAP_SERVICES``` environment variable as a result of binding to the service instance. The credentials would only be visible to a Space Developer in the "p-spring-cloud-services" space, and only the Operator would have this access.
 
 **The Cloud Controller**
 
@@ -228,7 +228,7 @@ The Worker uses the client management APIs of UAA to create and delete clients i
 
 **Runtime CredHub** (Optional)
 
-<p class='note'><strong>Note</strong>: CredHub support requires Pivotal Application Service (PAS) 2.0 or later.</p>
+<p class='note'><strong>Note</strong>: CredHub support requires VMware Tanzu Application Service for VMs 2.0 or later.</p>
 
 _Service Instance Backing Application Credentials_
 
@@ -506,25 +506,25 @@ The Eureka server enforces ownership of Instance Records to prevent binding cred
 
 <a id="service-registry-application-name-ownership"></a>*Application Name Ownership*
 
-The Eureka server enforces the ownership of Eureka Application Names within a cluster. For a given Eureka cluster, possibly comprised of peers spanning multiple PCF foundations, only one service instance in a PCF foundation may register instances with a particular Eureka Application Name. This is enforced to ensure that CF Applications in other spaces cannot register and draw traffic away from a given app, as a form of [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). However, a service instance in a different PCF foundation can still register the same Eureka Application Name. This is allowed so that CF Applications in other PCF foundations can be used for failover, in case all instances with a given Eureka Application Name in a particular PCF are down. 
+The Eureka server enforces the ownership of Eureka Application Names within a cluster. For a given Eureka cluster, possibly comprised of peers spanning multiple VMware Tanzu Application Service for VMs (TAS) foundations, only one service instance in a TAS foundation may register instances with a particular Eureka Application Name. This is enforced to ensure that CF Applications in other spaces cannot register and draw traffic away from a given app, as a form of [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). However, a service instance in a different TAS foundation can still register the same Eureka Application Name. This is allowed so that CF Applications in other TAS foundations can be used for failover, in case all instances with a given Eureka Application Name in a particular TAS are down. 
 
-To enforce Eureka Application Name ownership, the URI of the Eureka server that registers the Instance Record is recorded under the metadata key ```registrar_uri```. A portion of this URI is used to identity the PCF foundation that hosts the Eureka server. When a CF Application registers with the server by submitting an Instance Record, all other Instance Records with the same Eureka Application Name are inspected. If an Instance Record already exists in the same PCF foundation as the server receiving the registration request, and this Instance Record's ```registrar_uri``` does not match the server's, the registration request is rejected.
+To enforce Eureka Application Name ownership, the URI of the Eureka server that registers the Instance Record is recorded under the metadata key ```registrar_uri```. A portion of this URI is used to identity the TAS foundation that hosts the Eureka server. When a CF Application registers with the server by submitting an Instance Record, all other Instance Records with the same Eureka Application Name are inspected. If an Instance Record already exists in the same TAS foundation as the server receiving the registration request, and this Instance Record's ```registrar_uri``` does not match the server's, the registration request is rejected.
 
 The ownership of Eureka Application Names by a service instance parallels the ownership of routes by a space in CF. However, Eureka Application Names cannot be reserved by a service instance at this time, in contrast to the creation of a route in a space, where the route is not yet bound to a CF Application. If one service instance were to register Instance Records with a particular Eureka Application Name and then all such Instance Records became de-registered (through either planned or unplanned outages), another CF Application in a different space could register with that same Eureka Application Name by binding with a peer service instance. This would prevent the original CF Application(s) from registering again when they came back online.
 
 *Eureka Application Name Ownership Example*
 
-PCF West is a PCF foundation with Service Registry service instances in different orgs. These service instances are configured for peer replication with one another. One space hosts a CF Application ```accounting``` and the other hosts a CF Application ```inventory```. They both register with Eureka Application Names ```accounting``` and ```inventory``` as underlined, respectively.
+TAS West is a TAS foundation with Service Registry service instances in different orgs. These service instances are configured for peer replication with one another. One space hosts a CF Application ```accounting``` and the other hosts a CF Application ```inventory```. They both register with Eureka Application Names ```accounting``` and ```inventory``` as underlined, respectively.
 
 <%= image_tag("app-id-ownership-before.png") %>
 
-Later on, the ```accounting-west/production``` space wants to deploy ```accounting``` using a Blue/Green deployment strategy. The ```accounting``` CF Application is renamed ```accounting-blue```, but its Eureka Application Name stays the same. Then ```accounting-green``` is pushed, bound to the Service Registry service instance, and started. On startup it successfully registers with the Eureka Application Name ```accounting```. This is allowed because there are no other service instances in this cluster, in PCF West, that have registered the Eureka Application Name ```accounting```.
+Later on, the ```accounting-west/production``` space wants to deploy ```accounting``` using a Blue/Green deployment strategy. The ```accounting``` CF Application is renamed ```accounting-blue```, but its Eureka Application Name stays the same. Then ```accounting-green``` is pushed, bound to the Service Registry service instance, and started. On startup it successfully registers with the Eureka Application Name ```accounting```. This is allowed because there are no other service instances in this cluster, in TAS West, that have registered the Eureka Application Name ```accounting```.
 
 <%= image_tag("app-id-ownership-after.png") %>
 
-A space developer with access to the ```inventory-west/production``` space wishes to deploy a CF Application ```accounting-red``` in that space and register it with the Eureka Application Name ```accounting```. When ```accounting-red``` starts up, it tries to register but its registration requests are rejected. This is because the Eureka Application Name ```accounting``` has already been registered with another service instance in the cluster, in the same PCF foundation. 
+A space developer with access to the ```inventory-west/production``` space wishes to deploy a CF Application ```accounting-red``` in that space and register it with the Eureka Application Name ```accounting```. When ```accounting-red``` starts up, it tries to register but its registration requests are rejected. This is because the Eureka Application Name ```accounting``` has already been registered with another service instance in the cluster, in the same TAS foundation. 
 
-PCF East comes online, and provides failover for ```accounting``` and ```inventory``` apps. This is allowed because there are no other service instances in this cluster, in PCF East, that have registered the Eureka Application Names ```accounting``` or ```inventory```.
+TAS East comes online, and provides failover for ```accounting``` and ```inventory``` apps. This is allowed because there are no other service instances in this cluster, in TAS East, that have registered the Eureka Application Names ```accounting``` or ```inventory```.
 
 *OAuth 2 Clients for Bound Applications*
 
@@ -659,13 +659,13 @@ This emits the Server Sent Event stream and is the only HTTP-based entry point. 
 
 **Hystrix AMQP messages**
 
-The Turbine app listens for AMQP messages posted by apps bound to the Circuit Breaker Dashboard service instance. Applications bound to the Circuit Breaker Dashboard receive credentials to the RabbitMQ for PCF service instance in order to post these messages. All bound apps receive the same credentials.
+The Turbine app listens for AMQP messages posted by apps bound to the Circuit Breaker Dashboard service instance. Applications bound to the Circuit Breaker Dashboard receive credentials to the RabbitMQ for TAS service instance in order to post these messages. All bound apps receive the same credentials.
 
 #### External Dependencies
 
-<a id="app-turbine-rabbitmq"></a>**RabbitMQ for PCF**
+<a id="app-turbine-rabbitmq"></a>**RabbitMQ for VMware Tanzu**
 
-As described earlier, bound apps use an instance of RabbitMQ for PCF to post circuit breaker metrics. The Turbine app listens to these messages, aggregates the metrics, and emits a Server Sent Event stream. The credentials for the RabbitMQ for PCF service instance are provided to the Turbine app though service instance binding. These same credentials are provided to apps bound to the Circuit Breaker Dashboard service instance, and would be visible to any user that is able to bind to the service instance. These credentials can be used for admin access to the RabbitMQ.
+As described earlier, bound apps use an instance of RabbitMQ for VMware Tanzu to post circuit breaker metrics. The Turbine app listens to these messages, aggregates the metrics, and emits a Server Sent Event stream. The credentials for the RabbitMQ for VMware Tanzu service instance are provided to the Turbine app though service instance binding. These same credentials are provided to apps bound to the Circuit Breaker Dashboard service instance, and would be visible to any user that is able to bind to the service instance. These credentials can be used for admin access to the RabbitMQ.
 
 Since this RabbitMQ is only used for collecting and disseminating ```@HystrixCommand``` metrics from bound apps, one risk here is breaking the ability for metrics to be gathered and reported in the Hystrix dashboard. Doing this would not affect the operation of any app bound to the service instance.
 

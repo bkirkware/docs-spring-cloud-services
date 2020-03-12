@@ -1,5 +1,5 @@
 ---
-title: Smoke Tests for Pivotal Spring Cloud Services
+title: Smoke Tests for Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
@@ -15,7 +15,7 @@ The smoke tests are run within the "Smoke Tests" post-deploy BOSH lifecycle erra
 
 The smoke tests are run in the "Smoke Tests" BOSH errand. They follow the steps below:
 
-1. Target the Cloud Foundry API of the Pivotal Cloud Foundry foundation.
+1. Target the Cloud Foundry API of the VMware Tanzu Application Service for VMs foundation.
 
 1. Authenticate the test Cloud Foundry user.
 
@@ -41,7 +41,7 @@ If a step in the smoke tests fails or encounters an error, the failure or error 
 
 ### <a id="troubleshooting-timeouts-on-azure"></a> Timeouts On Microsoft Azure
 
-In a PCF foundation on Microsoft Azure, idle timeout settings may lead to network connections being closed without warning to the Spring Cloud Services service broker, causing the service broker's operations to time out. The smoke tests give a log message similar to the following:
+In a VMware Tanzu Application Service for VMs foundation on Microsoft Azure, idle timeout settings may lead to network connections being closed without warning to the Spring Cloud Services service broker, causing the service broker's operations to time out. The smoke tests give a log message similar to the following:
 
 ```
 2017-10-04T09:55:57.28-0400 [APP/PROC/WEB/0]OUT 2017-10-04 13:55:57.285  INFO 19 ---
@@ -50,7 +50,7 @@ In a PCF foundation on Microsoft Azure, idle timeout settings may lead to networ
 	https://api.system.example.com:443: Connection timed out (Read failed)
 ```
 
-Check the idle timeout settings for any Azure resource with a public IP address, particularly all Azure Load Balancers (see [Configure TCP idle timeout settings for Azure Load Balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-tcp-idle-timeout) in the Microsoft Azure documentation). The default idle timeout setting is 4 minutes. Change this to 30 minutes (see the [Azure Networking Connection Idle for more than Four minutes](https://discuss.pivotal.io/hc/en-us/articles/115005583008-Azure-Networking-Connection-Idle-for-more-than-Four-minutes) article in the Pivotal Knowledge Base.
+Check the idle timeout settings for any Azure resource with a public IP address, particularly all Azure Load Balancers (see [Configure TCP idle timeout settings for Azure Load Balancer](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-tcp-idle-timeout) in the Microsoft Azure documentation). The default idle timeout setting is 4 minutes. Change this to 30 minutes (see the [Azure Networking Connection Idle for more than Four minutes](https://discuss.pivotal.io/hc/en-us/articles/115005583008-Azure-Networking-Connection-Idle-for-more-than-Four-minutes) article in the VMware Tanzu Community Knowledge Base.
 
 ### <a id="troubleshooting-app-push-timeout"></a> Application Push Timeouts
 

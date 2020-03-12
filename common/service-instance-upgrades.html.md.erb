@@ -29,7 +29,7 @@ After an upgrade of the Spring Cloud Services product, follow the below steps to
     $ cf rename cook cook-old
     </pre>
 
-1. Update client dependencies (see [Client Dependencies](./client-dependencies.html)) in the original app and push it, using a new temporary route, to Pivotal Cloud Foundry (PCF). Ensure that the updated original app is bound to the new service instance.
+1. Update client dependencies (see [Client Dependencies](./client-dependencies.html)) in the original app and push it, using a new temporary route, to VMware Tanzu Application Service for VMs. Ensure that the updated original app is bound to the new service instance.
 
     <pre class="terminal">
     $ cf push -n cook-new cook

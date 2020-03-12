@@ -1,5 +1,5 @@
 ---
-title: Installing Pivotal Spring Cloud Services
+title: Installing Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
@@ -18,13 +18,13 @@ owner: Spring Cloud Services
 
 Ensure that you have or have completed all items listed in <a href="../common/index.html#requirements">Requirements</a>. Then follow the below steps to install Spring Cloud Services.
 
-<p class="note"><strong>Important: </strong> Spring Cloud Services requires <a href="https://network.pivotal.io/products/pivotal-mysql">MySQL for PCF</a>. Install it before installing Spring Cloud Services.</p>
+<p class="note"><strong>Important: </strong> Spring Cloud Services requires <a href="https://network.pivotal.io/products/pivotal-mysql">MySQL for VMware Tanzu</a>. Install it before installing Spring Cloud Services.</p>
 
 ## Installation Steps
 
-1. Download Spring Cloud Services from [Pivotal Network](https://network.pivotal.io/).
+1. Download Spring Cloud Services from [VMware Tanzu Network](https://network.pivotal.io/).
 
-1. In the Installation Dashboard of [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) Operations Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services `.pivotal` file.
+1. In the Installation Dashboard of Ops Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services `.pivotal` file.
 
 1. In the left sidebar, under **Spring Cloud Services**, click the <strong>&#43;</strong> button next to the version number.
 
@@ -32,19 +32,13 @@ Ensure that you have or have completed all items listed in <a href="../common/in
 
     <%= image_tag("./images/installation/azs-and-networks.png") %>
 
-    Select the availability zones for the tile to use. In the **Network** section, select the Pivotal Application Service (or Elastic Runtime) network. When finished, click **Save**.
+    Select the availability zones for the tile to use. In the **Network** section, select the VMware Tanzu Application Service for VMs network. When finished, click **Save**.
 
 1. Still in the **Settings** tab, click **Spring Cloud Services** to configure settings for Spring Cloud Services. For information about configuring these settings, see [Tile Configuration Options](./tile-configuration.html#tile-configuration-options).
 
     <%= image_tag("./images/installation/settings.png") %>
 
     After configuring the settings, click **Save**.
-
-<%# removing for now
-1. If the **Stemcell** tab is highlighted in orange, click it. Download the correct stemcell from [Pivotal Network](https://network.pivotal.io) and click **Import Stemcell** to import it.
-
-    installation/stemcell.png
-%>
 
 1. Return to the Installation Dashboard.
 

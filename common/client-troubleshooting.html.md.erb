@@ -55,7 +55,7 @@ security group issue?
 com.netflix.discovery.DiscoveryClient.makeRemoteCall(DiscoveryClient.java:1155)
 ```
 
-If your PCF foundation is using a self-signed certificate, such as a certificate generated in Pivotal Application Service (PAS) or Elastic Runtime, you must set the `TRUST_CERTS` environment variable on your app to the PAS (or Elastic Runtime) API endpoint. See [Add Self-Signed SSL Certificate to JVM Truststore](./service-registry/writing-client-applications.html#self-signed-ssl-certificate) in the [Service Registry documentation](./service-registry/).
+If your VMware Tanzu Application Service for VMs (TAS) foundation is using a self-signed certificate, such as a certificate generated in VMware Tanzu Application Service for VMs or Elastic Runtime, you must set the `TRUST_CERTS` environment variable on your app to the TAS API endpoint. See [Add Self-Signed SSL Certificate to JVM Truststore](./service-registry/writing-client-applications.html#self-signed-ssl-certificate) in the [Service Registry documentation](./service-registry/).
 
 ## <a id="pkix"></a>"sun.security.validator.ValidatorException: PKIX path building failed"
 
@@ -67,4 +67,4 @@ sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid
 certification path to requested target
 ```
 
-If your PCF foundation is using self-signed certificates, make sure that you have set the `TRUST_CERTS` environment variable on the app to the Pivotal Application Service (PAS) or Elastic Runtime API endpoint. See [Add Self-Signed SSL Certificate to JVM Truststore](./service-registry/writing-client-applications.html#self-signed-ssl-certificate) in the [Service Registry documentation](./service-registry/).
+If your VMware Tanzu Application Service for VMs foundation is using self-signed certificates, make sure that you have set the `TRUST_CERTS` environment variable on the app to the VMware Tanzu Application Service for VMs or Elastic Runtime API endpoint. See [Add Self-Signed SSL Certificate to JVM Truststore](./service-registry/writing-client-applications.html#self-signed-ssl-certificate) in the [Service Registry documentation](./service-registry/).

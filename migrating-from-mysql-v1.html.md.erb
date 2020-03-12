@@ -1,11 +1,11 @@
 ---
-title: Migrating Data from MySQL for PCF v1 to v2
+title: Migrating Data from MySQL for VMware Tanzu v1 to v2
 owner: Spring Cloud Services
 ---
 
 <strong><%= modified_date %></strong>
 
-The MySQL for PCF v1 tile has been deprecated. Although Spring Cloud Services v2.1 supports MySQL for PCF v1, Pivotal recommends that operators now switch to MySQL for PCF v2 for use with Spring Cloud Services. See below for information about migrating your installation of Pivotal Spring Cloud Services from use of the MySQL for PCF v1 tile.
+The MySQL for PCF v1 tile has been deprecated. Although Spring Cloud Services v2.1 supports MySQL for PCF v1, VMware recommends that operators now switch to MySQL for VMware Tanzu v2 for use with Spring Cloud Services. See below for information about migrating your installation of Spring Cloud Services for VMware Tanzu from use of the MySQL for PCF v1 tile.
 
 <p class='note'><strong>Note</strong>: Ops Manager administrators can use Role-Based Access Control (RBAC) to manage which operators can make deployment changes, view credentials, and manage user roles in Ops Manager. Therefore, your role permissions might not allow you to perform every procedure in this operator guide. For more information about roles in Ops Manager, see <a href="https://docs.pivotal.io/pivotalcf/2-0/opsguide/config-rbac.html#about">Understand Roles in Ops Manager</a>.</p>
 
@@ -13,13 +13,13 @@ The MySQL for PCF v1 tile has been deprecated. Although Spring Cloud Services v2
 
 In the `system` org and `p-spring-cloud-services` space, the Spring Cloud Services broker uses one (1) MySQL service instance, called **spring-cloud-broker-db**, to store information about Spring Cloud Services service instances.
 
-1. Install the [MySQL for PCF v2](https://network.pivotal.io/products/pivotal-mysql) tile.
+1. Install the [MySQL for VMware Tanzu](https://network.pivotal.io/products/pivotal-mysql) tile.
 
-1. Following the instructions in [Migrating Data from MySQL for PCF v1 to v2](https://docs.pivotal.io/p-mysql/2-3/migrate-to-v2.html), migrate the Spring Cloud Services broker's data to a MySQL for PCF v2 service instance. Pivotal recommends using a small plan (such as the provided `db-small` plan) to create a MySQL for PCF v2 service instance for use by the Spring Cloud Services service broker.
+1. Following the instructions in [Migrating Data from MySQL for PCF v1 to v2](https://docs.pivotal.io/p-mysql/2-3/migrate-to-v2.html), migrate the Spring Cloud Services broker's data to a MySQL for VMware Tanzu service instance. VMware recommends using a small plan (such as the provided `db-small` plan) to create a MySQL for VMware Tanzu v2 service instance for use by the Spring Cloud Services service broker.
 
 1. Use the [Service Instances dashboard](./service-instances.html#service-instances-dashboard) to verify that the migration succeeded.
 
-1. In the Spring Cloud Services [tile configuration](./tile-configuration.html), update the settings for the service broker's backing MySQL service (see [Configure Service Broker Dependent Services](./tile-configuration.html#configure-service-broker-dependent-services)), using MySQL for PCF v2 values.
+1. In the Spring Cloud Services [tile configuration](./tile-configuration.html), update the settings for the service broker's backing MySQL service (see [Configure Service Broker Dependent Services](./tile-configuration.html#configure-service-broker-dependent-services)), using MySQL for VMware Tanzu v2 values.
 
 1. Return to the Installation Dashboard.
 
@@ -27,4 +27,4 @@ In the `system` org and `p-spring-cloud-services` space, the Spring Cloud Servic
 
 1. Click **Apply Changes**.
 
-The Spring Cloud Services service broker will now use MySQL for PCF v2 to store service instance information.
+The Spring Cloud Services service broker will now use MySQL for VMware Tanzu v2 to store service instance information.

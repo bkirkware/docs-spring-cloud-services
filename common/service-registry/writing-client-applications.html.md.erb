@@ -9,7 +9,7 @@ _Refer to the sample apps in the <a href="https://github.com/spring-cloud-servic
 
 To use a Spring app with a Service Registry service instance, you must add the dependencies listed in <a href="../client-dependencies.html">Client Dependencies</a> to your app's build file. Be sure to include the dependencies for <a href="../client-dependencies.html#service-registry">Service Registry</a> as well.
 
-<% if vars.product_name == 'PCF' %>
+<% if vars.product_name == 'TAS' %>
  <%= partial vars.scs_sr_self_signed_ssl %>
 <% end %>
 
@@ -48,7 +48,7 @@ spring:
 
 ### <a id="register-using-c2c"></a>Register Using Container-to-Container Networking
 
-To use Cloud Foundry's container networking (see [Understanding Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/concepts/understand-cf-networking.html) in the [Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/) documentation) with the app, your `application.yml` must specify a `spring.cloud.services.registrationMethod` of `direct`.
+To use Cloud Foundry's container networking (see [Understanding Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/concepts/understand-cf-networking.html)) documentation) with the app, your `application.yml` must specify a `spring.cloud.services.registrationMethod` of `direct`.
 
 ```yml
 spring:
@@ -216,7 +216,7 @@ The Messages app is registered with the Service Registry instance as `greeter-me
 
 ### <a id="consume-using-c2c"></a>Consume Using Container-to-Container Networking
 
-To use Cloud Foundry's container networking (see [Understanding Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/concepts/understand-cf-networking.html) in the [Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/) documentation) to reach an app registered with the Service Registry, you must add a network policy. You can do this using the Cloud Foundry Command Line Interface (cf CLI).
+To use Cloud Foundry's container networking (see [Understanding Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/concepts/understand-cf-networking.html)) documentation) to reach an app registered with the Service Registry, you must add a network policy. You can do this using the Cloud Foundry Command Line Interface (cf CLI).
 
 <p class='note'><strong>Note</strong>: Container networking support is included in the cf CLI version 6.30.0 and later.</p>
 
@@ -247,7 +247,7 @@ source    destination          protocol   ports
 greeter   greeter-messages   tcp        8080
 </pre>
 
-The Greeter app can now use container networking to access the Messages app via the Service Registry. For more information about configuring container networking, see [Administering Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/cf-networking.html) in the [Pivotal Cloud Foundry](https://docs.pivotal.io/pivotalcf/) documentation.
+The Greeter app can now use container networking to access the Messages app via the Service Registry. For more information about configuring container networking, see [Administering Container-to-Container Networking](https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/cf-networking.html)) documentation.
 
 ## <a id="disable-http-basic-auth"></a>Disable HTTP Basic Authentication
 

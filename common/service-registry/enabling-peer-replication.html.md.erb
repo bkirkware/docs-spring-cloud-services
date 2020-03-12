@@ -7,8 +7,8 @@ owner: Spring Cloud Services
 
 You can configure a Service Registry service instance to replicate service registrations with a peer Service Registry service instance. This functionality supports two models:
 
-* **Peer replication across separate [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) foundations:** you can configure peer replication to allow access to services registered with a Service Registry service instance in a PCF foundation located in a separate datacenter.
-* **Peer replication across PCF orgs and spaces:** you can configure peer replication to allow access to services registered with a Service Registry service instance in another org or space within the same PCF foundation.
+* **Peer replication across separate VMware Tanzu Application Service for VMs (TAS) foundations:** you can configure peer replication to allow access to services registered with a Service Registry service instance in a TAS foundation located in a separate datacenter.
+* **Peer replication across TAS orgs and spaces:** you can configure peer replication to allow access to services registered with a Service Registry service instance in another org or space within the same TAS foundation.
 
 For information about the configuration parameters used to enable peer replication for a Service Registry service instance, see the [Configuration Parameters](#configuration-parameters) section.
 
@@ -26,7 +26,7 @@ A Service Registry peer can be expressed as shown in the following JSON:
 }
 ```
 
-Peer URIs must use the HTTPS URI scheme (as `https://`) and must follow the format `https://eureka-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID assigned to a Service Registry service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation where that Service Registry service instance is running.
+Peer URIs must use the HTTPS URI scheme (as `https://`) and must follow the format `https://eureka-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID assigned to a Service Registry service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the TAS foundation where that Service Registry service instance is running.
 
 Spring Cloud Services will by default validate the SSL certificate on each peer. You can disable this validation for a given peer by setting the `skipSslValidation` parameter to `true` for that peer, as shown in the following JSON:
 
@@ -74,7 +74,7 @@ For an example of configuring peer replication across two Service Registry servi
 A peer service instance URI is expected to meet the following criteria:
 
 * Use the HTTPS URI scheme (begin with `https://`). You cannot create or update a Service Registry service instance with a peer URI which does not use the HTTPS URI scheme.
-* Follow the pattern `https://eureka-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID belonging to the peer service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the PCF foundation on which that service instance is hosted. You cannot create or update a Service Registry service instance with a peer URI which does not follow this pattern.
+* Follow the pattern `https://eureka-GUID.APPLICATION_DOMAIN.TLD`, where `GUID` is the GUID belonging to the peer service instance and `APPLICATION_DOMAIN.TLD` is the application domain of the TAS foundation on which that service instance is hosted. You cannot create or update a Service Registry service instance with a peer URI which does not follow this pattern.
 * Correspond to an available Service Registry service instance. If you create or update a Service Registry service instance with a peer URI which does not correspond to another available service instance, you will see [an error message on the Service Registry dashboard](#peer-not-found).
 
 A peer service instance is expected to meet the following criteria:
@@ -99,7 +99,7 @@ To configure two-way peer replication for two Service Registry service instances
 
     <%= image_tag(vars.scs_sr_replication_img_copy_url) %>
 
-1. In the other PCF foundation, org, or space, create a Service Registry service instance B, with A as a peer.
+1. In the other TAS foundation, org, or space, create a Service Registry service instance B, with A as a peer.
 
     ```
     $ cf create-service p-service-registry standard service-registry-2 -c '{ "peers": [ { "uri": "https://eureka-dda7d2ac-8f9f-4d06-b8e3-9ce5b82b930e.example.com" } ] }'

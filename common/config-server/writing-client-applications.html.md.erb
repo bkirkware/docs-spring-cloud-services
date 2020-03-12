@@ -11,7 +11,7 @@ To use a Spring Boot app as a client for a Config Server instance, you must add 
 
 <p class='note'><strong>Important</strong>: Because of a dependency on <a href="https://projects.spring.io/spring-security/">Spring Security</a>, the Spring Cloud Config Client starter will by default cause all app endpoints to be protected by HTTP Basic authentication. If you wish to disable this, please see <a href="#disable-http-basic-auth">Disable HTTP Basic Authentication</a> below.</p>
 
-<% if vars.product_name == 'PCF' %>
+<% if vars.product_name == 'TAS' %>
  <%= partial vars.scs_cs_self_signed_ssl %>
 <% end %>
 
@@ -215,7 +215,7 @@ On the Config Server, the decryption features are disabled, so encrypted propert
 
 To use the decryption features in a client app, you must use a Java buildpack which contains the Java Cryptography Extension (JCE) Unlimited Strength policy files. These files are contained in the Cloud Foundry Java buildpack from version 3.7.1.
 
-<p class="tip">If you cannot use version 3.7.1 or later, you can add the JCE Unlimited Strength policy files to an earlier version of the Cloud Foundry Java buildpack. Fork the <a href="https://github.com/cloudfoundry/java-buildpack">buildpack on GitHub</a>, then download the policy files from Oracle and place them in the buildpack's <code>resources/open_jdk_jre/lib/security</code> directory. Follow the instructions in <a href="https://docs.pivotal.io/pivotalcf/adminguide/buildpacks.html">Managing Custom Buildpacks</a> to add this buildpack to Pivotal Cloud Foundry. Be sure that it has the lowest position of all enabled Java buildpacks.</p>
+<p class="tip">If you cannot use version 3.7.1 or later, you can add the JCE Unlimited Strength policy files to an earlier version of the Cloud Foundry Java buildpack. Fork the <a href="https://github.com/cloudfoundry/java-buildpack">buildpack on GitHub</a>, then download the policy files from Oracle and place them in the buildpack's <code>resources/open_jdk_jre/lib/security</code> directory. Follow the instructions in <a href="https://docs.pivotal.io/pivotalcf/adminguide/buildpacks.html">Managing Custom Buildpacks</a> to add this buildpack to VMware Tanzu Application Service for VMs. Be sure that it has the lowest position of all enabled Java buildpacks.</p>
 
 You must also include [Spring Security RSA](https://github.com/dsyer/spring-security-rsa) as a dependency.
 
@@ -351,7 +351,7 @@ public class CookApplication {
 
 To generate a token for use in the app, you can run the `vault token-create` command.
 
-<p class='note'><strong>Note</strong>: The app consumes the token using the <code>spring.cloud.config.token</code> configuration property, which can be set in any Spring Boot property source. For ease of maintenance, Pivotal recommends using the <code>SPRING_CLOUD_CONFIG_TOKEN</code> environment variable to provide the token to the app.</p>
+<p class='note'><strong>Note</strong>: The app consumes the token using the <code>spring.cloud.config.token</code> configuration property, which can be set in any Spring Boot property source. For ease of maintenance, VMware recommends using the <code>SPRING_CLOUD_CONFIG_TOKEN</code> environment variable to provide the token to the app.</p>
 
 If you are using the `SPRING_CLOUD_CONFIG_TOKEN` environment variable to provide the token to the app, generate a token with a Time To Live (TTL) that is long enough for the app to be restaged after you have set the environment variable. The following command creates a token with a TTL of one hour:
 

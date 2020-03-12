@@ -1,5 +1,5 @@
 ---
-title: Troubleshooting Pivotal Spring Cloud Services
+title: Troubleshooting Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
@@ -14,7 +14,7 @@ owner: Spring Cloud Services
      }
 </style>
 
-See below for information about problems related to your [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) platform configuration or Spring Cloud Services or other product installation.
+See below for information about problems related to your VMware Tanzu Application Service for VMs (TAS) platform configuration or Spring Cloud Services or other product installation.
 
 ## <a id="1-5-config-server-using-encryption"></a>Spring Cloud Services 1.5.x Config Server using encryption key cannot be upgraded to 2.1.x
 
@@ -24,7 +24,7 @@ See [Encryption and Encrypted Values](./common/config-server/configuring-with-gi
 
 ## <a id="rabbitmq-plan-missing"></a>"java.lang.IllegalArgumentException: Service plan standard not found"
 
-The `p-circuit-breaker-dashboard` service in Spring Cloud Services requires that [RabbitMQ for PCF](https://docs.pivotal.io/rabbitmq-cf/) is configured to deploy the [Pre-provisioned broker](https://docs.pivotal.io/rabbitmq-cf/1-15/index.html#pre-provisioned). If the `run_tests` errand or create and update service fails with a message similar to following:
+The `p-circuit-breaker-dashboard` service in Spring Cloud Services requires that [RabbitMQ for VMware Tanzu](https://docs.pivotal.io/rabbitmq-cf/) is configured to deploy the [Pre-provisioned broker](https://docs.pivotal.io/rabbitmq-cf/1-15/index.html#pre-provisioned). If the `run_tests` errand or create and update service fails with a message similar to following:
 
 ```
 Showing status of last operation from service test-p-circuit-breaker-dashboard-*********...
@@ -33,7 +33,7 @@ status:    create failed
 message:   Error creating service instance: java.lang.IllegalArgumentException: Service plan standard not found
 ```
 
-Enable the [Pre-provisioned broker](https://docs.pivotal.io/rabbitmq-cf/1-15/index.html#pre-provisioned) as described in the RabbitMQ for PCF documentation.
+Enable the [Pre-provisioned broker](https://docs.pivotal.io/rabbitmq-cf/1-15/index.html#pre-provisioned) as described in the RabbitMQ for VMware Tanzu documentation.
 
 ## <a id="timeout-exception-180000-ms"></a>"java.util.concurrent.TimeoutException: Execution took longer than 180000 MILLISECONDS"
 
@@ -43,7 +43,7 @@ If the broker fails to provision a service instance and the logs for the `spring
 java.util.concurrent.TimeoutException: Execution took longer than 180000 MILLISECONDS
 ```
 
-This is due to a problem encountered during app deployments to your PCF foundation. Verify that you can deploy apps without issues to your PCF foundation (see ["Starting or staging an application results in an InsufficientResources error"](https://community.pivotal.io/s/article/Starting-or-Staging-an-Application-Results-in-an-Insufficient-Resources-Error) in the PCF Knowledge Base).
+This is due to a problem encountered during app deployments to your TAS foundation. Verify that you can deploy apps without issues to your TAS foundation (see ["Starting or staging an application results in an InsufficientResources error"](https://community.pivotal.io/s/article/Starting-or-Staging-an-Application-Results-in-an-Insufficient-Resources-Error) in the VMware Tanzu Community Knowledge Base).
 
 ## <a id="service-registry-authentication-failed"></a>Service Registry: "Authentication Failed: Could not obtain access token"
 
@@ -57,7 +57,7 @@ with the following text:
 
 > Authentication Failed: Could not obtain access token
 
-If your PCF foundation is using a self-signed certificate, ensure that it includes all of the domains listed in [Requirements](./common/index.html#requirements). If you update the certificate, you will need to either restart the service instance's backing app(s) or recreate the service instance. Otherwise you may continue to see this message and be unable to access the Service Registry dashboard.
+If your TAS foundation is using a self-signed certificate, ensure that it includes all of the domains listed in [Requirements](./common/index.html#requirements). If you update the certificate, you will need to either restart the service instance's backing app(s) or recreate the service instance. Otherwise you may continue to see this message and be unable to access the Service Registry dashboard.
 
 ## <a id="no-san-matching"></a>"No subject alternative DNS name matching p-spring-cloud-services.uaa.example.com found"
 
@@ -72,7 +72,7 @@ javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No
 subject alternative DNS name matching p-spring-cloud-services.uaa.example.com found.
 ```
 
-Ensure that your Pivotal Application Service (PAS) or Elastic Runtime SSL certificate is configured as described in [Requirements](./common/index.html#requirements). Be sure that the certificate includes all wildcards listed in that section and has a separate wildcard for each subdomain.
+Ensure that your VMware Tanzu Application Service for VMs SSL certificate is configured as described in [Requirements](./common/index.html#requirements). Be sure that the certificate includes all wildcards listed in that section and has a separate wildcard for each subdomain.
 
 ## <a id="protocol-version"></a>"javax.net.ssl.SSLException: Received fatal alert: protocol_version"
 
@@ -83,7 +83,7 @@ Server error, status code: 502, error code: 10001, message: Service broker error
 javax.net.ssl.SSLException: Received fatal alert: protocol_version
 ```
 
-Spring Cloud Services requires the [RabbitMQ for PCF](https://network.pivotal.io/products/pivotal-rabbitmq-service) product. If you have provided SSL certificates and keys to RabbitMQ for PCF, you must also enable its TLS 1.0 support in order to use it with Spring Cloud Services. See [Requirements](./common/index.html#requirements).
+Spring Cloud Services requires the [RabbitMQ for VMware Tanzu](https://network.pivotal.io/products/pivotal-rabbitmq-service) product. If you have provided SSL certificates and keys to RabbitMQ for VMware Tanzu, you must also enable its TLS 1.0 support in order to use it with Spring Cloud Services. See [Requirements](./common/index.html#requirements).
 
 ## <a id="rabbitmq-authentication-failure-exception"></a>"com.rabbitmq.client.AuthenticationFailureException: ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN"
 
@@ -96,7 +96,7 @@ refused using authentication mechanism PLAIN. For details see the broker
 logfile.
 ```
 
-The credentials used by the Spring Cloud Services broker to access its RabbitMQ for PCF service instance may be invalid. This can happen after restoring a backup of Pivotal Application Service (or Elastic Runtime), as a restored RabbitMQ for PCF service instance may not accept the restored credentials used by the Spring Cloud Services broker. You can update the Spring Cloud Services broker's credentials by unbinding the RabbitMQ service instance from the broker apps (the `spring-cloud-broker` and `spring-cloud-broker-worker` apps) and then rebinding.
+The credentials used by the Spring Cloud Services broker to access its RabbitMQ for VMware Tanzu service instance may be invalid. This can happen after restoring a backup of VMware Tanzu Application Service for VMs, as a restored RabbitMQ for VMware Tanzu service instance may not accept the restored credentials used by the Spring Cloud Services broker. You can update the Spring Cloud Services broker's credentials by unbinding the RabbitMQ service instance from the broker apps (the `spring-cloud-broker` and `spring-cloud-broker-worker` apps) and then rebinding.
 
 To unbind the RabbitMQ service instance from the Spring Cloud Services broker apps and rebind it, run the following cf CLI commands:
 
@@ -110,7 +110,7 @@ $ cf bind-service spring-cloud-broker-worker spring-cloud-broker-rmq
 $ cf restage spring-cloud-broker-worker
 </pre>
 
-If the PCF foundation is newly restored and the RabbitMQ service instance's queues are empty, you may also unbind the RabbitMQ service instance from the broker apps, delete it, create a new instance, and then bind that instance to the Spring Cloud Services broker apps.
+If the TAS foundation is newly restored and the RabbitMQ service instance's queues are empty, you may also unbind the RabbitMQ service instance from the broker apps, delete it, create a new instance, and then bind that instance to the Spring Cloud Services broker apps.
 
 <p class="note warning"><strong>WARNING: </strong> Deleting and replacing the RabbitMQ service instance will destroy any data in the instance's queues. If the RabbitMQ service instance contains messages and is on a production system, unbind and rebind it instead.</p>
 
