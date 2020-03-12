@@ -7,12 +7,12 @@ owner: Spring Cloud Services
 
 Config Server is an externalized application configuration service. It is based on the open-source Spring Cloud Config project, which provides a centralized server for delivering external configuration properties to an application and a central source for managing this configuration across deployment environments. Spring Cloud Config includes support for a number of backends, including Git, HashiCorp Vault, and CredHub.
 
-The Spring Cloud Services Config Server wraps the open-source Spring Cloud Config Server component, providing a managed service that is secured and maintained by Pivotal. Its architecture is designed to minimize calls from the Config Server to external Git servers for the Git backend and to give operators greater control over the data fetched and served by the Config Server. The Config Server can store secrets in CredHub and also supports HashiCorp Vault.
+The Spring Cloud Services Config Server wraps the open-source Spring Cloud Config Server component, providing a managed service that is secured and maintained by VMware. Its architecture is designed to minimize calls from the Config Server to external Git servers for the Git backend and to give operators greater control over the data fetched and served by the Config Server. The Config Server can store secrets in CredHub and also supports HashiCorp Vault.
 
 ## Architecture
 
-Within a PCF foundation, a "mirror service" makes a full mirror of each Git repository ("R1", "R2", "R3") used by a Config Server service instance. The Config Server service instance, in turn, clones repositories from this mirror rather than cloning from the external Git server directly.
+Within a VMware Tanzu Application Service for VMs (TAS) foundation, a "mirror service" makes a full mirror of each Git repository ("R1", "R2", "R3") used by a Config Server service instance. The Config Server service instance, in turn, clones repositories from this mirror rather than cloning from the external Git server directly.
 
 <%= image_tag("config-server-fig1.png") %>
 
-Operators control the mirror service's updates to its mirrors. Config Server service instances can also use the Pivotal Application Service (PAS) CredHub as a backend for storing secrets.
+Operators control the mirror service's updates to its mirrors. Config Server service instances can also use the VMware Tanzu Application Service for VMs (TAS) CredHub as a backend for storing secrets.

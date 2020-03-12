@@ -1,5 +1,5 @@
 ---
-title: Installing Pivotal Spring Cloud Services
+title: Installing Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
@@ -22,9 +22,9 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
 ## <a id="installation-steps"></a>Installation Steps
 
-1. Download Spring Cloud Services from [Pivotal Network](https://network.pivotal.io/).
+1. Download Spring Cloud Services from [VMware Tanzu Network](https://network.pivotal.io/).
 
-1. In the Installation Dashboard of [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) Operations Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services `.pivotal` file.
+1. In the Installation Dashboard of Ops Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services file.
 
 1. In the left sidebar, under **Spring Cloud Services**, click the <strong>&#43;</strong> button next to the version number.
 
@@ -32,13 +32,7 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
     <%= image_tag("./images/installation/azs-and-networks.png") %>
 
-    Select the availability zones for the tile to use. In the **Network** section, select the network used by Pivotal Application Service (or Elastic Runtime). When finished, click **Save**.
-
-<%# removing for now
-1. If the **Stemcell** tab is highlighted in orange, click it. Download the correct stemcell from [Pivotal Network](https://network.pivotal.io) and click **Import Stemcell** to import it.
-
-    installation/stemcell.png
-%>
+    Select the availability zones for the tile to use. In the **Network** section, select the network used by VMware Tanzu Application Service for VMs (TAS). When finished, click **Save**.
 
 1. Return to the Installation Dashboard.
 
@@ -67,7 +61,7 @@ If you are using a private Certificate Authority (CA) to generate SSL certificat
 
 1. Add the private CA's certificate to the BOSH trusted certificates.
 
-	a. In the Installation Dashboard of PCF Ops Manager, navigate to the BOSH Director tile's settings.
+	a. In the Installation Dashboard of Ops Manager, navigate to the BOSH Director tile's settings.
 
 	b. Click **Security**.
 
@@ -79,6 +73,6 @@ If you are using a private Certificate Authority (CA) to generate SSL certificat
 	a. Still in the BOSH Director tile's settings, click **Director Config**.
 
 	b. Enable the **Recreate all VMs** checkbox.
-1. Return to the Ops Manager Installation Dashboard and apply your changes to BOSH, PAS, and the Spring Cloud Services tile.
+1. Return to the Ops Manager Installation Dashboard and apply your changes to BOSH, VMware Tanzu Application Service for VMs (TAS), and the Spring Cloud Services tile.
 
 After you apply your changes, any new SSL certificate that is rotated into the platform should be successfully validated when used in SSL connections to platform services.

@@ -1,5 +1,5 @@
 ---
-title: Release Notes for Pivotal Spring Cloud Services
+title: Release Notes for Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
@@ -16,9 +16,9 @@ owner: Spring Cloud Services
      }
 </style>
 
-Release notes for [Pivotal Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services)
+Release notes for [Spring Cloud Services for VMware Tanzu](https://network.pivotal.io/products/p-spring-cloud-services)
 
-<p class="note warning"><strong>WARNING:</strong> Spring Cloud Services (SCS) v3.0.x and v2.0.x are separate tiles, and both use the <code>p-spring-cloud-services</code> org to deploy service instance backing apps. Deleting SCS v2.0.10 or earlier will delete this org, including any v3.0.x backing apps. See <a href="#known-issues">Known Issues</a>. Pivotal recommends upgrading and migrating completely to SCS v3.1.x. For more information, see <a href="https://docs.pivotal.io/spring-cloud-services/3-1/product-upgrades.html">Upgrading Pivotal Spring Cloud Services</a>. </p>
+<p class="note warning"><strong>WARNING:</strong> Spring Cloud Services (SCS) v3.0.x and v2.0.x are separate tiles, and both use the <code>p-spring-cloud-services</code> org to deploy service instance backing apps. Deleting SCS v2.0.10 or earlier will delete this org, including any v3.0.x backing apps. See <a href="#known-issues">Known Issues</a>. VMware recommends upgrading and migrating completely to SCS v3.1.x. For more information, see <a href="https://docs.pivotal.io/spring-cloud-services/3-1/product-upgrades.html">Upgrading Spring Cloud Services for VMware Tanzu</a>. </p>
 
 ## <a id="known-issues"></a>Known Issues
 
@@ -68,7 +68,7 @@ Spring Cloud Services (SCS) v3.0.x uses the `p-spring-cloud-services` org for de
 
 **Release Date: 28th October 2019**
 
-* Resolved issue with accessing service instance dashboard when Pivotal Application Service (PAS) tile is configured with "Authentication and Enterprise SSO" as SAML.
+* Resolved issue with accessing service instance dashboard when VMware Tanzu Application Service for VMs (TAS) tile is configured with "Authentication and Enterprise SSO" as SAML.
 
 ## <a id="3-0-7"></a>3.0.7
 
@@ -102,7 +102,7 @@ Spring Cloud Services (SCS) v3.0.x uses the `p-spring-cloud-services` org for de
 **Release Date: 29th July 2019**
 
 * Added ability to synchronize Git mirrors via a button on the Config Server's dashboard.
-* Added tile dependency on PAS to ensure that on a brand-new PCF installation, PAS is installed before the Spring Cloud Services tile.
+* Added tile dependency on VMware Tanzu Application Service for VMs (TAS) to ensure that on a brand-new TAS installation, TAS is installed before the Spring Cloud Services tile.
 * Added ability to use `cf update-service` to upgrade existing `p.config-server` service instances to the most recent version offered by the service broker.
 
 ## <a id="3-0-2"></a>3.0.2
@@ -128,7 +128,7 @@ This affects the display of all service instances in a space when using the cf C
 
 **Recommended Actions**
 
-Given the impact of users being unable to view the current state of their service instances in a space, Pivotal recommends that you do not install or upgrade to version 3.0.1. If you have already installed it, please upgrade to version 3.0.2, which resolves this issue.
+Given the impact of users being unable to view the current state of their service instances in a space, VMware recommends that you do not install or upgrade to version 3.0.1. If you have already installed it, please upgrade to version 3.0.2, which resolves this issue.
 
 Enhancements included in this release:
 
@@ -141,9 +141,9 @@ Enhancements included in this release:
 
 Enhancements included in this release:
 
-* Spring Cloud Services 3.0.0 runs alongside previous versions (2.0.x and 1.5.x) and adds a new service, named `p.config-server`, to the PCF Marketplace. Operators and developers may decide to migrate existing `p-config-server` service instances over to the new service and then disable use of the old service once existing service instances are fully migrated.
+* Spring Cloud Services 3.0.0 runs alongside previous versions (2.0.x and 1.5.x) and adds a new service, named `p.config-server`, to the VMware Tanzu Application Service for VMs (TAS) Marketplace. Operators and developers may decide to migrate existing `p-config-server` service instances over to the new service and then disable use of the old service once existing service instances are fully migrated.
 * The Spring Cloud Services broker has been upgraded to Spring Boot 2.1.4.RELEASE and Spring Cloud Greenwich.RC1.
-* The Config Server service now mirrors Git repositories local to the PCF foundation. This reduces communication required with external Git servers and improves data governance options for configuration values served by the Config Server from Git repositories, as well as increasing availability of the Config Server.
+* The Config Server service now mirrors Git repositories local to the TAS foundation. This reduces communication required with external Git servers and improves data governance options for configuration values served by the Config Server from Git repositories, as well as increasing availability of the Config Server.
 * The Config Server service now includes support for a CredHub backend, which can be used for secrets management. The new backend removes the need to store secrets in encrypted form within Git for use by the Config Server and improves the security of secret management for Config Server client applications. (The Config Server continues to include support for a HashiCorp Vault backend.)
 
 Known issue:

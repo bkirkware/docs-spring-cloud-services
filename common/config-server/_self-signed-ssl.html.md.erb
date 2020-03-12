@@ -1,8 +1,8 @@
 ## <a id="self-signed-ssl-certificate"></a>Add Self-Signed SSL Certificate to JVM Truststore
 
-Spring Cloud Services uses HTTPS for all client-to-service communication. If your [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) foundation is using a self-signed SSL certificate, the certificate will need to be added to the JVM truststore before your client app can consume properties from a Config Server service instance.
+Spring Cloud Services uses HTTPS for all client-to-service communication. If your VMware Tanzu Application Service for VMs (TAS) foundation is using a self-signed SSL certificate, the certificate will need to be added to the JVM truststore before your client app can consume properties from a Config Server service instance.
 
-Spring Cloud Services can add the certificate for you automatically. For this to work, you must set the `TRUST_CERTS` environment variable on your client app to the API endpoint of your Pivotal Application Service (PAS) or Elastic Runtime instance:
+Spring Cloud Services can add the certificate for you automatically. For this to work, you must set the `TRUST_CERTS` environment variable on your client app to the API endpoint of your VMware Tanzu Application Service for VMs (TAS) or Elastic Runtime instance:
 
 <pre class="terminal">
 $ cf set-env cook TRUST_CERTS api.cf.example.com

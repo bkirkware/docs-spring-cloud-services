@@ -1,11 +1,11 @@
 ---
-title: Pivotal Spring Cloud Services
+title: Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
 ### What Is Spring Cloud Services?
 
-Pivotal Spring Cloud Services packages the [Spring Cloud Config](https://spring.io/projects/spring-cloud-config) Server and makes it available as a service in the PCF Marketplace.
+Spring Cloud Services for VMware Tanzu packages the [Spring Cloud Config](https://spring.io/projects/spring-cloud-config) Server and makes it available as a service in the Tanzu Application Service for VMs (TAS) Marketplace.
 
 ### Service Versions
 
@@ -40,15 +40,15 @@ Spring Cloud Services currently provides the following service plans:
 Service instances created using the `trial` plan are deleted seven days after creation. You can use this plan to create service instances for trial or demonstration purposes for short-term usage. Do not rely on the `trial` plan for service instances used in production.
 <% end %>
 
-<% if vars.product_name == 'PCF' %>
+<% if vars.product_name == 'TAS' %>
  <%= partial vars.scs_details %>
 
 <a id="requirements"></a>
 ## Requirements
 
-Pivotal Spring Cloud Services has the following requirements:
+Spring Cloud Services for VMware Tanzu has the following requirements:
 
 * [Java Cloud Foundry buildpack](https://github.com/cloudfoundry/java-buildpack) version 4.5 or later (if the default Java buildpack is not at version 4.5 or later, you must specify an alternate buildpack that is at version 4.5 or later when installing Spring Cloud Services; see [Set Buildpack for Service Instances](../tile-configuration.html#set-buildpack-for-service-instances))
-* Pivotal Application Service (PAS) runtime CredHub (if runtime CredHub is not enabled, the installation of Spring Cloud Services will fail; for information about enabling runtime CredHub, see [Securing Services Instance Credentials with Runtime CredHub
+* TAS runtime CredHub (if runtime CredHub is not enabled, the installation of Spring Cloud Services will fail; for information about enabling runtime CredHub, see [Securing Services Instance Credentials with Runtime CredHub
 ](https://docs.pivotal.io/pivotalcf/opsguide/secure-si-creds.html))
 <% end %>
