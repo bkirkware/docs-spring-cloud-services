@@ -5,7 +5,7 @@ owner: Spring Cloud Services
 
 ## <a id="overview"></a>Overview
 
-The Config Server service does not clone or pull updates from external Git repositories directly. Within a PCF foundation, a "mirror service" makes a full mirror of each Git repository ("R1", "R2", "R3") used by a Config Server service instance. The Config Server service instance, in turn, clones repositories from this mirror rather than cloning from the external Git server directly.
+The Config Server service does not clone or pull updates from external Git repositories directly. Within a VMware Tanzu Application Service for VMs (TAS) foundation, a "mirror service" makes a full mirror of each Git repository ("R1", "R2", "R3") used by a Config Server service instance. The Config Server service instance, in turn, clones repositories from this mirror rather than cloning from the external Git server directly.
 
 <%= image_tag("config-server-fig1.png") %>
 

@@ -34,7 +34,7 @@ General parameters used to configure the Service Registry are listed below.
 |----------------------|--------------------------------------------------------------------------------------------|----------------------------------|
 | <code>count</code>   | The number of nodes to provision: 1 by default, more for running in high-availability mode | <code>'{"count": 3}'</code>      |
 
-A Service Registry service instance can also be configured to replicate its registry with peer Service Registry service instances in other PCF foundations, orgs, or spaces. For more information on the configuration parameters used to enable peer replication, see [Enabling Peer Replication](./enabling-peer-replication.html).
+A Service Registry service instance can also be configured to replicate its registry with peer Service Registry service instances in other VMware Tanzu Application Service for VMs (TAS) foundations, orgs, or spaces. For more information on the configuration parameters used to enable peer replication, see [Enabling Peer Replication](./enabling-peer-replication.html).
 
 To create an instance with the default of a single node, run:
 
@@ -90,7 +90,7 @@ General parameters accepted for the Service Registry are listed below.
 | <code>upgrade</code>    | Whether to upgrade the instance                                                                                                                        | <code>'{"upgrade": true}'</code> |
 | <code>force</code>      | When `upgrade` is set to `true`, whether to force an upgrade of the instance, even if the instance is already at the latest available service version  | <code>'{"force": true}'</code>   |
 
-A Service Registry service instance can also be configured to replicate its registry with peer Service Registry service instances in other PCF foundations, orgs, or spaces. For more information on the configuration parameters used to enable peer replication, see [Enabling Peer Replication](./enabling-peer-replication.html).
+A Service Registry service instance can also be configured to replicate its registry with peer Service Registry service instances in other TAS foundations, orgs, or spaces. For more information on the configuration parameters used to enable peer replication, see [Enabling Peer Replication](./enabling-peer-replication.html).
 
 To update a service instance and set the count of nodes for running in high-availability mode, run:
 
@@ -120,7 +120,7 @@ The service instance is now updated and ready to be used. For information about 
 
 ## <a id="sharing-a-service-registry"></a>Sharing a Service Registry
 
-A Service Registry service instance or its service registrations can be shared across PCF spaces in either of two situations:
+A Service Registry service instance or its service registrations can be shared across TAS spaces in either of two situations:
 
-* **Across spaces on same PCF foundation**: Pivotal recommends [using Cloud Foundry service instance sharing](../service-instance-sharing.html) to share a Service Registry service instance across spaces on the same PCF foundation.
-* **Across spaces on different PCF foundations**: Pivotal recommends using Service Registry's [peer replication](./enabling-peer-replication.html) feature to share service registrations with a Service Registry service instance in a space on a different PCF foundation.
+* **Across spaces on same TAS foundation**: VMware recommends [using Cloud Foundry service instance sharing](../service-instance-sharing.html) to share a Service Registry service instance across spaces on the same TAS foundation.
+* **Across spaces on different TAS foundations**: VMware recommends using Service Registry's [peer replication](./enabling-peer-replication.html) feature to share service registrations with a Service Registry service instance in a space on a different TAS foundation.

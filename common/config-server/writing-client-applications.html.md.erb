@@ -11,7 +11,7 @@ To use a Spring Boot app as a client for a Config Server instance, you must add 
 
 <p class='note'><strong>Important</strong>: Because of a dependency on <a href="https://projects.spring.io/spring-security/">Spring Security</a>, the Spring Cloud Config Client starter will by default cause all app endpoints to be protected by HTTP Basic authentication. If you wish to disable this, please see <a href="#disable-http-basic-auth">Disable HTTP Basic Authentication</a> below.</p>
 
-<% if vars.product_name == 'PCF' %>
+<% if vars.product_name == 'TAS' %>
  <%= partial vars.scs_cs_self_signed_ssl %>
 <% end %>
 
@@ -259,7 +259,7 @@ public class CookApplication {
 
 To generate a token for use in the app, you can run the `vault token-create` command.
 
-<p class='note'><strong>Note</strong>: The app consumes the token using the <code>spring.cloud.config.token</code> configuration property, which can be set in any Spring Boot property source. For ease of maintenance, Pivotal recommends using the <code>SPRING_CLOUD_CONFIG_TOKEN</code> environment variable to provide the token to the app.</p>
+<p class='note'><strong>Note</strong>: The app consumes the token using the <code>spring.cloud.config.token</code> configuration property, which can be set in any Spring Boot property source. For ease of maintenance, VMware recommends using the <code>SPRING_CLOUD_CONFIG_TOKEN</code> environment variable to provide the token to the app.</p>
 
 If you are using the `SPRING_CLOUD_CONFIG_TOKEN` environment variable to provide the token to the app, generate a token with a Time To Live (TTL) that is long enough for the app to be restaged after you have set the environment variable. The following command creates a token with a TTL of one hour:
 

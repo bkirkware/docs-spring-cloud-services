@@ -1,8 +1,8 @@
 ## <a id="self-signed-ssl-certificate"></a>Add Self-Signed SSL Certificate to JVM Truststore
 
-Spring Cloud Services uses HTTPS for all client-to-service communication. If your [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) foundation is using a self-signed SSL certificate, the certificate will need to be added to the JVM truststore before your app can be registered with a Service Registry service instance or consume a service that is registered with a Service Registry service instance.
+Spring Cloud Services uses HTTPS for all client-to-service communication. If your VMware Tanzu Application Service for VMs foundation is using a self-signed SSL certificate, the certificate will need to be added to the JVM truststore before your app can be registered with a Service Registry service instance or consume a service that is registered with a Service Registry service instance.
 
-Spring Cloud Services can add the certificate for you automatically. For this to work, you must set the `TRUST_CERTS` environment variable on your app to the API endpoint of your Pivotal Application Service (PAS) or Elastic Runtime instance:
+Spring Cloud Services can add the certificate for you automatically. For this to work, you must set the `TRUST_CERTS` environment variable on your app to the API endpoint of your VMware Tanzu Application Service for VMs (TAS) instance:
 
 <pre class="terminal">
 $ cf set-env message-generation TRUST_CERTS api.cf.example.com
@@ -18,7 +18,7 @@ As the output from the ```cf set-env``` command suggests, restage the app after 
 
 ## <a id="peers-with-self-signed-certificates"></a>Service Registry Peers with Self-Signed Certificates
 
-If binding your app to a Service Registry service instance that has one or more peers in another PCF foundation which uses self-signed certificates, you must set the `TRUST_CERTS` environment variable on your app to a hostname on the other PCF foundation in order for your app to communicate with apps bound to those Service Registry peers:
+If binding your app to a Service Registry service instance that has one or more peers in another TAS foundation which uses self-signed certificates, you must set the `TRUST_CERTS` environment variable on your app to a hostname on the other TAS foundation in order for your app to communicate with apps bound to those Service Registry peers:
 
 <pre class="terminal">
 $ cf set-env message-generation TRUST_CERTS api.cf.example.org
@@ -27,7 +27,7 @@ OK
 TIP: Use 'cf restage message-generation' to ensure your env variable changes take effect
 </pre>
 
-The `TRUST_CERTS` environment variable can contain multiple hostnames, in case (for example) the Service Registry has peers in multiple alternate PCF foundations with self-signed certificates. Hostnames are comma-separated:
+The `TRUST_CERTS` environment variable can contain multiple hostnames, in case (for example) the Service Registry has peers in multiple alternate TAS foundations with self-signed certificates. Hostnames are comma-separated:
 
 <pre class="terminal">
 $ cf set-env message-generation TRUST_CERTS api.cf.example.org,api.example.net

@@ -1,5 +1,5 @@
 ---
-title: Installing Pivotal Spring Cloud Services
+title: Installing Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
@@ -20,9 +20,9 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
 ## <a id="installation-steps"></a>Installation Steps
 
-1. Download Spring Cloud Services from [Pivotal Network](https://network.pivotal.io/).
+1. Download Spring Cloud Services from [VMware Tanzu Network](https://network.pivotal.io/).
 
-1. In the Installation Dashboard of [Pivotal Cloud Foundry](https://network.pivotal.io/products/pivotal-cf) (PCF) Operations Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services `.pivotal` file.
+1. In the Installation Dashboard of Ops Manager, click **Import a Product** on the left sidebar to upload the Spring Cloud Services file.
 
 1. In the left sidebar, under **Spring Cloud Services**, click the <strong>&#43;</strong> button next to the version number.
 
@@ -30,13 +30,7 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
     <%= image_tag("./images/installation/azs-and-networks.png") %>
 
-    Select the availability zones for the tile to use. In the **Network** section, select the network used by Pivotal Application Service (or Elastic Runtime). When finished, click **Save**.
-
-<%# removing for now
-1. If the **Stemcell** tab is highlighted in orange, click it. Download the correct stemcell from [Pivotal Network](https://network.pivotal.io) and click **Import Stemcell** to import it.
-
-    installation/stemcell.png
-%>
+    Select the availability zones for the tile to use. In the **Network** section, select the network used by VMware Tanzu Application Service for VMs (TAS). When finished, click **Save**.
 
 1. Return to the Installation Dashboard.
 
@@ -48,7 +42,7 @@ Ensure that you have or have completed all items listed in <a href="common/index
 
 Spring Cloud Services (SCS) 3.0--3.1 can be installed alongside earlier versions of Spring Cloud Services, including 2.0. SCS v3.1 includes a new Config Server service, which is named `p.config-server` instead of `p-config-server` as in v2.0 and earlier versions, and a new Service Registry service, which is named `p.service-registry` instead of `p-service-registry` as in v2.0 and earlier versions.
 
-Even though you can run different SCS versions in parallel, Pivotal recommends that you migrate all your service instances to Spring Cloud Services v3.1.x to complete the upgrade. For more information, see [Upgrading Pivotal Spring Cloud Services](product-upgrades.html).
+Even though you can run different SCS versions in parallel, VMware recommends that you migrate all your service instances to Spring Cloud Services v3.1.x to complete the upgrade. For more information, see [Upgrading Spring Cloud Services for VMware Tanzu](product-upgrades.html).
 
 ### <a id="differences"></a> Differences Between v3.0--3.1 Config Server and Earlier Config Server
 

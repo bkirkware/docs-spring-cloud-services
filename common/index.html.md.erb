@@ -1,11 +1,11 @@
 ---
-title: Pivotal Spring Cloud Services
+title: Spring Cloud Services for VMware Tanzu
 owner: Spring Cloud Services
 ---
 
 ### What Is Spring Cloud Services?
 
-Pivotal Spring Cloud Services packages the server-side components of [Spring Cloud Config](https://spring.io/projects/spring-cloud-config) and [Spring Cloud Netflix](https://spring.io/projects/spring-cloud-netflix) Eureka, making them available as services in the PCF Marketplace.
+Spring Cloud Services for VMware Tanzu packages the server-side components of [Spring Cloud Config](https://spring.io/projects/spring-cloud-config) and [Spring Cloud Netflix](https://spring.io/projects/spring-cloud-netflix) Eureka, making them available as services in the VMware Tanzu Application Service for VMs Marketplace.
 
 <% if vars.product_name == 'PWS' %>
 ### Service Plans
@@ -24,6 +24,6 @@ Spring Cloud Services currently provides the following service plans:
 Service instances created using the `trial` plan are deleted seven days after creation. You can use this plan to create service instances for trial or demonstration purposes for short-term usage. Do not rely on the `trial` plan for service instances used in production.
 <% end %>
 
-<% if vars.product_name == 'PCF' %>
+<% if vars.product_name == 'TAS' %>
  <%= partial vars.scs_details %>
 <% end %>

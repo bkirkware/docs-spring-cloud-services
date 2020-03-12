@@ -11,7 +11,7 @@ See below for information about Spring Cloud Services tile options, resource con
 
 ## <a id="service-broker-settings"></a>Service Broker Settings
 
-The Spring Cloud Services (SCS) tile includes a number of settings for the service broker. You can configure these by visiting the Installation Dashboard of Pivotal Platform Operations Manager (Ops Manager), clicking the Spring Cloud Services tile, and then navigating to the **SCS Service Broker** pane.
+The Spring Cloud Services (SCS) tile includes a number of settings for the service broker. You can configure these by visiting the Installation Dashboard of Ops Manager, clicking the Spring Cloud Services tile, and then navigating to the **SCS Service Broker** pane.
 
 ### <a id="configure-service-access"></a>Configure Service Access
 
@@ -39,7 +39,7 @@ Enter the desired number of minutes. The broker will allow the specified number 
 
 ### <a id="set-custom-domain-for-service-instances"></a>Set Custom Domain for Service Instances
 
-By default, the Spring Cloud Services service broker assigns routes to service instances using the Pivotal Application Service (PAS) application domain. You can specify a custom domain for service instance routes in the Spring Cloud Services tile settings, under **Service instances domain**.
+By default, the Spring Cloud Services service broker assigns routes to service instances using the VMware Tanzu Application Service for VMs (TAS) application domain. You can specify a custom domain for service instance routes in the Spring Cloud Services tile settings, under **Service instances domain**.
 
 <p class="note"><strong>Important: </strong> Your custom domain must be available to the <code>p-spring-cloud-services</code> org. If you are installing Spring Cloud Services, you must manually create this org before configuring the custom domain in the Spring Cloud Services tile settings.</p>
 
@@ -55,7 +55,7 @@ The Spring Cloud Services tile includes two colocated lifecycle errands. You can
 
 Spring Cloud Services includes one post-deploy errands and one pre-delete errand. These errands can be individually set to always run (**On**) or to never run (**Off**).
 
-<p class='note'><strong>Important</strong>: To ensure that your PCF foundation receives important updates to the tile, Pivotal recommends that all Spring Cloud Services lifecycle errands be set to <strong>On</strong>.</p>
+<p class='note'><strong>Important</strong>: To ensure that your TAS foundation receives important updates to the tile, VMware recommends that all Spring Cloud Services lifecycle errands be set to <strong>On</strong>.</p>
 
 The **register-brokers** errand registers the Spring Cloud Services service broker, and the broker for the Config Server's mirror service, with the Cloud Controller, and makes all Spring Cloud Services service plans available to all orgs. The **destroy-brokers** errand deletes all orgs and spaces specific to Spring Cloud Services and deregisters the Spring Cloud Services broker and mirror service broker from the Cloud Controller.
 
@@ -65,7 +65,7 @@ To configure system logging for Spring Cloud Services, visit the Installation Da
 
 <%= image_tag("/spring-cloud-services/images/operator-information/configure-syslog.png") %>
 
-For information about system logging in Pivotal Application Service (PAS), see [Configuring Logging in PAS](https://docs.pivotal.io/platform/application-service/2-8/operating/logging-config-opsman.html) in the PAS documentation.
+For information about system logging in VMware Tanzu Application Service for VMs (TAS), see [Configuring Logging in PAS](https://docs.pivotal.io/platform/application-service/2-8/operating/logging-config-opsman.html).
 
 ## <a id="mirror-service-resource-configuration"></a>Mirror Service Resource Configuration
 
