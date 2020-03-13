@@ -26,6 +26,15 @@ In Spring Cloud Services v3.1.0--v3.1.5, you cannot update credentials for a Git
 
 To resolve this issue, you can update the Config Server to use SSH, rather than HTTP or HTTPS, to access the Git repository. See [SSH Repository Access](./common/config-server/configuring-with-git.html#ssh-repository-access).
 
+## <a id="3-1-6"></a>3.1.6
+
+**Release Date: 13th March 2020**
+
+* Removed ability to create service keys to ensure secure access for client applications.
+* Added the ability to set `encrypt.key` on Git repository configurations enabling hashed secrets in property files.
+* Fixed issue with updating credentials on Git repository defined with a HTTPS URI.
+* Fixed issue with custom domain not being used in dashboard URL.
+
 ## <a id="3-1-5"></a>3.1.5
 
 **Release Date: 22nd January 2020**
