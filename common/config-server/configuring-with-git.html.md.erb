@@ -91,6 +91,48 @@ To refresh a Config Server's Git repository mirrors and retrieve new configurati
 cf update-service my-config-server -c '{"update-git-repos": true }'
 ```
 
+## <a id="encryption-and-encrypted-values"></a>Encryption and Encrypted Values
+
+The Config Server can serve encrypted property values from a configuration file. If the Config Server is configured with a symmetric or asymmetric encryption key and the encrypted values are prefixed with the string `{cipher}`, the Config Server will decrypt the values before serving them to client apps. The Config Server has an `/encrypt` endpoint, which can be used to encrypt property values.
+
+When the Config Server has been configured to encrypt values, you can make a POST request to the <code>/encrypt</code> endpoint. Include the property value in the request. A request to encrypt a value might look something like the following (using cURL), where the `cf oauth-token` command is used to provide an OAuth 2.0 token and <code>SERVER</code> is the URL of the Config Server:
+
+```
+curl -H 'Authorization: $(cf oauth-token)' http://SERVER/encrypt -d 'Value to be encrypted'
+```
+
+The Config Server returns the encrypted value. You can use the encrypted value in a configuration file as described in [Encrypted Configuration](#encrypted-configuration).
+
+The parameters used to configure server-side encryption for a Config Server are listed below.
+
+| Parameter                      | Function                                                                                                                                                |
+|--------------------------------|--------------------------------|
+| <code>encrypt.key</code>       | The key to use for encryption. |
+
+To configure a Config Server service instance that can encrypt property values, use the following command:
+
+```
+cf create-service p-config-server standard config-server -c '{"git": {"uri": "https://github.com/spring-cloud-services-samples/cook-config.git" }, "encrypt": { "key": "KEY" }}'
+```
+
+If you wish to use public-key (or asymmetric) encryption, you may configure the Config Server to use a PEM-encoded keypair. You might generate such a keypair using, for example, [OpenSSL](https://www.openssl.org/) on the command line:
+
+```
+$ openssl genpkey -algorithm RSA -outform PEM -pkeyopt rsa_keygen_bits:2048 > server.key
+# Translate PEM encoded private key to a RSA private key and escape newlines
+$ openssl rsa -in server.key | awk '{printf "%s\\n", $0}' > server_rsa.key
+```
+
+<p class='note'><strong>Important</strong>: The key must be correctly formatted in order to be usable by the Config Server. Either use the above commands or ensure that you otherwise create a similar PEM-encoded keypair. The beginning of the key should include <code>BEGIN RSA PRIVATE KEY</code>.</p>
+
+To configure a Config Server service instance that can encrypt property values with an assymetric keypair, use the following JSON object, where the value of `key` is the content of the `server_rsa.key` file:
+
+```
+'{"git": {"uri": "https://github.com/spring-cloud-services-samples/cook-config.git" }, "encrypt": { "key": "-----BEGIN RSA PRIVATE KEY-----\nMIIE......\n-----END RSA PRIVATE KEY-----" }}'
+```
+
+The encryption key is masked in the Config Server dashboard.
+
 ## <a id="ssh-repository-access"></a>SSH Repository Access
 
 You can configure a Config Server configuration source so that the Config Server accesses it using the Secure Shell (SSH) protocol. To do so, you must specify a URI using the `ssh://` URI scheme or the Secure Copy Protocol (SCP) style URI format, and you must supply a private key. You may also supply a host key with which the server will be identified. If you do not provide a host key, the Config Server will not verify the host key of the configuration source's server.
@@ -325,6 +367,36 @@ An example of a profile-specific `cook-dev.properties` file:
 server.port=8080
 
 cook.special=Birdfeather Tea
+```
+
+### <a id="encrypted-configuration"></a>Encrypted Configuration
+
+You can store configuration properties in encrypted form and have these properties decrypted by the Config Server before they are served to apps. In a file within the configuration repository, properties whose values are prefixed with `{cipher}` will be decrypted before they are served to client apps. To use this feature, you must configure the Config Server with an encryption key as described in [Encryption and Encrypted Values](#encryption-and-encrypted-values).
+
+#### <a id="encrypted-configuration-using-yaml"></a>Using YAML
+
+In a YAML file, an encrypted property value must be surrounded by single quotes.
+
+An example of an encrypted property value in an `application.yml` file:
+
+```
+secretMenu: '{cipher}AQA90Q3GIRAMu6ToMqwS++En2iFzMXIWX99G66yaZFRHrQNq64CntqOzWymd3xE7uJp
+ZKQc9XBIkfyRz/HUGhXRdf3KZQ9bqclwmR5vkiLmN9DHlAxS+6biT+7f8ptKo3fzQ0gGOBaR4kTnWLBxmVaIkjq1
+Qze4aIgsgUWuhbEek+3znkH9+Mc+5zNPvwN8hhgDMDVzgZLB+4YnvWJAq3Au4wEevakAHHxVY0mXcxj1Ro+H+Zel
+IzfF8K2AvC3vmvlmxy9Y49Zjx0RhMzUx17eh3mAB8UMMRJZyUG2a2uGCXmz+UunTA5n/dWWOvR3VcZyzXPFSFkhN
+ekw3db9XZ7goceJSPrRN+5s+GjLCPr+KSnhLmUt1XAScMeqTieNCHT5I='
+```
+
+#### <a id="encrypted-configuration-using-properties"></a>Using a Properties File
+
+An example of an encrypted property value in an `application.properties` file:
+
+```
+secretMenu={cipher}AQA90Q3GIRAMu6ToMqwS++En2iFzMXIWX99G66yaZFRHrQNq64CntqOzWymd3xE7uJpZK
+Qc9XBIkfyRz/HUGhXRdf3KZQ9bqclwmR5vkiLmN9DHlAxS+6biT+7f8ptKo3fzQ0gGOBaR4kTnWLBxmVaIkjq1Qz
+e4aIgsgUWuhbEek+3znkH9+Mc+5zNPvwN8hhgDMDVzgZLB+4YnvWJAq3Au4wEevakAHHxVY0mXcxj1Ro+H+ZelIz
+fF8K2AvC3vmvlmxy9Y49Zjx0RhMzUx17eh3mAB8UMMRJZyUG2a2uGCXmz+UunTA5n/dWWOvR3VcZyzXPFSFkhNek
+w3db9XZ7goceJSPrRN+5s+GjLCPr+KSnhLmUt1XAScMeqTieNCHT5I=
 ```
 
 ### <a id="plain-text-configuration"></a>Plain Text Configuration
