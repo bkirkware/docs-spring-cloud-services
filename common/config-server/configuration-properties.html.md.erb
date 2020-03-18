@@ -99,6 +99,38 @@ server.port=8080
 cook.special=Birdfeather Tea
 ```
 
+### <a id="encrypted-configuration"></a>Encrypted Configuration
+
+<p class='note'><strong>Note</strong>: Support for decrypting encrypted configuration was added in Spring Cloud Services for VMware Tanzu v3.1.6.</p>
+
+You can store configuration properties in encrypted form and have these properties decrypted by the Config Server before they are served to apps. In a file within the configuration repository, properties whose values are prefixed with `{cipher}` will be decrypted before they are served to client apps. To use this feature, you must configure the Config Server with an encryption key as described in [Encryption and Encrypted Values](./configuring-with-git.html#encryption-and-encrypted-values).
+
+#### <a id="encrypted-configuration-using-yaml"></a>Using YAML
+
+In a YAML file, an encrypted property value must be surrounded by single quotes.
+
+An example of an encrypted property value in an `application.yml` file:
+
+```
+secretMenu: '{cipher}AQA90Q3GIRAMu6ToMqwS++En2iFzMXIWX99G66yaZFRHrQNq64CntqOzWymd3xE7uJp
+ZKQc9XBIkfyRz/HUGhXRdf3KZQ9bqclwmR5vkiLmN9DHlAxS+6biT+7f8ptKo3fzQ0gGOBaR4kTnWLBxmVaIkjq1
+Qze4aIgsgUWuhbEek+3znkH9+Mc+5zNPvwN8hhgDMDVzgZLB+4YnvWJAq3Au4wEevakAHHxVY0mXcxj1Ro+H+Zel
+IzfF8K2AvC3vmvlmxy9Y49Zjx0RhMzUx17eh3mAB8UMMRJZyUG2a2uGCXmz+UunTA5n/dWWOvR3VcZyzXPFSFkhN
+ekw3db9XZ7goceJSPrRN+5s+GjLCPr+KSnhLmUt1XAScMeqTieNCHT5I='
+```
+
+#### <a id="encrypted-configuration-using-properties"></a>Using a Properties File
+
+An example of an encrypted property value in an `application.properties` file:
+
+```
+secretMenu={cipher}AQA90Q3GIRAMu6ToMqwS++En2iFzMXIWX99G66yaZFRHrQNq64CntqOzWymd3xE7uJpZK
+Qc9XBIkfyRz/HUGhXRdf3KZQ9bqclwmR5vkiLmN9DHlAxS+6biT+7f8ptKo3fzQ0gGOBaR4kTnWLBxmVaIkjq1Qz
+e4aIgsgUWuhbEek+3znkH9+Mc+5zNPvwN8hhgDMDVzgZLB+4YnvWJAq3Au4wEevakAHHxVY0mXcxj1Ro+H+ZelIz
+fF8K2AvC3vmvlmxy9Y49Zjx0RhMzUx17eh3mAB8UMMRJZyUG2a2uGCXmz+UunTA5n/dWWOvR3VcZyzXPFSFkhNek
+w3db9XZ7goceJSPrRN+5s+GjLCPr+KSnhLmUt1XAScMeqTieNCHT5I=
+```
+
 ### <a id="git-plain-text-configuration"></a>Plain Text Configuration
 
 You can store configuration in files of other file types. The Spring Cloud Services Config Client library includes a `PlainTextConfigClient` that can be used to retrieve the contents of a plain text file as a Spring `Resource`.

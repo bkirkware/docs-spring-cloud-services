@@ -95,6 +95,56 @@ To refresh a Config Server's Git repository mirrors and retrieve new configurati
 cf update-service my-config-server -c '{"update-git-repos": true }'
 ```
 
+## <a id="encryption-and-encrypted-values"></a>Encryption and Encrypted Values
+
+<p class='note'><strong>Note</strong>: This feature was added in Spring Cloud Services for VMware Tanzu v3.1.6.</p>
+
+The Config Server can serve encrypted property values from a configuration file. If the Config Server is configured with a symmetric or asymmetric encryption key and the encrypted values are prefixed with the string `{cipher}`, the Config Server will decrypt the values before serving them to client apps. The Config Server has an `/encrypt` endpoint, which can be used to encrypt property values.
+
+<% if vars.product_name == 'TAS' %>
+To use these features in a client app, you must use a Java buildpack which contains the Java Cryptography Extension (JCE) Unlimited Strength policy files. These files are contained in the Cloud Foundry Java buildpack from version 3.7.1.
+
+<p class="tip">If you cannot use version 3.7.1 or later, you can add the JCE Unlimited Strength policy files to an earlier version of the Cloud Foundry Java buildpack. Fork the <a href="https://github.com/cloudfoundry/java-buildpack">buildpack on GitHub</a>, then download the policy files from Oracle and place them in the buildpack's <code>resources/open_jdk_jre/lib/security</code> directory. Follow the instructions in <a href="https://docs.pivotal.io/pivotalcf/adminguide/buildpacks.html">Managing Custom Buildpacks</a> to add this buildpack to VMware Tanzu Application Service for VMs. Be sure that it has the lowest position of all enabled Java buildpacks.</p>
+<% end %>
+
+When the Config Server has been configured to encrypt values, you can make a POST request to the <code>/encrypt</code> endpoint. Include the property value in the request. A request to encrypt a value might look something like the following (using cURL), where the `cf oauth-token` command is used to provide an OAuth 2.0 token and <code>SERVER</code> is the URL of the Config Server:
+
+```
+curl -H 'Authorization: $(cf oauth-token)' http://SERVER/encrypt -d 'Value to be encrypted'
+```
+
+The Config Server returns the encrypted value. You can use the encrypted value in a configuration file as described in [Encrypted Configuration](./configuration-properties.html#encrypted-configuration).
+
+The parameters used to configure server-side encryption for a Config Server are listed below.
+
+| Parameter                      | Function                                                                                                                                                |
+|--------------------------------|--------------------------------|
+| <code>encrypt.key</code>       | The key to use for encryption. |
+
+To configure a Config Server service instance that can encrypt property values, use the following command:
+
+```
+cf create-service p-config-server standard config-server -c '{"git": {"uri": "https://github.com/spring-cloud-services-samples/cook-config.git" }, "encrypt": { "key": "KEY" }}'
+```
+
+If you wish to use public-key (or asymmetric) encryption, you may configure the Config Server to use a PEM-encoded keypair. You might generate such a keypair using, for example, [OpenSSL](https://www.openssl.org/) on the command line:
+
+```
+$ openssl genpkey -algorithm RSA -outform PEM -pkeyopt rsa_keygen_bits:2048 > server.key
+# Translate PEM encoded private key to a RSA private key and escape newlines
+$ openssl rsa -in server.key | awk '{printf "%s\\n", $0}' > server_rsa.key
+```
+
+<p class='note'><strong>Important</strong>: The key must be correctly formatted in order to be usable by the Config Server. Either use the above commands or ensure that you otherwise create a similar PEM-encoded keypair. The beginning of the key should include <code>BEGIN RSA PRIVATE KEY</code>.</p>
+
+To configure a Config Server service instance that can encrypt property values with an assymetric keypair, use the following JSON object, where the value of `key` is the content of the `server_rsa.key` file:
+
+```
+'{"git": {"uri": "https://github.com/spring-cloud-services-samples/cook-config.git" }, "encrypt": { "key": "-----BEGIN RSA PRIVATE KEY-----\nMIIE......\n-----END RSA PRIVATE KEY-----" }}'
+```
+
+The encryption key is masked in the Config Server dashboard.
+
 ## <a id="ssh-repository-access"></a>SSH Repository Access
 
 You can configure a Config Server configuration source so that the Config Server accesses it using the Secure Shell (SSH) protocol. To do so, you must specify a URI using the `ssh://` URI scheme or the Secure Copy Protocol (SCP) style URI format, and you must supply a private key. You may also supply a host key with which the server will be identified. If you do not provide a host key, the Config Server will not verify the host key of the configuration source's server.
